@@ -1,0 +1,36 @@
+.box{
+    width: 100%;
+    height: auto;
+    gap: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 30px;
+   .box-item {
+    width: 30%;
+    max-width: 200px;
+    height: 100px;
+    position: relative;
+    border: 1px solid gray;
+    cursor: pointer;
+    overflow: visible; /* Cho phép ảnh tràn ra ngoài khung */
+    }
+
+    .box-item img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transition: transform 0.6s ease-in-out; /* hiệu ứng mượt */
+    z-index: 1;
+    }
+
+    .box-item:hover img {
+    transform: scale(1.3); /* phóng to 130% */
+    z-index: 2;
+    }
+
+   
+}
+.answer-correct{
+    background-color: rgba(38, 190, 38, 0.418);
+}
