@@ -101,8 +101,7 @@ class ipaList extends React.Component {
         let { language_type, test_void_modal, listVocabulary, index } = this.state;
         listVocabulary = [{
             title_english: this.state.sound,
-            ...this.state.listVocabulary
-        }]
+        }, ...this.state.listVocabulary]
         
         return (
             <>

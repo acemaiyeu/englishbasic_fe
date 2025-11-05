@@ -24,14 +24,17 @@ class Menu extends React.Component {
         let { language_type } = this.state;
         return (
             <div className="menu-container">
-
+                <i class="bi bi-bar-chart-steps"></i>
                 
                 <nav className="nav-menu" style={{ textAlign: "center"}}>
                     <Link to="/">{language_type === "EN" ? "Statistics" : "Thống kê"}</Link>
                     <Link to="/vocabularybox" >{language_type === "EN" ? "Vocabulary" : "Từ vựng"}</Link>
                     <Link to="/grammarbox" >{language_type === "EN" ?"Grammar":"Ngữ Pháp"}</Link>
                     <Link to="/ipa" >{language_type === "EN" ?"IPA":"Phiên âm IPA"}</Link>
+                    <Link to="/ed-es" >{language_type === "EN" ?"Pronunciation ED, ES":"Phát âm  ED, ES"}</Link>
+                    <Link to="/listen-write" >{language_type === "EN" ?"Listen and Write":"Nghe và viết lại"}</Link>
                     <Link to="/phrasal-verbs" >{language_type === "EN" ?"Phrasal verbs":"Cụm động từ"}</Link>
+                    <Link to="/chat-app" >{language_type === "EN" ?"Chat app":"Chat"}</Link>
                   </nav>
             </div>
         )  

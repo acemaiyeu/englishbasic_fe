@@ -3,6 +3,8 @@ import '../sass/VocabularyListLesson.scss'
 import axios from "axios";
 import { connect } from 'react-redux'
 import { toast } from "react-toastify";
+import { API_URL } from '../const/const'
+import Prev from "./Prev";
 
 
 class VocabularyListLesson extends React.Component {
@@ -30,7 +32,7 @@ class VocabularyListLesson extends React.Component {
         }
     }
     getListLessionDetail = async (lesson_id) => {
-       await axios.get('http://localhost:8000/api/list-lesson-details/' + lesson_id)
+       await axios.get(`${API_URL}/list-lesson-details/` + lesson_id)
         .then(response => {
             this.setState({
                 listLesson: response.data.data
@@ -48,7 +50,7 @@ class VocabularyListLesson extends React.Component {
         }
         return (
             <>
-                
+                <Prev uri="list-lesson"/>
                 <div className="list-lessons">
                     
                     <h4 className="list-title">{language_type === "EN" ? "List Lesson" : "Danh sách bài học chi tiết"}</h4>

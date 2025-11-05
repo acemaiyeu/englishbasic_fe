@@ -27,7 +27,7 @@ body{
   color: white;
 }
 .content{
-  width: 100vw;
+  width: 100%;
   height: auto;
   display: flex;
 }

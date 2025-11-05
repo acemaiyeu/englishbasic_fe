@@ -1,6 +1,6 @@
-import React, {  useState  } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import  {  useState  } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
@@ -19,6 +19,8 @@ import ManagerVocabulary from "./pages/ManagerVocabulary";
 import ManagerQuestion  from "./pages/ManagerQuestion";
 import ipaList from "./pages/ipaList";
 import ManagerVocabularyIPA from "./pages/ManagerVocabularyIPA";
+import ListenWrite from './pages/ListenWrite';
+import ChatApp from './pages/ChatApp'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -57,7 +59,9 @@ const App = () => {
     
     <Router>
       <header>
-         <div className="title"><b>English Basic</b> <i>by #Loyper</i></div>
+         <div className="title"><b onClick={() => {
+          window.location.href = "/"
+         }}>English Basic</b> <i>by #Loyper</i></div>
          <div className="language">
                              {language.language_text}: 
                              <select onChange={(e) => changeLanguages(e.target.value)}>
@@ -93,11 +97,12 @@ const App = () => {
           <Route path="/list-lesson" component={VocabularyListLesson} />
           <Route path="/list-lesson-details/:lesson_id" component={VocabularyListLessonDetail} />
           <Route path="/lesson/:id" component={VocabularyLesson} />
-
+          <Route path="/listen-write" component={ListenWrite } />
+          
           <Route path="/pages/admin/manager-data" component={ManagerData} />
           {/* IPA */}
           <Route exact path="/ipa" component={ipaList} />
-
+          <Route exact path="/chat-app" component={ChatApp} />
         </Switch>
         </>
       }

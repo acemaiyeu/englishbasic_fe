@@ -4,6 +4,9 @@ import { connect } from "react-redux";
 import AudioButton from "./AudioButton";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {API_URL } from '../const/const'
+import Prev from "./Prev";
+import TestResult from "./TestResult";
 
 
 class VocabularyLesson extends React.Component {
@@ -17,7 +20,8 @@ class VocabularyLesson extends React.Component {
             question_id: 0,
             result: undefined,
             total_questions: 0,
-            text_answer: ""
+            text_answer: "",
+            end_test: false
     }
     componentDidMount(){
         this.getListLessionDetail(this.props.match.params.id)
@@ -33,7 +37,7 @@ class VocabularyLesson extends React.Component {
         }
     }
      getListLessionDetail = async (lesson_detail_id) => {
-       await axios.get('http://localhost:8000/api/list-lesson-detail/' + lesson_detail_id)
+       await axios.get(`${API_URL}/list-lesson-detail/${lesson_detail_id}`)
         .then(response => {
             this.setState({
                 listLessonDetail: response.data.data,
@@ -54,7 +58,11 @@ class VocabularyLesson extends React.Component {
     handleNextQuestion = () => {
         let { index, total_questions } = this.state;
         if(index+1 >= total_questions){
-            alert("Đã hết câu hỏi");
+            toast.error("Đã hết câu hỏi");
+            this.setState({
+                ...this.state,
+                end_test: true
+            })
             return;
         }
         this.setState({
@@ -87,7 +95,7 @@ class VocabularyLesson extends React.Component {
             }
         }
         
-        // await axios.get('http://localhost:8000/api/testing-answer/'+question_id+"/"+active_answer+"/"+ type)
+        // await axios.get('${API_URL}/testing-answer/'+question_id+"/"+active_answer+"/"+ type)
         // .then(response => {
         //         this.setState({
         //             result: response.data.data,
@@ -104,7 +112,7 @@ class VocabularyLesson extends React.Component {
         // });
 
         try {
-        const response = await axios.post("http://localhost:8000/api/testing-answer", {
+        const response = await axios.post(`${API_URL}/testing-answer`, {
             question_id: question_id,
             answer_id: active_answer,
             type: type
@@ -135,7 +143,7 @@ class VocabularyLesson extends React.Component {
         }
     }
     getListLession = async () => {
-       await axios.get('http://localhost:8000/api/list-lessons')
+       await axios.get(`${API_URL}/list-lessons`)
         .then(response => {
             this.setState({
                 listLesson: response
@@ -154,9 +162,13 @@ class VocabularyLesson extends React.Component {
         })
     }
     render() {
-        let { language_type, listLessonDetail, index, active_answer, result} = this.state;
+        let { language_type, listLessonDetail, index, active_answer, result, end_test} = this.state;
         return (
-            <>
+            <>  
+            {end_test ? <TestResult point={7} language_type="EN" page="/test-list" />
+            : 
+                <>
+                <Prev uri={`list-lesson-details/${listLessonDetail?.lesson_id}`}/>
                 <div className="lesson-container">
                     {listLessonDetail && listLessonDetail?.questions?.length > 0 && 
                         <>
@@ -197,6 +209,8 @@ class VocabularyLesson extends React.Component {
                     }
                      
                 </div> 
+                </>
+            }
             </>
         )
     }

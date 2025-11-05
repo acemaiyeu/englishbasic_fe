@@ -23,9 +23,8 @@ class MenuAdmin extends React.Component {
     render(){
         let { language_type } = this.state;
         return (
-            <div className="menu-container">
-
-                
+            <div className="menu-container admin">
+                <i class="bi bi-bar-chart-steps"></i>
                 <nav className="nav-menu" style={{ textAlign: "center"}}>
                     <Link to="/pages/admin/">{language_type === "EN" ? "Statistics" : "Thống kê"}</Link>
                     <Link to="/pages/admin/manager-subject" >{language_type === "EN" ? "Manager Subject" : "Quản lý chủ đề"}</Link>
@@ -34,6 +33,8 @@ class MenuAdmin extends React.Component {
                     <Link to="/pages/admin/manager-questions" >{language_type === "EN" ? "Manager Questions" : "Quản lý câu hỏi"}</Link>
                     <Link to="/grammarbox" >{language_type === "EN" ?"Manager Grammar":"Quản lý ngữ pháp"}</Link>
                   </nav>
+                  
+                  
             </div>
         )  
     }

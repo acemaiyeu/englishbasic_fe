@@ -314,12 +314,13 @@ class ManagerQuestion extends React.Component {
       .then((res) => {
         this.getListQuestionByLesson(this.state.params.vocabulary_param);
         this.setState({
+          ...this.state,
           params: {
-            ...params,
+            ...this.state.params,
             title_question: "",
             type_question: "CHOOSE",
-            question_form: false
           },
+          question_form: false
         });
         if (this.state.language_type === "EN") {
           toast.success("Create question success!");
@@ -383,13 +384,18 @@ class ManagerQuestion extends React.Component {
             id_question: 0,
           },
           question_form: false,
+          status_form: {
+            ...this.state.status_form,
+            update_question_form: false
+          }
         });
         if (this.state.language_type === "EN") {
           toast.success("Update question success!");
         } else {
           toast.success("Cập nhật câu hỏi thành công!");
         }
-        this.getListAnswerByQuestion(res.data.data.question.id)
+        console.log(res.data)
+        this.getListAnswerByQuestion(res.data.data.id)
       })
       .catch((err) => {
         console.log(err);
@@ -406,21 +412,27 @@ class ManagerQuestion extends React.Component {
         id: params.id_answer,
       })
       .then((res) => {
+        // alert(this.state.params.question_id_create)
         this.getListQuestionByLesson(this.state.params.vocabulary_param);
+        this.getListAnswerByQuestion(this.state.params.question_id_create);
         this.setState({
           ...this.state,
           params: {
-            ...params,
-            title_question: "",
-            type_question: "CHOOSE",
-            id_question: 0,
+            ...this.state.params,
+            title_answer: "",
+            // type_question: "CHOOSE",
+            // id_question: 0,
           },
-          question_form: false,
+          status_form: {
+            ...this.state.status_form,
+            update_answer_form: false
+          },
+          answer_form: false,
         });
         if (this.state.language_type === "EN") {
-          toast.success("Update question success!");
+          toast.success("Update answer success!");
         } else {
-          toast.success("Cập nhật câu hỏi thành công!");
+          toast.success("Cập nhật câu trả lời thành công!");
         }
       })
       .catch((err) => {
@@ -1107,7 +1119,7 @@ class ManagerQuestion extends React.Component {
                   : "Add New Answer"
                 : this.state.status_form.update_answer_form
                 ? "Cập nhật câu trả lời"
-                : "Thêm từ vựng mới"}
+                : "Thêm câu trả lời mới"}
             </div>
             <div className="data-manager-add-vocabulary-form-body">
               <div className="form">

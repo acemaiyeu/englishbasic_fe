@@ -76,7 +76,7 @@ const PronunciationChecker = ({ word }) => {
   };
 
   return (
-    <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
+    <div className="speak-modal" style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '5px' }}>
       <h3>Từ: <strong style={{ color: 'blue' }}>{word}</strong></h3>
       <p>Hãy phát âm từ này:</p>
       
