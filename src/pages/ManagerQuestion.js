@@ -327,6 +327,7 @@ class ManagerQuestion extends React.Component {
         } else {
           toast.success("Tạo câu hỏi thành công!");
         }
+        this.toAnswerList(res.data.data.id)
       })
       .catch((err) => {
         console.log(err);
@@ -465,6 +466,7 @@ class ManagerQuestion extends React.Component {
     }
   };
   toAnswerList = (question_id) => {
+    toast.success(question_id)
     this.getListAnswerByQuestion(question_id);
     this.setState({
       tab_answer_list: true,
