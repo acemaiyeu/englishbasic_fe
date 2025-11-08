@@ -35,6 +35,8 @@ class Menu extends React.Component {
                     <Link to="/listen-write" >{language_type === "EN" ?"Listen and Write":"Nghe và viết lại"}</Link>
                     <Link to="/phrasal-verbs" >{language_type === "EN" ?"Phrasal verbs":"Cụm động từ"}</Link>
                     <Link to="/chat-app" >{language_type === "EN" ?"Chat app":"Chat"}</Link>
+                    <Link to="/login" >{language_type === "EN" ?"Login":"Đăng nhập"}</Link>
+                    {/* <Link to="/chat-app" >{language_type === "EN" ?"Chat app":"Chat"}</Link> */}
                   </nav>
             </div>
         )  

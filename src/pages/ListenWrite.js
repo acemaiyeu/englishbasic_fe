@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import '../sass/ListenWrite.scss'
-import test_video from '../video/Varun Sivaram- How AI can solve its own energy crisis - TED Talk.mp4';
+// import test_video from '';
+//'../video/Varun Sivaram- How AI can solve its own energy crisis - TED Talk.mp4';
 
 class ListenWrite extends React.Component {
 
@@ -31,7 +32,7 @@ class ListenWrite extends React.Component {
                         <div className="listen-write-content-video">
                             {/* <iframe width="100%" height="100%" src="https://www.youtube.com/embed/tcJvGHHXysg" title="Listen &amp; Write (beginners)! Try this ESL activity with your students! NO-PREP" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
                             <video controls width="600">
-                                <source src={test_video} type="video/mp4" />
+                                {/* <source src={test_video} type="video/mp4" /> */}
                             
                             </video>
                         </div>

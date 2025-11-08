@@ -70,12 +70,32 @@ class VocabularyListLesson extends React.Component {
 
                         <div className="lession-content-right">
                             <p>{language_type === "EN" ? "Progress" : "Tiến độ"}</p>
-                            <div className="progress">
-                                <div className="progress-bar bg-success" style={{width: "40%"}}>
-                                    40%
+                            {item.process >= 0 && item.process <= 40 && 
+                                <div className="progress">
+                                    <div className="progress-bar bg-danger" style={{width: item.process + "%"}}>
+                                        {item.process.toFixed(0)} %
+                                    </div>
                                 </div>
-
-                            </div>
+                            }
+                            {item.process > 40 && item.process < 80 && 
+                                <div className="progress">
+                                    <div className="progress-bar bg-warning" style={{width: item.process + "%"}}>
+                                        {item.process.toFixed(0)} %
+                                    </div>
+                                </div>
+                            }
+                            {item.process >= 80  && 
+                                <div className="progress">
+                                    <div className="progress-bar bg-success" style={{width: item.process + "%"}}>
+                                        {item.process.toFixed(0)} %
+                                    </div>
+                                </div>
+                            }
+                            {/* <div className="progress">
+                                <div className="progress-bar bg-success" style={{width: "100%"}}>
+                                    100%
+                                </div>
+                            </div> */}
                              
                         </div>
                     </div>)

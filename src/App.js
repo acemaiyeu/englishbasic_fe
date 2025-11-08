@@ -21,6 +21,8 @@ import ipaList from "./pages/ipaList";
 import ManagerVocabularyIPA from "./pages/ManagerVocabularyIPA";
 import ListenWrite from './pages/ListenWrite';
 import ChatApp from './pages/ChatApp'
+import AuthContainer from "./pages/AuthContainer";
+import ManagerListenWrite from "./pages/ManagerListenWrite";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -85,6 +87,8 @@ const App = () => {
           <Route path="/pages/admin/manager-vocabulay-ipa" component={ManagerVocabularyIPA} />
           <Route path="/pages/admin/manager-questions" component={ManagerQuestion} />
           <Route path="/pages/admin/" exact component={Home} />
+          <Route path="/pages/admin/manager-listen-write" exact component={ManagerListenWrite} />
+          
         </Switch>
         </>   
         : 
@@ -103,6 +107,7 @@ const App = () => {
           {/* IPA */}
           <Route exact path="/ipa" component={ipaList} />
           <Route exact path="/chat-app" component={ChatApp} />
+          <Route exact path="/login" component={AuthContainer} />
         </Switch>
         </>
       }

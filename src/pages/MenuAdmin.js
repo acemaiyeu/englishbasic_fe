@@ -31,7 +31,12 @@ class MenuAdmin extends React.Component {
                     <Link to="/pages/admin/manager-vocabulay" >{language_type === "EN" ? "Manager Vocabulary" : "Quản lý từ vựng"}</Link>
                     <Link to="/pages/admin/manager-vocabulay-ipa" >{language_type === "EN" ? "Manager IPA's Vocabulary" : "Quản lý từ vựng IPA"}</Link>
                     <Link to="/pages/admin/manager-questions" >{language_type === "EN" ? "Manager Questions" : "Quản lý câu hỏi"}</Link>
-                    <Link to="/grammarbox" >{language_type === "EN" ?"Manager Grammar":"Quản lý ngữ pháp"}</Link>
+                    <Link to="/pages/admin/manager-grammars" >{language_type === "EN" ?"Manager Grammar":"Quản lý ngữ pháp"}</Link>
+                    <Link to="/pages/admin/manager-listen-write" >{language_type === "EN" ?"Manager Listen And Write":"Quản lý Luyện nghe"}</Link>
+                    
+                    <Link to="/import-template" >{language_type === "EN" ?"List Template Excel":"Mẫu Template Excel"}</Link>
+                    {/* <Link to="/login" >{language_type === "EN" ?"Login":"Đăng nhập"}</Link> */}
+                    <Link to="/logout" >{language_type === "EN" ?"Logout":"Đăng xuất"}</Link>
                   </nav>
                   
                   

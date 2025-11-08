@@ -342,6 +342,9 @@ button{
             box-shadow: 0 0 5px rgb(233, 27, 88);
         }
     }
+    textarea{
+        flex: none;
+    }   
     select{
         flex: 1;
         margin-left: 3px;
@@ -361,4 +364,10 @@ button{
     background-color: white;
     padding: 0 5px;
     font-weight: 600;
+}
+
+@media screen and (max-width: 768px) {
+    .data-manager-auth{
+        display: none;
+    }
 }

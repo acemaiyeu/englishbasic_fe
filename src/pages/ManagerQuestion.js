@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../const/const.js";
 import { toast } from "react-toastify";
+import ExcelUploader from "../functions/ExcelUploader.js";
 
 class ManagerQuestion extends React.Component {
   state = {
@@ -319,6 +320,7 @@ class ManagerQuestion extends React.Component {
             ...this.state.params,
             title_question: "",
             type_question: "CHOOSE",
+            question_id_create: res.data.data.id
           },
           question_form: false
         });
@@ -442,13 +444,6 @@ class ManagerQuestion extends React.Component {
       });
   };
   deleteQuestion = (question) => {
-    if (question.answers.length > 0) {
-      if (this.state.language_type === "EN") {
-        toast.error("Can't remove question. Because it have answer's data!");
-      } else {
-        toast.error("Không thể xóa câu hỏi. Vì còn dữ liệu trả lời!");
-      }
-    } else {
       axios
         .delete(`${API_URL}/admin/question/` + question.id)
         .then((res) => {
@@ -463,7 +458,6 @@ class ManagerQuestion extends React.Component {
           console.log(err);
           toast.error("Delete question failed!");
         });
-    }
   };
   toAnswerList = (question_id) => {
     toast.success(question_id)
@@ -725,7 +719,9 @@ class ManagerQuestion extends React.Component {
           <div className="data-manager-title">
             {language_type === "EN" ? "DATA TABLE" : "BẢNG DỮ LIỆU"}
           </div>
+          
           <div className="data-manager-functions">
+            
             <div className="function-item">
               <button onClick={() => this.showForm(tab_answer_list)}>
                 {language_type === "EN"
@@ -745,6 +741,9 @@ class ManagerQuestion extends React.Component {
               >
                 {language_type === "EN" ? "Refect Data" : "Tải lại dữ liệu"}
               </button>
+            </div>
+            <div className="function-item">
+              <ExcelUploader lesson_detail_id={this.state.params.lession_detail_id_create} url_api={API_URL + "/admin/import-question-answers-v2"} title="Import question"/>
             </div>
           </div>
           <div style={{ padding: "20px" }}>

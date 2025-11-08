@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 class ExcelUploader extends Component {
   constructor(props) {
@@ -25,16 +26,18 @@ class ExcelUploader extends Component {
   };
 
   uploadFile = async () => {
-    const { url_api } = this.props;
+    const { url_api, lesson_detail_id} = this.props;
     const { selectedFile } = this.state;
 
     if (!url_api) {
       this.setState({ message: "Chưa truyền URL API!" });
+      toast.error("Chưa truyền URL API!")
       return;
     }
 
     if (!selectedFile) {
       this.setState({ message: "Chưa chọn file!" });
+      toast.error("Chưa chọn file!")
       return;
     }
 
@@ -43,6 +46,7 @@ class ExcelUploader extends Component {
 
       const formData = new FormData();
       formData.append("file", selectedFile);
+      formData.append("lesson_detail_id", lesson_detail_id);
 
       const response = await axios.post(url_api, formData, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -50,8 +54,10 @@ class ExcelUploader extends Component {
 
       this.setState({
         uploading: false,
-        message: "Upload thành công! Kết quả: " + JSON.stringify(response.data),
+        // message: "Upload thành công!",
+        message: ""
       });
+      toast.success("Upload thành công!")
     } catch (error) {
       this.setState({
         uploading: false,
@@ -64,26 +70,27 @@ class ExcelUploader extends Component {
 
   render() {
     const { uploading, message } = this.state;
-
-    return (
+    let { title } = this.props;
+    return ( 
       <div
         style={{
           border: "2px dashed #ccc",
-          padding: "20px",
+          padding: "5px",
           borderRadius: "10px",
           textAlign: "center",
-          width: "350px",
-          margin: "20px auto",
+          width: "fit-content",
+          margin: "5px auto",
+          fontSize: "10px"
         }}
       >
-        <h3>Import File Excel</h3>
+        <h3> {title ?? "Import File Excel" }</h3>
         <input
           type="file"
           accept=".xls,.xlsx"
           onChange={this.handleFileChange}
           disabled={uploading}
         />
-        <div style={{ marginTop: "15px", color: uploading ? "blue" : "green" }}>
+        <div style={{color: uploading ? "blue" : "green" }}>
           {message}
         </div>
       </div>

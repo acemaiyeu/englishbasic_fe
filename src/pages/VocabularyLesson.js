@@ -21,7 +21,8 @@ class VocabularyLesson extends React.Component {
             result: undefined,
             total_questions: 0,
             text_answer: "",
-            end_test: false
+            end_test: false,
+            point: 0
     }
     componentDidMount(){
         this.getListLessionDetail(this.props.match.params.id)
@@ -56,13 +57,15 @@ class VocabularyLesson extends React.Component {
         })
     }
     handleNextQuestion = () => {
-        let { index, total_questions } = this.state;
+        let { index, total_questions, listLessonDetail, point } = this.state;
+        
         if(index+1 >= total_questions){
-            toast.error("Đã hết câu hỏi");
+            // toast.error("Đã hết câu hỏi");
             this.setState({
                 ...this.state,
                 end_test: true
             })
+            this.updateProcess((100 / listLessonDetail.questions.length) * point);
             return;
         }
         this.setState({
@@ -73,6 +76,7 @@ class VocabularyLesson extends React.Component {
             active_answer: 0,
         })
     }
+
     testAnswer = async(type) => {
         let { active_answer, question_id, language_type, text_answer } = this.state; 
         if (type === "CHOOSE"){
@@ -126,6 +130,10 @@ class VocabularyLesson extends React.Component {
                     toast.success("Bạn đã trả lời đúng!") 
                 }
                 toast.success("+1")
+                this.setState({
+                    ...this.state,
+                    point: this.state.point + 1
+                })
             }else{
                  if(this.state.language_type === "EN"){
                     toast.warning("You answered wrong!")
@@ -141,6 +149,27 @@ class VocabularyLesson extends React.Component {
         } catch (error) {
         console.error(error);
         }
+    }
+    updateProcess = async  (process) => {
+        let { listLessonDetail } = this.state;
+        axios.put(`${API_URL}/admin/lesson-detail/${listLessonDetail.id}`, {
+            'process': process 
+        }).then((res) => {
+            if(this.state.language_type === "EN"){
+                    toast.success("Update success!")
+                    
+                }else{
+                    toast.success("Cập nhật thành công!") 
+                }
+        }).catch((e) => {
+                if(this.state.language_type === "EN"){
+                    toast.warn("Update fail!")
+                    
+                }else{
+                    toast.warn("Cập nhật thất bại!") 
+                }
+                console.log(e);
+        })
     }
     getListLession = async () => {
        await axios.get(`${API_URL}/list-lessons`)
@@ -165,7 +194,7 @@ class VocabularyLesson extends React.Component {
         let { language_type, listLessonDetail, index, active_answer, result, end_test} = this.state;
         return (
             <>  
-            {end_test ? <TestResult point={7} language_type="EN" page="/test-list" />
+            {end_test ? <TestResult point={this.state.point} language_type="EN" page="/test-list" />
             : 
                 <>
                 <Prev uri={`list-lesson-details/${listLessonDetail?.lesson_id}`}/>
