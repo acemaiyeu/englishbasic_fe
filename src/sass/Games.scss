@@ -1,0 +1,125 @@
+.game-container{
+    width: 100%;
+    .game-types{
+        width: 100%;
+        // background-color: red;
+        min-height: 30px;
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        border-bottom: 1px solid gray;
+        .game-type-item{
+            cursor: pointer;
+            &:hover{
+                box-shadow: 0 0 5px 0  rgb(206, 25, 79);
+                padding: 5px;
+                box-sizing: border-box;
+                transition: all .1s linear;
+                border-radius: 5px;
+                font-weight: 600;
+            }
+        }
+    }
+    .list-games{
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+        gap: 10px;
+        justify-content: center;
+        .game-item{
+            border: 1px solid gray;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 20px 0 gray;
+            cursor: pointer;
+            width: 15%;
+            position: relative;
+            &:hover{
+                background-color: #f0efef;
+                transition: background-color .2s linear;
+            }.game-item-img{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                &>img{
+                    max-width: 100%;
+                }
+            }
+            .game-item-title{
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 3px;
+            }
+            .game-item-discription{
+                font-size: 15px;
+                font-style: italic;
+            }
+            .game-item-modal{
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: fit-content;
+                height: 30px;
+                background-color: rgb(206, 25, 79);
+                padding: 0 7px;
+                box-sizing: border-box;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                color: white;
+                border-radius: 5px;
+                font-weight: 600;
+
+            }
+        }
+        .data-manager-footer{
+            margin-top: 20px;
+        }
+    }
+}
+
+.search-game{
+    width: 25vh;
+    padding:  10px;
+    border: 1px solid gray;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    border-radius: 10px;
+    label{
+        padding: 10px;
+        box-sizing: border-box;
+        font-weight: 600;
+        width: 100%;
+        font-size: 20px;
+        text-align: center;
+        background-color: rgb(206, 25, 79);
+        color: white;
+    }
+    .form-c{
+        width: 100%;
+        display: flex;
+        &>input{
+            flex: 1;
+            // border: none;
+            outline: none;
+            padding: 5px;
+            box-sizing: border-box;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+  .game-container .list-games .game-item {
+    width: 45%;
+  }
+}
+@media screen and (min-width: 769px) and (max-width: 1200px) {
+  .game-container .list-games .game-item {
+    width: 30%;
+  }
+}

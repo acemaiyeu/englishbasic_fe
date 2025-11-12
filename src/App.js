@@ -23,6 +23,9 @@ import ListenWrite from './pages/ListenWrite';
 import ChatApp from './pages/ChatApp'
 import AuthContainer from "./pages/AuthContainer";
 import ManagerListenWrite from "./pages/ManagerListenWrite";
+import ListenWriteList from "./pages/ListenWriteList";
+import ManagerExport from "./pages/ManagerExport";
+import Games from "./pages/Games";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -88,6 +91,7 @@ const App = () => {
           <Route path="/pages/admin/manager-questions" component={ManagerQuestion} />
           <Route path="/pages/admin/" exact component={Home} />
           <Route path="/pages/admin/manager-listen-write" exact component={ManagerListenWrite} />
+          <Route path="/pages/admin/manager-export-excel" exact component={ManagerExport} />
           
         </Switch>
         </>   
@@ -101,7 +105,11 @@ const App = () => {
           <Route path="/list-lesson" component={VocabularyListLesson} />
           <Route path="/list-lesson-details/:lesson_id" component={VocabularyListLessonDetail} />
           <Route path="/lesson/:id" component={VocabularyLesson} />
-          <Route path="/listen-write" component={ListenWrite } />
+          <Route path="/listen-write/:id" component={ListenWrite } />
+          <Route path="/listen-write-list" component={ListenWriteList } />
+          <Route path="/games" component={Games} />
+          
+          
           
           <Route path="/pages/admin/manager-data" component={ManagerData} />
           {/* IPA */}
