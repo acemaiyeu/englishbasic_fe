@@ -6,16 +6,13 @@ import { API_URL } from "../const/const.js";
 import { toast } from "react-toastify";
 
 
-class ManagerListenWrite extends React.Component {
+class ManagerGame extends React.Component {
 
     state =  {
         language_type: "EN",
         loadding: true,
-        listListens: [],
+        listLessons: [],
         listVocabulary: [],
-        status_form: {
-            update_form: false
-        },
         params: {
             current_page: 1,
             total_page: 1,
@@ -30,35 +27,27 @@ class ManagerListenWrite extends React.Component {
         edit_vocabulary_form: true,
         transcription: "",
         means: "",
-        listen_id_create: 0,
-        url_audio: "",
-        url_video: "",
-        title: ""
+        lesson_id_create: 0
     }
     handleChangeInput = (event, type) => {
-        if(type === "url_video"){
+        if(type === "title_english"){
             this.setState({
-                url_video: event.target.value,
+                title_english: event.target.value,
             })
         }
-        if(type === "url_audio"){
+        if(type === "transcription"){
             this.setState({
-                url_audio: event.target.value,
+                transcription: event.target.value,
             })
         }
-        if(type === "title"){
+        if(type === "means"){
             this.setState({
-                title: event.target.value,
-            })
-        }
-        if(type === "value"){
-            this.setState({
-                value: event.target.value,
+                means: event.target.value,
             })
         }
     }
     componentDidMount(){
-        this.getListListenWrittes();
+        this.getListLessons();
         this.setState({
             language_type: this.props.language_type,
         })
@@ -78,8 +67,7 @@ class ManagerListenWrite extends React.Component {
             params,
             loadding: true,
         })
-        this.getListListenWrittes();
-       
+         await this.getListVocabularyByLesson(this.state.lesson_id_create);
     }
     refectData = () => {
         this.setState({
@@ -93,81 +81,47 @@ class ManagerListenWrite extends React.Component {
                 answer_param: "",
             }
         })
-       
+        this.getListVocabularyByLesson(this.state.listLessons.data[0].id);
     }
-    getListListenWrittes = async () => {
+    getListLessons = async () => {
         let { params } = this.state;
 
-        axios.get(`${API_URL}/admin/listens?title_english=` + 
+        axios.get(`${API_URL}/admin/lessons?title_english=` + 
             (params.subject_param ?? "") + `&vocabulary_name=` + 
             (params.vocabulary_param ?? "")+ `&question_name=` + 
             (params.question_param ?? "") + `&answer_param=` 
             + (params.answer_param ?? "") + `&page=1&limit=1000`).then((res) => {
             this.setState({
                 loadding: false,
-                listListens: res.data,
+                listLessons: res.data,
             })
             if(this.state.listVocabulary.length === 0){
-                // this.getListVocabularyByLesson(res.data?.data[0]?.id);
+                this.getListVocabularyByLesson(res.data?.data[0]?.id);
             }
         }).catch((err) => {
             console.log(err);
             toast.error("Get list lessons failed!");
         });
     }
-    createListenWrite = async () => {
-        let { url_video, url_audio, title, value} = this.state;
-        axios.post(`${API_URL}/admin/listen`, {
-            url_video: url_video,
-            url_audio: url_audio,
-            title: title,
-            value: value,
+    createVocabulary = async () => {
+        let { title_english, lesson_id_create,  transcription, means} = this.state;
+        axios.post(`${API_URL}/admin/lesson-detail`, {
+            title_english: title_english,
+            lesson_id: lesson_id_create,
+            transcription: transcription,
+            means: means
         }).then((res) => {
-            this.getListListenWrittes(this.state.params.current_page);
+            console.log(res);
+            this.getListLessons(this.state.params.current_page);
             this.setState({
-                ...this.state,
-                status_form: {
-                    update_form: false
-                },
                 vocabulary_form: false,
-                url_audio: "",
-                url_video: "",
-                value: ""
+                title_english: "",
+                title_vietnamese: "",
             });
             if (this.state.language_type === "EN"){
-                toast.success("Create listen and write success!");
+                toast.success("Create vocabulary success!");
             }else{
-                toast.success("Tạo bài luyện nghe thành công!");
-            }
-            
-        }).catch((err) => {
-            console.log(err);
-            toast.error("Create listen and write failed!");
-        });
-    }
-    updateListenWrite = async () => {
-        let { url_video, url_audio,  value, listen_id_create} = this.state;
-        axios.put(`${API_URL}/admin/listen/${listen_id_create}`, {
-            url_video: url_video,
-            url_audio: url_audio,
-            value: value,
-        }).then((res) => {
-            this.getListListenWrittes(this.state.params.current_page);
-            this.setState({
-                ...this.state,
-                status_form: {
-                    update_form: false
-                },
-                vocabulary_form: false,
-                url_audio: "",
-                url_video: "",
-                title: "",
-                value: ""
-            });
-            if (this.state.language_type === "EN"){
-                toast.success("Update listen and write success!");
-            }else{
-                toast.success("Cập nhật bài luyện nghe thành công!");
+                toast.success("Tạo từ vựng thành công!");
             }
             
         }).catch((err) => {
@@ -175,13 +129,13 @@ class ManagerListenWrite extends React.Component {
             toast.error("Create lesson failed!");
         });
     }
-    deleteListenWrite = async (id) => {
-        axios.delete(`${API_URL}/admin/listen/` + id).then((res) => {
-            this.getListListenWrittes(this.state.params.current_page);
+    deleteLesson = async (id) => {
+        axios.delete(`${API_URL}/admin/lesson-detail/` + id).then((res) => {
+            this.getListLessons(this.state.params.current_page);
             if (this.state.language_type === "EN"){
-                toast.success("Delete listen and write success!");
+                toast.success("Delete vocabulary success!");
             }else{
-                toast.success("Đã xóa bài luyện nghe thành công!");
+                toast.success("Đã xóa từ vựng thành công!");
             }
         }).catch((err) => {
             console.log(err);
@@ -189,27 +143,39 @@ class ManagerListenWrite extends React.Component {
         });
     }
 
-    editListen = (listen) => {
-        this.setState({
-            ...this.state,
-            url_video: listen.url_video,
-            url_audio: listen.url_audio,
-            value: listen.value,
-            title: listen.title,
-            listen_id_create: listen.id,
-            status_form: {
-                update_form: true
-            },
-            vocabulary_form: true
+    getListVocabularyByLesson = async (lesson_id) => {
+
+       await axios.get(`${API_URL}/admin/lesson-detail-by-lesson-id/` + lesson_id + `?page=` + this.state.params.current_page)
+        .then(response => {
+            this.setState({
+                listVocabulary: response.data,
+                loadding: false,
+                lesson_id_create: lesson_id
+            })
         })
+        .catch(error => {
+            console.error('Lỗi khi gọi API:', error);
+            toast.error("Get list questions failed!")
+        });
     }
     render(){
-        let { language_type, loadding, url_video, vocabulary_form, url_audio, title, value, listVocabulary, listListens } = this.state;
+        let { language_type, loadding, listLessons, vocabulary_form, transcription, means, title_english, listVocabulary } = this.state;
         return (
             <div className="data-manager-container">
                 <div className="data-manager-title" >{language_type === "EN" ? "MANAGER VACABULARY" : "Quản lý từ vựng"}</div>
                 <div className="data-manager-header">
                     <div className="title">{ language_type === "EN" ? "Filter" : "Bộ lọc"}</div>
+                    <div className="form">
+                        <label> { language_type === "EN" ? "Subject:" : "Chủ đề:"} </label>
+                        <select onChange={(e) => this.getListVocabularyByLesson(e.target.value)}>
+                            {listLessons.length <= 0 && 
+                                <option value="">{ language_type === "EN" ? "No subject available" : "Không có chủ đề nào"}</option>
+                            }
+                            {listLessons?.data?.length > 0 && listLessons.data.map((lesson, index) => (
+                                    <option  value={lesson.id} key={index}>{language_type === "EN" ?  lesson.title_english : lesson.title_vietnamese}</option>
+                                ))}
+                        </select>
+                    </div>
                     <div className="form">
                         <label>{ language_type === "EN" ? "Vocabulary" : "Từ vựng"}: </label>
                         <input 
@@ -268,7 +234,7 @@ class ManagerListenWrite extends React.Component {
                                     <button onClick={() => this.setState({
                                         vocabulary_form: true 
                                         })}
-                                    >{ language_type === "EN" ? "Add New Listen" : "Thêm bài nghe mới"}</button>
+                                    >{ language_type === "EN" ? "Add New Vocabulary" : "Thêm từ vựng mới"}</button>
                                 </div>
                                 <div className="function-item">
                                     <button onClick={() => this.PageVocabulary(this.state.params.current_page)}>{ language_type === "EN" ? "Refect Data" : "Tải lại dữ liệu"}</button>
@@ -278,9 +244,9 @@ class ManagerListenWrite extends React.Component {
                                 <thead>
                                     <tr>
                                     <th scope="col-1">#</th>
-                                    <th scope="col">{ language_type === "EN" ? "Title" : "Tiêu đề"} </th>
-                                    <th scope="col">{ language_type === "EN" ? "URL VIDEO" : "Link video"} </th>
-                                    <th scope="col">{ language_type === "EN" ? "URL AUDIO" : "Link âm thanh"} </th>
+                                    <th scope="col">{ language_type === "EN" ? "Vocabulary" : "Từ vựng"} </th>
+                                    <th scope="col">{ language_type === "EN" ? "Transcription" : "Phiên âm"} </th>
+                                    <th scope="col">{ language_type === "EN" ? "Means" : "Nghĩa"} </th>
                                     <th scope="col-1">{ language_type === "EN" ? "Action" : "Hành động"}</th>
                                     </tr>
                                 </thead>
@@ -299,14 +265,14 @@ class ManagerListenWrite extends React.Component {
                                     </td>
                                     </tr>
                                     }
-                                    {!loadding && listListens?.data?.length > 0 && listListens.data.map((listen, index) => (
+                                    {!loadding && listVocabulary?.data?.length > 0 && listVocabulary.data.map((vocabulary, index) => (
                                         <tr key={index}>
                                             <th scope="row">{index + 1}</th>
-                                            <td>{ listen.title}</td>
-                                            <td>{ listen.url_video}</td>
-                                            <td> {listen.url_audio}</td>
-                                            <td><button onClick={() => this.editListen(listen)}>{ language_type === "EN" ? "Edit" : "Chỉnh sửa"}</button>
-                                            <button onClick={() => this.deleteListenWrite(listen.id)}>{ language_type === "EN" ? "Delete" : "Xóa"}</button>
+                                            <td>{ language_type === "EN" ? vocabulary.title_english : vocabulary.title_vietnamese}</td>
+                                            <td> {vocabulary.transcription}</td>
+                                            <td> {vocabulary.means}</td>
+                                            <td><button onClick={() => this.editVocabulary(vocabulary.lesson_id)}>{ language_type === "EN" ? "Edit" : "Chỉnh sửa"}</button>
+                                            <button onClick={() => this.deleteLesson(vocabulary.id)}>{ language_type === "EN" ? "Delete" : "Xóa"}</button>
                                             </td>
                                         </tr>
                                     ))}
@@ -340,31 +306,22 @@ class ManagerListenWrite extends React.Component {
                        vocabulary_form: false 
                     })}>X</div>
                     <div className="data-manager-add-vocabulary-form-title">
-                        { language_type === "EN" ? "Add New Listen And Write" : "Thêm phần luyện nghe"}
+                        { language_type === "EN" ? "Add New Vocabulary" : "Thêm từ vựng mới"}
                     </div>
                     <div className="data-manager-add-vocabulary-form-body">
                         <div className="form">
-                            <label> {language_type === "EN" ? "Title" : "Tiêu đề"}: </label>
-                            <input type="text" value={title} onChange={(e) => this.handleChangeInput(e, "title")}/>
+                            <label> {language_type === "EN" ? "Vocabulary" : "Tiêu đề tiếng Anh"}: </label>
+                            <input type="text" value={title_english} onChange={(e) => this.handleChangeInput(e, "title_english")}/>
                         </div>
                         <div className="form">
-                            <label> {language_type === "EN" ? "URL VIDEO" : "Link video"}: </label>
-                            <input type="text" value={url_video} onChange={(e) => this.handleChangeInput(e, "url_video")}/>
+                            <label> {language_type === "EN" ? "Transcription" : "Phiên âm"}: </label>
+                            <input type="text" value={transcription} onChange={(e) => this.handleChangeInput(e, "transcription")}/>
                         </div>
-                        {/* <div className="form">
-                            <label> {language_type === "EN" ? "URL AUDIO" : "Link âm thanh"}: </label>
-                            <input type="text" value={url_audio} onChange={(e) => this.handleChangeInput(e, "url_audio")}/>
-                        </div> */}
-                        
                         <div className="form">
-                            <label> {language_type === "EN" ? "Words" : "Đoạn văn nói"}: </label>
-                            <textarea cols={25} rows={5} type="text" value={value} onChange={(e) => this.handleChangeInput(e, "value")}/>
+                            <label> {language_type === "EN" ? "Means" : "Nghĩa"}: </label>
+                            <input type="text" value={means} onChange={(e) => this.handleChangeInput(e, "means")}/>
                         </div>
-                        {this.state.status_form.update_form ? 
-                        <button className="btn-save" onClick={() => this.updateListenWrite()}>{language_type === "EN" ?  "SAVE" : "Lưu"}</button>
-                        :
-                        <button className="btn-save" onClick={() => this.createListenWrite()}>{language_type === "EN" ?  "Create" : "Tạo"}</button>
-                        }
+                        <button className="btn-save" onClick={() => this.createVocabulary()}>{language_type === "EN" ?  "SAVE" : "Lưu"}</button>
                     </div>
                 </div>
             }
@@ -377,4 +334,4 @@ class ManagerListenWrite extends React.Component {
 const mapStateToProps = (state) => {
     return state;
 }
-export default connect(mapStateToProps)(ManagerListenWrite);
+export default connect(mapStateToProps)(ManagerGame);

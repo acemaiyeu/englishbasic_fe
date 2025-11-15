@@ -26,6 +26,8 @@ import ManagerListenWrite from "./pages/ManagerListenWrite";
 import ListenWriteList from "./pages/ListenWriteList";
 import ManagerExport from "./pages/ManagerExport";
 import Games from "./pages/Games";
+import QuizHost from "./pages/QuizHost";
+import GameBoard from "./pages/GameBoard";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -108,6 +110,9 @@ const App = () => {
           <Route path="/listen-write/:id" component={ListenWrite } />
           <Route path="/listen-write-list" component={ListenWriteList } />
           <Route path="/games" component={Games} />
+          <Route path="/game/board/:id" component={GameBoard} />
+          
+          {/* <Route path="/quiz" component={QuizHost} /> */}
           
           
           

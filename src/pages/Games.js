@@ -20,7 +20,9 @@ state = {
             });
         }
     }
-
+    handleRedirect = (id) => {
+            this.props.history.push("/game/board/" + id);
+        }
     render(){
         let listVocabulary = [];
         let { language_type } = this.state;
@@ -44,7 +46,7 @@ state = {
                     </div>
                     <div className="list-games">
                         
-                        <div className="game-item">
+                        <div className="game-item" onClick={() => this.handleRedirect(1)}>
                             <div className="game-item-modal">Quizz</div>
                             <div className="game-item-img">
                                 <img src="https://media.baamboozle.com/uploads/images/295349/272f3986-26ad-42b2-af92-540c5c99ef95.webp" loading="lazy"/>
@@ -59,7 +61,7 @@ state = {
                                     view 200
                             </div>
                         </div>
-                        <div className="game-item">
+                        <div className="game-item" onClick={() => this.handleRedirect(1)}>
                             <div className="game-item-modal">Board</div>
                             <div className="game-item-img">
                                 <img src="https://media.baamboozle.com/uploads/images/295349/272f3986-26ad-42b2-af92-540c5c99ef95.webp" loading="lazy"/>

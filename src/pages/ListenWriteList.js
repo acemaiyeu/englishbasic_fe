@@ -64,7 +64,7 @@ class ListenWriteList extends React.Component {
                     {listListens && listListens.length > 0 && listListens.map((item, index) => {
                         return (<div key={index} className="lesson-item" onClick={() => this.redirectToListen(item.id)}>
                         <div className="lesson-content-left" >
-                            <div className="lesson-title">{language_type === "EN" ? "Listen: " + (index + 1) : "Bài nghe số: " + (index + 1)}</div>
+                            <div className="lesson-title">{language_type === "EN" ? "Listen: " + (index + 1) : "Bài nghe số " + (index + 1)} {": " + item.title} </div>
                             {/* <div className="lesson-title">{language_type === "EN" ?   item.questions.length +  " sentences" :   item.questions.length +  " Câu"}</div> */}
                         </div>
 

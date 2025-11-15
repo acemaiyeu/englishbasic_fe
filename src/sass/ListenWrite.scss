@@ -15,17 +15,18 @@
         flex: 1;
         border: 1px solid gray;
         display: flex;
-        // flex-direction: column;
+        flex-direction: column;
         // gap: 10px;
         box-sizing: border-box;
         padding: 40px;
         
         .listen-write-content-video{
             // flex: 1;
-            width: 40%;
+            width: 100%;
             display: flex;
             justify-content: center;
             max-height: 300px;
+            align-self: center;
 
         }
         .listen-write-content-writing{
@@ -38,3 +39,10 @@
         }
     }
 }
+
+.wrong {
+    color: rgba(255, 0, 0, 0.438);
+}
+
+
+

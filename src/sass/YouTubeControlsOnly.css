@@ -1,0 +1,38 @@
+/* YouTubeControlsOnly.css */
+.youtube-player-controls {
+  /* Đảm bảo chiều cao đủ lớn để hiển thị: 
+     1. Thanh điều khiển (Play/Âm lượng)
+     2. Thanh tua (Progress Bar)
+     3. Hiển thị thời gian (Time stamp) 
+  */
+  width: 100%; 
+  height: 50px; /* <--- ĐIỀU CHỈNH LỚN HƠN NỮA (50px hoặc 55px) */
+  
+  overflow: hidden; 
+  position: relative; 
+  border: 1px solid #ccc; 
+  border-radius: 4px;
+}
+
+.youtube-player-controls iframe {
+  /* Giữ nguyên - Đảm bảo iframe con được căn dưới cùng */
+  width: 100%;
+  height: 2000px; 
+  
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+@media screen and (max-width: 500px) {
+    .youtube-player-controls {
+    width: 100%;
+    height: 100px;
+  } 
+  .youtube-player-controls iframe {
+    display: none;
+  }
+  .youtube-player-controls::after{
+    content: "Bạn đang dùng điện thoại? Vui lòng xoay ngang màn hình!";
+  }
+}

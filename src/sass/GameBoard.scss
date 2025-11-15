@@ -1,0 +1,143 @@
+.game-board-container{
+    width: 90%;
+    border: 1px solid gray;
+    display: flex;
+    justify-self: start;
+    flex-direction: column;
+    position: relative;
+    z-index: 1000;
+    .x-close{
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 20px;
+        padding: 20px;
+        background-color: #dbdada;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        &:hover{
+            font-weight: bold;
+            color: white;
+            background-color: rgba(252, 12, 84, 0.932);
+        }
+    }
+    .game-board-team{
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        justify-content: space-around;
+        min-height: 50px;
+        align-items: center;
+        background-color: white;;
+        border-bottom: 1px solid gray;
+        .game-board-team-item{
+            font-size: 25px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .game-board-team-item-title.active{
+            background-color: rgba(252, 12, 84, 0.932);
+            padding: 9px;
+            border-radius: 3px;
+            box-shadow: 0 0 2px 0 pink;
+            color: white;
+        }
+    }
+    .game-board{
+            border: 1px solid gray;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            flex: 1;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            padding: 5px;
+            z-index: 1001;
+            .game-board-item{
+                width: 16%;
+                // aspect-ratio: 1 / 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                height: 25%;
+                font-size: 30px;
+                font-style: inherit;
+                font-family: 'Poppins', 'Montserrat', 'Roboto', sans-serif;
+                font-weight: 700; /* bold */
+                color: rgba(252, 12, 84, 0.932);;
+                font-size: 2rem; /* tuỳ ô lớn nhỏ */
+                text-align: center;
+                line-height: 1;
+                border-radius: 5px;
+                border: 1px solid rgba(252, 12, 84, 0.932);
+                &:hover{
+                    background-color: rgba(252, 12, 84, 0.932);
+                    transform: scale(1.1);
+                    transition: transform 0.3s linear;
+                    color: white;
+                }
+            }
+
+        }
+    .game-board-modal{
+        width: 80%;
+        height: 80%;
+        box-shadow: 0 0 12px 0 gray;
+        position: absolute;
+        top: 0;
+        display: flex;
+        align-self: center;
+        background-color: #fff;
+        z-index: 1100;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 10px;
+        
+        .game-board-question{
+            font-size: 40px;
+            font-weight: bold;
+            flex: 1;
+        }
+        .game-board-thumbnail{
+            padding: 10px;
+            &>img {
+                max-width: 100%;
+            }
+            flex: 1;
+        }
+        .game-board-answer{
+            width: 100%;
+            font-size: 40px;
+            font-weight: bold;
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            position: absolute;
+            bottom: 0;
+            .game-board-answer-title{
+
+            }
+            .game-board-answer-box{
+                width: 100%;
+                height: 100px;
+                background-color: #eb2387;
+                position: absolute;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                color: white;
+            }
+        }
+    }
+}
