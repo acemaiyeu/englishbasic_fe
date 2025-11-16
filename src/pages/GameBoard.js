@@ -1,139 +1,181 @@
 import React from "react";
 import Prev from "./Prev";
 import '../sass/GameBoard.scss'
+import axios from "axios";
+import { API_URL } from "../const/const";
+import { connect } from "react-redux";
 
 class GameBoard  extends React.Component{
 
     state = {
         game: {},
         modal: false,
-        load: []
+        load: [],
+        question_loadding: "",
+        answer_loadding: "",
+        open_box: false,
+        point_on_row: 15,
+        active_team: "TEAM 1",
+        point_team_1: 0,
+        point_team_2: 0,
+        game_losed: [],
+        language_type: "EN",
+        complete_form: false,
+        total_item: 24
     }
     componentDidMount() {
-
-    }
-    handleClick = (title) => {
-        
-        this.setState({
-            ...this.state,
-            modal: true,
+        this.getGame(this.props.match.params.id);
+     this.setState({
+            language_type: this.props.language_type,
         })
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.language_type !== this.props.language_type) {
+            this.setState({
+                language_type: this.props.language_type,
+            });
+        }
+    }
+    handleClick = (index_question) => {
+        let { game, game_losed} = this.state;
+        if(game_losed.some(e => e.index === index_question)){
+
+        }else{
+           
+            let questions  = [];
+            if(game.details?.questions){
+                questions = game.details.questions;
+            }
+            this.setState({
+                modal: true,
+                question_loadding: questions[index_question].title_english,
+                answer_loadding: questions[index_question].answers[0].text,
+                open_box: false,
+                game_losed: [...this.state.game_losed, {
+                    index: index_question
+                }]
+            })
+        }
+        
+        
     }
     handleCloseModel = () => {
         this.setState({
-            ...this.state,
             modal: false
         })
     }
-    
+    getGame = (id) => {
+        axios.get(`${API_URL}/game/${id}`).then((res) => {
+            this.setState({
+                game: res.data.data
+            })
+        })
+    }
+    handleChangeOpenBox = () => {
+        this.setState({
+            open_box: true
+        })
+    }
+    handleChangeCorrect = (status) => {
+        let { active_team, point_on_row } = this.state;
+        if(status === "correct"){
+            if(active_team === "TEAM 1"){
+                this.setState({
+                    point_team_1: (this.state.point_team_1 + point_on_row)
+                })
+
+            }
+            if(active_team === "TEAM 2"){
+                this.setState({
+                    point_team_2: (this.state.point_team_2 + point_on_row)
+                })
+            }
+        }
+       this.setState({
+            modal: false
+        }, () => {
+            // Đoạn code này chỉ chạy SAU KHI 'modal' đã được cập nhật thành 'false'
+            // console.log(">>>>>>>>>>>", this.state.modal); // Lúc này sẽ trả về false
+             this.changeTeam(this.state.active_team);
+        });
+       
+    }
+    changeTeam = (team) => {
+        let { game_losed } = this.state;
+        if (team === "TEAM 1"){
+            this.setState({
+                active_team: "TEAM 2"
+            })
+        }
+        if (team === "TEAM 2"){
+            this.setState({
+                active_team: "TEAM 1"
+            })
+        }
+        if(game_losed.length === 24){
+            this.setState({
+                complete_form: true
+            })
+        }
+    }
     render(){
-        let { modal } = this.state;
+        let { modal, question_loadding, answer_loadding, open_box, active_team, point_team_1, point_team_2, game_losed, language_type} = this.state;
+        console.log("REDNDER", point_team_1, point_team_2, modal)
         return (<>
             <Prev uri="games" />
             <div className="game-board-container">
                     <div className="game-board-team">
                         <div className="game-board-team-item">
                            
-                            <div className="game-board-team-item-title active"><i class="bi bi-caret-right"></i> TEAM 1</div>
-                           <div className="point">0</div>
+                            <div className={`game-board-team-item-title ${active_team === "TEAM 1" ? 'active' : ''}`}>{active_team === "TEAM 1" &&  <i class="bi bi-caret-right"></i> }TEAM 1</div>
+                           <div className="point">{point_team_1}</div>
                         </div>
                         <div className="game-board-team-item">
                             
-                            <div className="game-board-team-item-title">TEAM 2</div>
-                            <div className="point">0</div>
+                            <div className={`game-board-team-item-title ${active_team === "TEAM 2" ? 'active' : ''}`}>{active_team === "TEAM 2" &&  <i class="bi bi-caret-right"></i> }TEAM 2</div>
+                            <div className="point">{point_team_2}</div>
                         </div>
                     </div>
                     {modal && 
                     <div className="game-board-modal">
                         <span className="x-close" onClick={() => this.handleCloseModel()}> X</span>
-                        <div className="game-board-question">Bạn là ai?
+                        <div className="game-board-question">{question_loadding}
                         </div>
                         <div className="game-board-thumbnail">
                             <img loading="lazy" src="https://media.baamboozle.com/uploads/images/295349/272f3986-26ad-42b2-af92-540c5c99ef95.webp"></img>
                         </div>
                         <div className="game-board-answer">
-                            <div className="game-board-answer-title">Cá linh</div>
-                            <div className="game-board-answer-box">Lật</div>
+                            <div className="game-board-answer-title">{answer_loadding}</div>
+                            <div className={`game-board-answer-box ${open_box ? 'hidden' : ''}`} onClick={() => this.handleChangeOpenBox()}>{language_type === "EN" ? "OPEN" : "Lật"}</div>
+                             <div className="game-board-correct">
+                                <button type="button" class="btn btn-danger" onClick={() => this.handleChangeCorrect("uncorrect")}><i class="bi bi-x-lg"></i></button>
+                                <button type="button" class="btn btn-primary" onClick={() => this.handleChangeCorrect("correct")}><i class="bi bi-patch-check"></i></button>
+                            </div>
                         </div>
+                       
                     </div>
                     }
                     
                     <div className="game-board">
-                            <div className="game-board-item" onClick={(e) => this.handleClick("2")}>
-                                    1
+                        {
+                        [...Array(24)].map((_, index) => (
+                            <div 
+                            key={index} // Quan trọng: Thêm key duy nhất cho mỗi phần tử
+                            className={`game-board-item ${
+                                game_losed.some(e => e.index === index) ? 'disabled' : ''
+                            }`}
+                            onClick={(e) => this.handleClick(index)} // Thay đổi tham số, sử dụng index
+                            >
+                            {index + 1}
                             </div>
-                            <div className="game-board-item">
-                                2
-                            </div>
-                            <div className="game-board-item">
-                                3
-                            </div>
-                            <div className="game-board-item">
-                                4
-                            </div>
-                            <div className="game-board-item">
-                                5
-                            </div>
-                            <div className="game-board-item">
-                                6
-                            </div>
-                            <div className="game-board-item">
-                                7
-                            </div>
-                            <div className="game-board-item">
-                                8
-                            </div>
-                            <div className="game-board-item">
-                                9
-                            </div>
-                            <div className="game-board-item">
-                                10
-                            </div>
-                            <div className="game-board-item">
-                                    11
-                            </div>
-                            <div className="game-board-item">
-                                12
-                            </div>
-                            <div className="game-board-item">
-                                13
-                            </div>
-                            <div className="game-board-item">
-                                14
-                            </div>
-                            <div className="game-board-item">
-                                15
-                            </div>
-                            <div className="game-board-item">
-                                16
-                            </div>
-                            <div className="game-board-item">
-                                17
-                            </div>
-                            <div className="game-board-item">
-                                18
-                            </div>
-                            <div className="game-board-item">
-                                19
-                            </div>
-                            <div className="game-board-item">
-                                20
-                            </div>
-                            <div className="game-board-item">
-                                21
-                            </div>
-                            <div className="game-board-item">
-                                22
-                            </div>
-                            <div className="game-board-item">
-                                23
-                            </div>
-                            <div className="game-board-item">
-                                24
-                            </div>
+                        ))
+                        }
                     </div>
             </div>
         </>)
     }
 }
-export default GameBoard;
+const mapStateToProps = (state) => {
+    return state;
+}
+export default connect(mapStateToProps)(GameBoard);

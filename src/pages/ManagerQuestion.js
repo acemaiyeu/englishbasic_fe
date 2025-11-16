@@ -329,7 +329,7 @@ class ManagerQuestion extends React.Component {
         } else {
           toast.success("Tạo câu hỏi thành công!");
         }
-        this.toAnswerList(res.data.data.id)
+        // this.toAnswerList(res.data.data.id)
       })
       .catch((err) => {
         console.log(err);
