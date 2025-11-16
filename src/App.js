@@ -1,6 +1,6 @@
-import  {  useState  } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import  {  useEffect, useState  } from "react";
+import {  useHistory, BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
@@ -11,7 +11,7 @@ import Vocabulary  from "./pages/Vocabulary";
 import VocabularyListLessonDetail from "./pages/VocabularyListLessonDetail"
 import './App.css';
 import VocabularyLesson from './pages/VocabularyLesson'
-import { changeLanguage } from '../src/reduce/actions'
+import { changeLanguage, setUser } from '../src/reduce/actions'
 import { useDispatch } from 'react-redux';
 import ManagerData from "./pages/ManagerSubject";
 import ManagerSubject from "./pages/ManagerSubject";
@@ -28,16 +28,20 @@ import ManagerExport from "./pages/ManagerExport";
 import Games from "./pages/Games";
 import QuizHost from "./pages/QuizHost";
 import GameBoard from "./pages/GameBoard";
+import { API_URL } from "./const/const";
+import api from "./pages/api";
 
 const App = () => {
   const dispatch = useDispatch();
-      const [language, setLanguage] = useState({
+  // 2. ✅ KHỞI TẠO: Sử dụng hook useHistory
+  const history = useHistory(); 
+  
+  const [language, setLanguage] = useState({
     language_type: "EN",
     language_text: "Language",
     language_list: ["English", "Vietnamese"],
   });
-
-
+  
   const changeLanguages = (type) => {
 
     dispatch(changeLanguage(type))

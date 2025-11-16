@@ -1,5 +1,5 @@
 import { Languages } from "lucide-react";
-import { INCREMENT, DECREMENT, CHANGE_LANGUAGE } from "./actions";
+import { INCREMENT, DECREMENT, CHANGE_LANGUAGE, SET_USER } from "./actions";
 
 const initialState = {
   count: 0,
@@ -27,6 +27,10 @@ export const counterReducer = (state = initialState, action) => {
       }
       }
       return { ...state, count: state.count - 1 };
+      case SET_USER: 
+        console.log("Checkkkk", action.payload)
+
+      break;
     default:
       return state;
   }

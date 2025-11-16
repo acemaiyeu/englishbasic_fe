@@ -1,11 +1,26 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { increment, decrement } from "../reduce/actions";
+import { increment, decrement, setUser } from "../reduce/actions";
+import { toast } from "react-toastify";
+import { API_URL } from "../const/const";
+import api from "./api";
 
 const Home = () => {
   const count = useSelector((state) => state.count);
   const dispatch = useDispatch();
-
+   const getProfile = async () => {
+    if(localStorage.getItem("S_CLIENT")){
+        await api.get(`${API_URL}/profile`).then((res) => {
+        dispatch(setUser(res.data));
+      }).catch((e) => {
+          dispatch(setUser(null));
+          toast.error("Account timeout!")
+        return; 
+      })
+    }
+  }
+      
+    getProfile();
   return (
     <div style={{ textAlign: "center" }}>
       {/* <h2>Home Page</h2>
