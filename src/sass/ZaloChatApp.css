@@ -1,0 +1,161 @@
+/* ZaloChatApp.css */
+
+.zalo-chat-container {
+  display: flex;
+  height: 90vh; /* Chiều cao tối đa */
+  /* max-width: 1200px; */
+  /* margin: 20px auto; */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  /* width: 100%; */
+  flex: 1;
+}
+
+/* --- Sidebar (Danh sách Chat) --- */
+.sidebar {
+  width: 300px;
+  border-right: 1px solid #eee;
+  background-color: #f7f7f7;
+  overflow-y: auto;
+}
+
+.sidebar-header {
+    padding: 15px;
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: 600;
+    border-bottom: 1px solid #eee;
+}
+
+.chat-item {
+  display: flex;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.chat-item:hover {
+  background-color: #e8e8e8;
+}
+
+.chat-item.selected {
+  background-color: #d8eaff; /* Màu xanh Zalo */
+  border-left: 3px solid #007bff;
+}
+
+.chat-item .avatar {
+  font-size: 24px;
+  margin-right: 10px;
+}
+
+.chat-info {
+  flex-grow: 1;
+}
+
+.chat-name {
+  font-weight: bold;
+  font-size: 1em;
+  color: #333;
+}
+
+.last-message {
+  color: #777;
+  font-size: 0.9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* --- Chat Main (Nội dung Chat) --- */
+.chat-main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.chat-header {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  background-color: #f0f0f0;
+}
+
+.chat-main.empty {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    color: #999;
+}
+
+.message-list {
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Message Bubble Styling */
+.message-bubble {
+  margin-bottom: 10px;
+  max-width: 70%;
+  align-self: flex-start; /* Mặc định tin nhắn của người khác */
+}
+
+.message-bubble p {
+  padding: 10px 15px;
+  border-radius: 15px;
+  margin: 0;
+}
+
+.message-bubble.user {
+  align-self: flex-end; /* Tin nhắn của người dùng */
+}
+
+.message-bubble.user p {
+  background-color: #007bff; /* Màu xanh dương Zalo */
+  color: white;
+  border-bottom-right-radius: 5px;
+}
+
+.message-bubble.other p {
+  background-color: #f1f1f1;
+  color: #333;
+  border-bottom-left-radius: 5px;
+}
+
+/* Input Form */
+.message-input-form {
+  display: flex;
+  padding: 15px;
+  border-top: 1px solid #eee;
+  background-color: #fff;
+}
+
+.message-input-form textarea {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  resize: none;
+  font-size: 16px;
+}
+
+.message-input-form button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.message-input-form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

@@ -34,6 +34,8 @@ class MenuAdmin extends React.Component {
                     <Link to="/pages/admin/manager-grammars" >{language_type === "EN" ?"Manager Grammar":"Quản lý ngữ pháp"}</Link>
                     <Link to="/pages/admin/manager-listen-write" >{language_type === "EN" ?"Manager Listen And Write":"Quản lý Luyện nghe"}</Link>
                     <Link to="/pages/admin/manager-export-excel" >{language_type === "EN" ?"Manager Export Excel":"Quản lý xuất file excel"}</Link>
+                    <Link to="/pages/admin/counter" >{language_type === "EN" ?"AI CHAT":"Tạo dữ liệu bởi AI"}</Link>
+                    
                     <Link to="/import-template" >{language_type === "EN" ?"List Template Excel":"Mẫu Template Excel"}</Link>
                     {/* <Link to="/login" >{language_type === "EN" ?"Login":"Đăng nhập"}</Link> */}
                     <Link to="/logout" >{language_type === "EN" ?"Logout":"Đăng xuất"}</Link>

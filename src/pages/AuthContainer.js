@@ -31,8 +31,8 @@ class AuthContainer extends Component {
     axios.post(`${API_URL}/login`, {
       email, password
     }).then((res) => {
-        let key_cache = localStorage.setItem("ca_cli_", "S_CLIENT");
-        sessionStorage.setItem(key_cache,res.data.access_token); 
+        localStorage.setItem("ca_cli_", "S_CLIENT");
+        sessionStorage.setItem("S_CLIENT",res.data.access_token); 
         this.props.history.push("/");
     }).catch((e) => {
       toast.error("Login fail! Email or Password not correct!");
