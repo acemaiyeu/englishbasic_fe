@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 // const API_KEY = CHAT_GPT_key; // thay bằng key thật
 
@@ -9,11 +10,12 @@ let conversation = [
 export const chatWithGPT = async (message) => {
   try {
     let API_KEY = localStorage.getItem("CHAT_GPT_KEY");
-    let str_convert = message.split(message);
+    let str_convert = message.split(" ");
 
     let key = str_convert[0];
     let value = str_convert[1];
     let reply = "No call api";
+    toast.success(key)
     if(key === "question" || key === "vocabulary" || key === "subject"){
         if(key === "question"){
          conversation.push({role: "system", content: "Tạo cho tôi bảng dữ liệu excel gồm các cột sau: lesson_detail_id, question_id, question, option_a, option_b, option_c, option_d, answer_correct, type. Với lesson_detail_id và question_id để trống, question là câu hỏi (ví dụ: Nghĩa của love là gì? đây là ví dụ không dùng câu này), option_a, option_b, option_c, option_d là các câu trả lời sẵn cho câu hỏi trên, answer_correct là câu trả lời đúng, ví dụ option_a là câu trả lời đúng thì answer_correct là 1 cứ thế tăng lên, type là dạng câu hỏi (nếu dạng câu hỏi là trắc nghiệm thì type là CHOOSE, còn tự luận là WRITE, với câu tự luận hay trắc nghiệm thì các option đều có câu trả lời"})

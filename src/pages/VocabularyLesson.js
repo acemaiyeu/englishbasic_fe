@@ -22,7 +22,8 @@ class VocabularyLesson extends React.Component {
             total_questions: 0,
             text_answer: "",
             end_test: false,
-            point: 0
+            point: 0, 
+            check_answer: true
     }
     componentDidMount(){
         this.getListLessionDetail(this.props.match.params.id)
@@ -74,6 +75,7 @@ class VocabularyLesson extends React.Component {
             result: undefined,
             question_id: 0,
             active_answer: 0,
+            check_answer: true
         })
     }
 
@@ -129,10 +131,11 @@ class VocabularyLesson extends React.Component {
                 }else{
                     toast.success("Bạn đã trả lời đúng!") 
                 }
-                toast.success("+1")
+                // toast.success("+1")
                 this.setState({
                     ...this.state,
-                    point: this.state.point + 1
+                    point: this.state.point + 1,
+                    check_answer: true
                 })
             }else{
                  if(this.state.language_type === "EN"){
@@ -141,9 +144,12 @@ class VocabularyLesson extends React.Component {
                 }else{
                     toast.warning("Bạn đã trả lời sai!") 
                 }
+                this.setState({
+                    check_answer: false
+                })
             }
                 this.setState({
-                    result: response.data.data,
+                    result: response.data.data
                 })
         }
         } catch (error) {
@@ -191,7 +197,7 @@ class VocabularyLesson extends React.Component {
         })
     }
     render() {
-        let { language_type, listLessonDetail, index, active_answer, result, end_test} = this.state;
+        let { language_type, listLessonDetail, check_answer, index, active_answer, result, end_test} = this.state;
         return (
             <>  
             {end_test ? <TestResult point={this.state.point} language_type="EN" page="/test-list" />
@@ -206,6 +212,7 @@ class VocabularyLesson extends React.Component {
 
                      </div>
                     <div className="box-content">
+                            <span className="label label-success sentences">{language_type === "EN" ? "Sentences: " : "Câu: "} {index + 1}/{listLessonDetail.questions.length}</span>
                             <div className="less-question"> { language_type === "EN" ? listLessonDetail?.questions[index]?.title_english : listLessonDetail?.questions[index]?.title_vietnamese}</div>
                             <div className="answers">
                                 {listLessonDetail.questions[index].type === "CHOOSE" ? 
@@ -226,9 +233,24 @@ class VocabularyLesson extends React.Component {
                                         <textarea value={this.state.text_answer} onChange={(e) => this.handleChangeTextAnswer(e, listLessonDetail.questions[index].id)} cols="10" rows="10" type="text" placeholder={`${language_type === "EN" ? "Please writing for your answer" : "Vui lòng nhập câu trả lời"}`}/> 
                                     </div>
                                 }
-                                 
-
+                                
                             </div>
+
+                            {check_answer === false &&
+                                <div className="answer-correct">
+                                        <div className="answer-correct-title">{language_type === "EN" ? "Answer: " : "Đáp án: "}</div>
+                                        {listLessonDetail.questions[index].type === "CHOOSE" && listLessonDetail.questions[index] && listLessonDetail.questions[index].answers && listLessonDetail.questions[index].answers.length && listLessonDetail.questions[index].answers.map((a) => {
+                                            return (
+                                                <span className="label label-success">- {a.title}</span>
+                                            )
+                                        })}
+                                        {listLessonDetail.questions[index].type !== "CHOOSE" && listLessonDetail.questions[index] && listLessonDetail.questions[index].answers && listLessonDetail.questions[index].answers.length && listLessonDetail.questions[index].answers.map((a) => {
+                                            return (
+                                                <span className="label label-success">- {a.text}</span>
+                                            )
+                                        })}
+                                    </div>
+                                }
                     </div>
                     <div className="button-group">
                         {result === undefined ? <button onClick={() => this.testAnswer(listLessonDetail.questions[index].type)}>{language_type === "EN" ? "Test" : "Kiểm tra"}</button>
