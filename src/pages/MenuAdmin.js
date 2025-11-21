@@ -26,6 +26,7 @@ class MenuAdmin extends React.Component {
         }
     }
     checkLogin = () => {
+        let { language_type } = this.state;
         let token = sessionStorage.getItem("S_ADMIN"); 
         axios.get(`${API_URL}/profile`, {
             headers: {
