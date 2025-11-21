@@ -44,6 +44,7 @@ class MenuAdmin extends React.Component {
             }else{
                 toast.error("Tài khoản của bạn sai hoặc không có quyền truy cập admin")
             }   
+            window.location.href = "/pages/admin/login"
         })
     }
     render(){
