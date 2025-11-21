@@ -16,6 +16,7 @@ class MenuAdmin extends React.Component {
         this.setState({
             language_type: this.props.language_type,
         })
+        this.checkLogin()
     }
     componentDidUpdate(prevProps) {
         if (prevProps.language_type !== this.props.language_type) {
