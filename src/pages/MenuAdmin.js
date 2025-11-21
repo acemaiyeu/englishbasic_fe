@@ -2,6 +2,10 @@ import React from "react";
 import '../sass/MenuAdmin.scss'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import axios from "axios";
+import api from "./api";
+import { API_URL } from "../const/const";
+import { toast } from "react-toastify";
 
 class MenuAdmin extends React.Component {
 
@@ -19,6 +23,26 @@ class MenuAdmin extends React.Component {
                 language_type: this.props.language_type,
             });
         }
+    }
+    checkLogin = () => {
+        let token = sessionStorage.getItem("S_ADMIN"); 
+        axios.get(`${API_URL}/profile`, {
+            headers: {
+                Base_Token: `${token}`
+            }
+        }).then((res) => {
+            if(res.data.role_name.include("admin")){
+                sessionStorage.setItem("S_ADMIN", res.data.access_token);
+            }else{
+                window.location.href = "/pages/admin/login"
+            }
+        }).catch(() => {
+            if(language_type === "EN"){
+                toast.error("This account can't login to page admin")
+            }else{
+                toast.error("Tài khoản của bạn sai hoặc không có quyền truy cập admin")
+            }   
+        })
     }
     render(){
         let { language_type } = this.state;
