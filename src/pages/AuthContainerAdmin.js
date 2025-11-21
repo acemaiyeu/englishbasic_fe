@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_URL } from '../const/const';
 import { toast } from 'react-toastify';
 
-class AuthContainer extends Component {
+class AuthContainerAdmin extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -83,4 +83,4 @@ class AuthContainer extends Component {
   }
 }
 
-export default AuthContainer;
+export default AuthContainerAdmin;
