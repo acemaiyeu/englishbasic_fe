@@ -28,7 +28,7 @@ import ManagerExport from "./pages/ManagerExport";
 import Games from "./pages/Games";
 import QuizHost from "./pages/QuizHost";
 import GameBoard from "./pages/GameBoard";
-import { API_URL } from "./const/const";
+import { API_URL, auth } from "./const/const";
 import api from "./pages/api";
 import ZaloChatApp from "./pages/ZaloChatApp";
 
@@ -73,7 +73,7 @@ const App = () => {
       <header>
          <div className="title"><b onClick={() => {
           window.location.href = "/"
-         }}>English Basic</b> <i>by #Loyper</i></div>
+         }}>English Basic</b> <i>by #{auth}</i></div>
          <div className="language">
                              {language.language_text}: 
                              <select onChange={(e) => changeLanguages(e.target.value)}>

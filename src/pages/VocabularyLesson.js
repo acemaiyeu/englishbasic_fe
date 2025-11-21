@@ -212,7 +212,8 @@ class VocabularyLesson extends React.Component {
 
                      </div>
                     <div className="box-content">
-                            <span className="label label-success sentences">{language_type === "EN" ? "Sentences: " : "Câu: "} {index + 1}/{listLessonDetail.questions.length}</span>
+                            <span className="label label-success sentences">{language_type === "EN" ? "Sentences: " : "Câu: "} {index + 1
+                                }/{listLessonDetail.questions.length}</span>
                             <div className="less-question"> { language_type === "EN" ? listLessonDetail?.questions[index]?.title_english : listLessonDetail?.questions[index]?.title_vietnamese}</div>
                             <div className="answers">
                                 {listLessonDetail.questions[index].type === "CHOOSE" ? 
