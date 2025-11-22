@@ -56,7 +56,7 @@ import aʊ from '../audio/aʊ.mp3'
 // import PronunciationPractice from "./PronunciationPractice";
 import axios from "axios";
 import { API_URL } from "../const/const";
-import PronunciationChecker from "./PronunciationChecker";
+import PronunciationChecker from "./PronunciationChecker.jsx";
 
 class ipaList extends React.Component {
 
@@ -113,7 +113,7 @@ class ipaList extends React.Component {
                         })}>X</div>
                         <div className="test-void-title">{language_type === "EN" ? "Sound": "Âm"}: {this.state.sound}</div>
                         {/* <PronunciationPractice word={listVocabulary[index].title_english} language_type={language_type}/> */}
-                        <PronunciationChecker word={listVocabulary[index].title_english} language_type={language_type}/>
+                        <PronunciationChecker targetPhrase={listVocabulary[index].title_english} language_type={language_type}/>
                         <button disabled={this.state.index === 0} onClick={() => this.setState({
                             ...this.state,
                             index: index - 1

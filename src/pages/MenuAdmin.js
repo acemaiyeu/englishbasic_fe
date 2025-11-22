@@ -16,6 +16,7 @@ class MenuAdmin extends React.Component {
         this.setState({
             language_type: this.props.language_type,
         })
+        alert(window.location.href)
         this.checkLogin()
     }
     componentDidUpdate(prevProps) {
@@ -30,7 +31,7 @@ class MenuAdmin extends React.Component {
         let token = sessionStorage.getItem("S_ADMIN"); 
         axios.get(`${API_URL}/profile`, {
             headers: {
-                Base_Token: `${token}`
+                Authorization: `Bearer ${token}`
             }
         }).then((res) => {
             if(res.data.role_name.include("admin")){
