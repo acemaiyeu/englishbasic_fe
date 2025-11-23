@@ -205,7 +205,7 @@ class VocabularyLesson extends React.Component {
         let { language_type, listLessonDetail, check_answer, index, active_answer, result, end_test} = this.state;
         return (
             <>  
-            {end_test ? <TestResult point={this.state.point} language_type="EN" page="/test-list" />
+            {end_test ? <TestResult point={this.state.point} lesson_id={listLessonDetail.lesson_id} language_type="EN" page="/test-list" />
             : 
                 <>
                 <Prev uri={`list-lesson-details/${listLessonDetail?.lesson_id}`}/>

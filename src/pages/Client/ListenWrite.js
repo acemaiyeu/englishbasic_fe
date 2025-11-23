@@ -90,6 +90,7 @@ class ListenWrite extends React.Component {
                                     height="100"
                                     allow="autoplay"
                                     frameborder="0"
+                                    controls
                                 ></iframe>
                             }
                             

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class TestResult extends Component {
   handleBack = () => {
-    window.location.href = this.props.page;
+    window.location.href = "/list-lesson-details/" + this.props.lesson_id;
   };
 
   render() {
