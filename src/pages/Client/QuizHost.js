@@ -1,7 +1,7 @@
 // src/components/QuizHost.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import echo from '../echo.js';
+import echo from '../Client/Echo';
 
 const API_BASE_URL = 'http://localhost:8000/api'; // Thay bằng URL Laravel BE của bạn
 

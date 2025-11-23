@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../const/const.js";
 import { toast } from "react-toastify";
-import ExcelUploader from "../functions/ExcelUploader.js";
+import ExcelUploader from "../../functions/ExcelUploader.js";
 
 class ManagerQuestion extends React.Component {
   state = {

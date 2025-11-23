@@ -3,36 +3,35 @@ import {  useHistory, BrowserRouter as Router, Switch, Route } from "react-route
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
-import Menu from "./pages/Menu";
-import MenuAdmin from "./pages/MenuAdmin";
-import Grammar from "./pages/Grammar";
-import VocabularyListLesson from './pages/VocabularyListLesson'
-import Vocabulary  from "./pages/Vocabulary";
-import VocabularyListLessonDetail from "./pages/VocabularyListLessonDetail"
+import Menu from "./pages/Client/Menu";
+import MenuAdmin from "./pages/Admin/MenuAdmin";
+import Grammar from "./pages/Client/Grammar";
+import VocabularyListLesson from './pages/Client/VocabularyListLesson'
+import Vocabulary  from "./pages/Client/Vocabulary";
+import VocabularyListLessonDetail from "./pages/Client/VocabularyListLessonDetail"
 import './App.css';
-import VocabularyLesson from './pages/VocabularyLesson'
-import { changeLanguage, setUser } from '../src/reduce/actions'
+import VocabularyLesson from './pages/Client/VocabularyLesson'
+import { changeLanguage, setUser } from './reduce/actions'
 import { useDispatch } from 'react-redux';
-import ManagerData from "./pages/ManagerSubject";
-import ManagerSubject from "./pages/ManagerSubject";
-import ManagerVocabulary from "./pages/ManagerVocabulary";
-import ManagerQuestion  from "./pages/ManagerQuestion";
-import ipaList from "./pages/ipaList";
-import ManagerVocabularyIPA from "./pages/ManagerVocabularyIPA";
-import ListenWrite from './pages/ListenWrite';
-import ChatApp from './pages/ChatApp'
-import AuthContainer from "./pages/AuthContainer";
-import ManagerListenWrite from "./pages/ManagerListenWrite";
-import ListenWriteList from "./pages/ListenWriteList";
-import ManagerExport from "./pages/ManagerExport";
-import Games from "./pages/Games";
-import QuizHost from "./pages/QuizHost";
-import GameBoard from "./pages/GameBoard";
-import { API_URL, auth } from "./const/const";
-import api from "./pages/api";
-import ZaloChatApp from "./pages/ZaloChatApp";
-import AuthContainerAdmin from "./pages/AuthContainerAdmin";
-import AdminLogin from "./pages/AdminLogin";
+import ManagerData from "./pages/Admin/ManagerSubject";
+import ManagerSubject from "./pages/Admin/ManagerSubject";
+import ManagerVocabulary from "./pages/Admin/ManagerVocabulary";
+import ManagerQuestion  from "./pages/Admin/ManagerQuestion";
+import ipaList from "./pages/Client/ipaList";
+import ManagerVocabularyIPA from "./pages/Admin/ManagerVocabularyIPA";
+import ListenWrite from './pages/Client/ListenWrite';
+import ChatApp from './pages/Client/ChatApp'
+import AuthContainer from "./pages/Client/AuthContainer";
+import ManagerListenWrite from "./pages/Admin/ManagerListenWrite";
+import ListenWriteList from "./pages/Client/ListenWriteList";
+import ManagerExport from "./pages/Admin/ManagerExport";
+import Games from "./pages/Client/Games";
+import QuizHost from "./pages/Client/QuizHost";
+import GameBoard from "./pages/Client/GameBoard";
+import { API_URL, auth } from "./pages/const/const";
+import ZaloChatApp from "./pages/Client/ZaloChatApp";
+import AuthContainerAdmin from "./pages/Admin/AuthContainerAdmin";
+import AdminLogin from "./pages/Client/AdminLogin";
 
 const App = () => {
   const dispatch = useDispatch();

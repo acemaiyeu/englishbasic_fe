@@ -3,9 +3,8 @@ import '../sass/MenuAdmin.scss'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import api from "./api";
-import { API_URL } from "../const/const";
 import { toast } from "react-toastify";
+import { API_URL } from "../const/const";
 
 class MenuAdmin extends React.Component {
 

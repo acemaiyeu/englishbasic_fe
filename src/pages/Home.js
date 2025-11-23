@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { increment, decrement, setUser } from "../reduce/actions";
 import { toast } from "react-toastify";
-import { API_URL } from "../const/const";
-import api from "./api";
+import { API_URL } from "./const/const";
+import api from "./Client/api";
 
 const Home = () => {
   const count = useSelector((state) => state.count);

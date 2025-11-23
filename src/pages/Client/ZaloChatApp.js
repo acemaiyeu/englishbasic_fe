@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../sass/ZaloChatApp.css'
-import { chatWithGPT } from '../service/openai';
+import { chatWithGPT } from '../../service/openai';
 
 // Giả lập dữ liệu
 let dummyChats = [
