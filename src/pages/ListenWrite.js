@@ -79,9 +79,18 @@ class ListenWrite extends React.Component {
                             </video> */}
                             {listen.url_video && 
                                
-                               <YouTubeControlsOnly 
-                                    videoSource={listen.url_video} 
-                                />
+                            //    <YouTubeControlsOnly 
+                            //         videoSource={listen.url_video} 
+                            //     />
+                           
+                                <iframe 
+                                    src={"https://drive.google.com/file/d/" + (listen.url_video.replace('https://drive.google.com/file/d/',"")).replace("/view?usp=sharing","") + "/preview"}
+                                    // "https://drive.google.com/file/d/14wlEn6Ym9iOeKpMv7OWGfl3mJeRGLvKs/preview"
+                                    width="100%" 
+                                    height="100"
+                                    allow="autoplay"
+                                    frameborder="0"
+                                ></iframe>
                             }
                             
                         </div>

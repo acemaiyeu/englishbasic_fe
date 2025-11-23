@@ -15,6 +15,7 @@ class ManagerQuestion extends React.Component {
     listVocabulary: [],
     listQuestions: [],
     listAnswers: [],
+    vocabulary_id: 0,
     status_form: {
       update_question_form: false,
       update_answer_form: false,
@@ -235,6 +236,7 @@ class ManagerQuestion extends React.Component {
           listVocabulary: response.data,
           loadding: false,
           lesson_id_create: lesson_id,
+          vocabulary_id: response.data.data[0].id,
           params: {
             ...this.state.params,
             vocabulary_param: response.data.data[0].title_english,
@@ -256,12 +258,11 @@ class ManagerQuestion extends React.Component {
     this.setState({
       listQuestions: [],
     });
-    
+
     await axios
       .get(
-        `${API_URL}/admin/question-by-lesson-detail-title/` +
-          vocabulary + "/" + this.state.params.subject_param +
-          `?page=` +
+        `${API_URL}/admin/questions?lesson_detail_id=` + this.state.vocabulary_id +
+          `&page=` +
           this.state.params.current_page
       )
       .then((response) => {
@@ -630,7 +631,7 @@ class ManagerQuestion extends React.Component {
               {" "}
               {language_type === "EN" ? "Vocabulary:" : "Từ vựng"}{" "}
             </label>
-            <input
+            {/* <input
               type="text"
               value={this.state.params.vocabulary_param ?? ""}
               onChange={(e) =>
@@ -642,8 +643,8 @@ class ManagerQuestion extends React.Component {
                 })
               }
               list="vocabulary-list"
-            />
-            <datalist id="vocabulary-list">
+            /> */}
+            {/* <datalist id="vocabulary-list">
               {listVocabulary?.data?.length > 0 &&
                 listVocabulary.data.map((vocabulary, index) => (
                   <option
@@ -655,7 +656,25 @@ class ManagerQuestion extends React.Component {
                     key={index}
                   />
                 ))}
-            </datalist>
+            </datalist> */}
+
+            <select onChange={(e) => this.setState({
+              vocabulary_id: e.target.value
+            })}> 
+                {listVocabulary?.data?.length > 0 &&
+                listVocabulary.data.map((vocabulary, index) => (
+                  <option
+                  selected={this.state.params.vocabulary_param === vocabulary.title_english}
+                    value={
+                      vocabulary.id
+                    }
+                    key={index}
+                  >{ language_type === "EN"
+                        ? vocabulary.title_english
+                        : vocabulary.title_vietnamese}</option>
+                ))}
+
+            </select>
           </div>
           <div className="form">
             <label>
