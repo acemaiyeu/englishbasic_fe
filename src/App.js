@@ -26,12 +26,11 @@ import ManagerListenWrite from "./pages/Admin/ManagerListenWrite";
 import ListenWriteList from "./pages/Client/ListenWriteList";
 import ManagerExport from "./pages/Admin/ManagerExport";
 import Games from "./pages/Client/Games";
-import QuizHost from "./pages/Client/QuizHost";
 import GameBoard from "./pages/Client/GameBoard";
 import { API_URL, auth } from "./pages/const/const";
 import ZaloChatApp from "./pages/Client/ZaloChatApp";
 import AuthContainerAdmin from "./pages/Admin/AuthContainerAdmin";
-import AdminLogin from "./pages/Client/AdminLogin";
+import AdminLogin from "./pages/Admin/AdminLogin";
 
 const App = () => {
   const dispatch = useDispatch();

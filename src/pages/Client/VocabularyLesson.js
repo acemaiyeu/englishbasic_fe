@@ -8,6 +8,7 @@ import {API_URL } from '../const/const'
 import Prev from "./Prev";
 import TestResult from "./TestResult";
 import { type } from "@testing-library/user-event/dist/type";
+import HtmlRenderer from "./HtmlRenderer";
 
 
 class VocabularyLesson extends React.Component {
@@ -212,13 +213,13 @@ class VocabularyLesson extends React.Component {
                     {listLessonDetail && listLessonDetail?.questions?.length > 0 && 
                         <>
                             <div className="lesson-vocabulary">
-                           {language_type === "EN" ? "Vocabulary" : "Từ vựng"}: {listLessonDetail.title_english}   <b>{listLessonDetail.transcription}</b> <AudioButton text={listLessonDetail.title_english} lang="en-US" />
+                           {language_type === "EN" ? "Subject" : "Chủ đề"}: {listLessonDetail.title_english}   <b>{listLessonDetail.transcription}</b> <AudioButton text={listLessonDetail.title_english} lang="en-US" />
 
                      </div>
                     <div className="box-content">
                             <span className="label label-success sentences">{language_type === "EN" ? "Sentences: " : "Câu: "} {index + 1
                                 }/{listLessonDetail.questions.length}</span>
-                            <div className="less-question"> { language_type === "EN" ? listLessonDetail?.questions[index]?.title_english : listLessonDetail?.questions[index]?.title_vietnamese}</div>
+                            <div className="less-question"> <HtmlRenderer htmlContent={ language_type === "EN" ? (listLessonDetail?.questions[index]?.title_english)  : (listLessonDetail?.questions[index]?.title_vietnamese)} /></div>
                             <div className="answers">
                                 {listLessonDetail.questions[index].type === "CHOOSE" ||  listLessonDetail.questions[index].type === "READ" ? 
                                 <div className="answer-item"> 

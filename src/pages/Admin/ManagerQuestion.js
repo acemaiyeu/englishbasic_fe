@@ -3,7 +3,7 @@ import "../sass/ManagerVocabulary.scss";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
-import { API_URL } from "../const/const.js";
+import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 import ExcelUploader from "../../functions/ExcelUploader.js";
 
@@ -1012,7 +1012,7 @@ class ManagerQuestion extends React.Component {
           </button>
         </div>
         <div className="data-manager-auth">
-          <button>#Loyper</button>
+          <button>#{auth}</button>
         </div>
         {/* {vocabulary_form && 
                 <div className="data-manager-add-vocabulary-form">

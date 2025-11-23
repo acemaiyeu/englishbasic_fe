@@ -2,7 +2,7 @@ import React from "react";
 import '../sass/ManagerVocabulary.scss'
 import { connect } from "react-redux";
 import axios from "axios";
-import { API_URL } from "../const/const.js";
+import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 
 
@@ -117,10 +117,11 @@ class ManagerListenWrite extends React.Component {
     }
     createListenWrite = async () => {
         let { url_video, url_audio, title, value} = this.state;
+        alert(title);
         axios.post(`${API_URL}/admin/listen`, {
             url_video: url_video,
             url_audio: url_audio,
-            title: title,
+            title,
             value: value,
         }).then((res) => {
             this.getListListenWrittes(this.state.params.current_page);
@@ -146,10 +147,11 @@ class ManagerListenWrite extends React.Component {
         });
     }
     updateListenWrite = async () => {
-        let { url_video, url_audio,  value, listen_id_create} = this.state;
+        let { url_video, url_audio,  title, value, listen_id_create} = this.state;
         axios.put(`${API_URL}/admin/listen/${listen_id_create}`, {
             url_video: url_video,
             url_audio: url_audio,
+            title,
             value: value,
         }).then((res) => {
             this.getListListenWrittes(this.state.params.current_page);
@@ -332,7 +334,7 @@ class ManagerListenWrite extends React.Component {
                     onClick={() => this.PageVocabulary(listVocabulary?.meta?.pagination?.total_pages)}>{ language_type === "EN" ? "Last" : "Trang cuối"}</button>
                 </div>
                 <div className="data-manager-auth">
-                    <button>#Loyper</button>
+                    <button>#{auth}</button>
                 </div>
                 {vocabulary_form && 
                 <div className="data-manager-add-vocabulary-form">

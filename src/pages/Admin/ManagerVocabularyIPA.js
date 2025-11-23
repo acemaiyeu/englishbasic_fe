@@ -2,7 +2,7 @@ import React from "react";
 import '../sass/ManagerVocabulary.scss'
 import { connect } from "react-redux";
 import axios from "axios";
-import { API_URL } from "../const/const.js";
+import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 
 
@@ -265,7 +265,7 @@ class ManagerVocabularyIPA extends React.Component {
                     onClick={() => this.PageVocabulary(listVocabulary?.meta?.pagination?.total_pages)}>{ language_type === "EN" ? "Last" : "Trang cuối"}</button>
                 </div>
                 <div className="data-manager-auth">
-                    <button>#Loyper</button>
+                    <button>#{auth}</button>
                 </div>
                 {vocabulary_form && 
                 <div className="data-manager-add-vocabulary-form">
