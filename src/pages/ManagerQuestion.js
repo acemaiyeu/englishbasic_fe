@@ -1074,15 +1074,15 @@ class ManagerQuestion extends React.Component {
                   </option>
                   <option
                     selected={this.state.params.type_question === "WRITE"}
-                    value="WRITING"
+                    value="WRITE"
                   >
                     {language_type === "EN" ? "WRITING" : "Tự luận"}
                   </option>
                   <option
                     selected={this.state.params.type_question === "READ"}
-                    value="READING"
+                    value="READ"
                   >
-                    {language_type === "EN" ? "READING" : "XEM"}
+                    {language_type === "EN" ? "READ" : "XEM"}
                   </option>
                   
                 </select>
