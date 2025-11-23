@@ -32,6 +32,7 @@ import { API_URL, auth } from "./const/const";
 import api from "./pages/api";
 import ZaloChatApp from "./pages/ZaloChatApp";
 import AuthContainerAdmin from "./pages/AuthContainerAdmin";
+import AdminLogin from "./pages/AdminLogin";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -101,7 +102,7 @@ const App = () => {
           <Route path="/pages/admin/manager-listen-write" exact component={ManagerListenWrite} />
           <Route path="/pages/admin/manager-export-excel" exact component={ManagerExport} />
           <Route path="/pages/admin/counter" exact component={ZaloChatApp} />
-          <Route path="/pages/admin/login" exact component={AuthContainerAdmin} />
+          <Route path="/pages/admin/login" exact component={AdminLogin} />
           
         </Switch>
         </>   

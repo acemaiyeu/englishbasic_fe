@@ -16,8 +16,10 @@ class MenuAdmin extends React.Component {
         this.setState({
             language_type: this.props.language_type,
         })
-        alert(window.location.href)
-        this.checkLogin()
+        if(window.location.href !== `${window.location.origin}/pages/admin/login`){
+            this.checkLogin()
+        }
+        
     }
     componentDidUpdate(prevProps) {
         if (prevProps.language_type !== this.props.language_type) {
@@ -26,26 +28,27 @@ class MenuAdmin extends React.Component {
             });
         }
     }
-    checkLogin = () => {
+    checkLogin = async () => {
         let { language_type } = this.state;
         let token = sessionStorage.getItem("S_ADMIN"); 
-        axios.get(`${API_URL}/profile`, {
+        await axios.get(`${API_URL}/auth/profile`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((res) => {
-            if(res.data.role_name.include("admin")){
+            if((res.data.data.role_code.toLowerCase()).includes("admin")){
                 sessionStorage.setItem("S_ADMIN", res.data.access_token);
             }else{
                 window.location.href = "/pages/admin/login"
             }
-        }).catch(() => {
+        }).catch((e) => {
+            console.log(e);
+            window.location.href = "/pages/admin/login"
             if(language_type === "EN"){
                 toast.error("This account can't login to page admin")
             }else{
                 toast.error("Tài khoản của bạn sai hoặc không có quyền truy cập admin")
-            }   
-            window.location.href = "/pages/admin/login"
+            }     
         })
     }
     render(){

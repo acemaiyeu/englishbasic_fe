@@ -1073,11 +1073,18 @@ class ManagerQuestion extends React.Component {
                     {language_type === "EN" ? "CHOOSE" + " - ": "Trắc nghiệm"}
                   </option>
                   <option
-                    selected={this.state.params.type_question !== "CHOOSE"}
+                    selected={this.state.params.type_question === "WRITE"}
                     value="WRITING"
                   >
                     {language_type === "EN" ? "WRITING" : "Tự luận"}
                   </option>
+                  <option
+                    selected={this.state.params.type_question === "READ"}
+                    value="READING"
+                  >
+                    {language_type === "EN" ? "READING" : "XEM"}
+                  </option>
+                  
                 </select>
                 {/* <input type="text" value={transcription} onChange={(e) => this.handleChangeInput(e, "transcription")}/> */}
               </div>
