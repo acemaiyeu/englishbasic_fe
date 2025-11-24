@@ -31,6 +31,7 @@ import { API_URL, auth } from "./pages/const/const";
 import ZaloChatApp from "./pages/Client/ZaloChatApp";
 import AuthContainerAdmin from "./pages/Admin/AuthContainerAdmin";
 import AdminLogin from "./pages/Admin/AdminLogin";
+import RealTimeQuiz from "./pages/sass/RealTimeQuiz";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -118,6 +119,7 @@ const App = () => {
           <Route path="/listen-write-list" component={ListenWriteList } />
           <Route path="/games" component={Games} />
           <Route path="/game/board/:id" component={GameBoard} />
+          <Route path="/game/quiz/:id" component={RealTimeQuiz} />
           
           {/* <Route path="/quiz" component={QuizHost} /> */}
           
