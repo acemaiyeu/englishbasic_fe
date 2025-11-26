@@ -1,30 +1,28 @@
-// import Echo from "laravel-echo";
-// import Pusher from "pusher-js";
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js';
 
-// window.Pusher = Pusher;
+// Gán Pusher vào window
+window.Pusher = Pusher;
 
-// useEffect(() => {
-//   const channel = echo.channel("chat");
-
-//   channel.listen("MessageSent", (e) => {
-//     console.log("📩 Nhận realtime:", e);
-//     setMessages((prev) => [...prev, `${e.user}: ${e.message}`]);
-//   });
-
-//   echo.connector.pusher.connection.bind("connected", () => {
-//     console.log("✅ Đã kết nối websocket!");
-//   });
-// }, []);
-
-// const echo = new Echo({
-//   broadcaster: "pusher",
-//   key: "mykey",        // cùng với .env của Laravel
-//   cluster: "mt1",      // thêm dòng này
-//   wsHost: "127.0.0.1", // địa chỉ backend
-//   wsPort: 6001,
-//   forceTLS: false,
-//   disableStats: true,
-//   enabledTransports: ["ws", "wss"], // thêm cho chắc
-// });
-
-// export default echo;
+// Lấy các biến môi trường từ .env.development (hoặc tương tự) của React
+// Đảm bảo bạn đã định nghĩa chúng (ví dụ: REACT_APP_PUSHER_KEY, REACT_APP_WSS_HOST)
+const echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'mykey', // Hoặc PUSHER_APP_KEY của bạn
+    cluster: 'mt1', 
+    
+    // 👇 RẤT QUAN TRỌNG: Cấu hình để sử dụng HTTP/WS
+    wsHost: '127.0.0.1', 
+    wsPort: 6001,       
+    
+    // 👇 Cần đặt là FALSE để sử dụng giao thức WS (không bảo mật)
+    forceTLS: false,    
+    
+    // 👇 Đảm bảo bạn đang sử dụng các giao thức không bảo mật cho HTTP
+    enabledTransports: ['ws', 'wss'], // Tốt nhất nên giữ lại wss
+    
+    // Cài đặt này cũng có thể giúp nếu lỗi vẫn xảy ra
+    disableStats: true, 
+    // ... các tùy chọn khác
+});
+export default echo;
