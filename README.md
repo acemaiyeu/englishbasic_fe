@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+backend run chatapp: 
+
+php artisan websockets:serve
+php artisan queue:listen
+
+php artisan serve --port=3000 
+
+cloudflared tunnel run my_tunnel
