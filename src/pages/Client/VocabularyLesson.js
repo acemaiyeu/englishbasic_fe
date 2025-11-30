@@ -25,7 +25,8 @@ class VocabularyLesson extends React.Component {
             text_answer: "",
             end_test: false,
             point: 0, 
-            check_answer: true
+            check_answer: true,
+            index_correct_answer: -1,
     }
     componentDidMount(){
         this.getListLessionDetail(this.props.match.params.id)
@@ -140,7 +141,7 @@ class VocabularyLesson extends React.Component {
                 this.setState({
                     ...this.state,
                     point: this.state.point + 1,
-                    check_answer: true
+                    check_answer: true,
                 })
             }else{
                  if(this.state.language_type === "EN"){
@@ -154,7 +155,8 @@ class VocabularyLesson extends React.Component {
                 })
             }
                 this.setState({
-                    result: response.data.data
+                    result: response.data.data,
+                    index_correct_answer: response.data.answer_id
                 })
         }
         } catch (error) {
@@ -202,7 +204,7 @@ class VocabularyLesson extends React.Component {
         })
     }
     render() {
-        let { language_type, listLessonDetail, check_answer, index, active_answer, result, end_test} = this.state;
+        let { language_type, listLessonDetail, check_answer, index, active_answer, result, end_test, index_correct_answer} = this.state;
         return (
             <>  
             {end_test ? <TestResult point={this.state.point} lesson_id={listLessonDetail.lesson_id} language_type="EN" page="/test-list" />
@@ -225,7 +227,7 @@ class VocabularyLesson extends React.Component {
                                 <div className="answer-item"> 
                                     {listLessonDetail.questions[index].answers?.length > 0 && listLessonDetail.questions[index].answers.map((answer, index_a) => {
                                         return(
-                                            <div className={`form-in ${result === false && active_answer === answer.id ? "destroy" : ""}  ${result === true && active_answer === answer.id ? "success" : ""}`} onClick={() => this.handleOnClickAnswer(answer.id, listLessonDetail.questions[index].id)}> 
+                                            <div className={`form-in ${result === false && active_answer === answer.id ? "destroy" : ""}  ${(index_correct_answer === answer.id)  ? "success" : ""}`} onClick={() => this.handleOnClickAnswer(answer.id, listLessonDetail.questions[index].id)}> 
                                                  {index_a + 1}. <input checked={active_answer === answer.id} type="radio" name="answer"/>{answer.title}
                                             </div>
                                             )
@@ -242,7 +244,7 @@ class VocabularyLesson extends React.Component {
                                 
                             </div>
 
-                            {check_answer === false &&
+                            {check_answer === false && listLessonDetail.questions[index].type === "WRITE" &&
                                 <div className="answer-correct">
                                         <div className="answer-correct-title">{language_type === "EN" ? "Answer: " : "Đáp án: "}</div>
                                         {/* {listLessonDetail.questions[index].type === "CHOOSE" && listLessonDetail.questions[index] && listLessonDetail.questions[index].answers && listLessonDetail.questions[index].answers.length && listLessonDetail.questions[index].answers.map((a) => {

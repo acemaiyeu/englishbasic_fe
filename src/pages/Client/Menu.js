@@ -24,7 +24,7 @@ class Menu extends React.Component {
         let { language_type } = this.state;
         return (
             <div className="menu-container">
-                <i class="bi bi-bar-chart-steps"></i>
+                {/* <i class="bi bi-bar-chart-steps"></i> */}
                 
                 <nav className="nav-menu" style={{ textAlign: "center"}}>
                     <Link to="/">{language_type === "EN" ? "Statistics" : "Thống kê"}</Link>

@@ -1,0 +1,13 @@
+.answer-list{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    padding: 10px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    button{
+        width: 40vw;
+    }
+}

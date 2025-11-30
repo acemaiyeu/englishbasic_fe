@@ -1,6 +1,5 @@
 import React from "react";
 import "../sass/ManagerVocabulary.scss";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import { API_URL, auth } from "../const/const.js";
@@ -34,14 +33,11 @@ class ManagerQuestion extends React.Component {
       id_question: 0,
       title_question: "",
       type_question: "CHOOSE",
-      title_answer: "",
       text_answer: "",
       question_id_create: 0,
       id_answer: 0,
       title_answer: "",
-      text_answer: "",
     },
-    title_vietnamese: "",
     title_vietnamese: "",
     question_form: false,
     answer_form: false,
@@ -266,9 +262,7 @@ class ManagerQuestion extends React.Component {
           this.state.params.current_page
       )
       .then((response) => {
-        if (response.data.data.length === 0) {
-          this.getDetailLessonByTitle(vocabulary);
-        } else {
+        if (response.data.data.length > 0) {
         //   params.lession_detail_id_create =
         //     response.data?.data[0]?.lessonDetail?.lesson_detail_id ?? 0;
           this.setState({
@@ -311,7 +305,7 @@ class ManagerQuestion extends React.Component {
       .post(`${API_URL}/admin/question`, {
         title_english: params.title_question,
         type: params.type_question ?? "WRITE",
-        lesson_detail_id: params.lession_detail_id_create,
+        lesson_detail_id: this.state.params.lession_detail_id_create,
       })
       .then((res) => {
         this.getListQuestionByLesson(this.state.params.vocabulary_param);
@@ -486,25 +480,25 @@ class ManagerQuestion extends React.Component {
       },
     });
   };
-  getDetailLessonByTitle = (title) => {
-    axios
-      .get(`${API_URL}/admin/lesson-detail-by-title/` + title )
-      .then((res) => {
-        this.setState({
-          params: {
-            ...this.state.params,
-            lession_detail_id_create: res.data.data.id,
-          },
-        });
-        this.setState({
-          loadding: false,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("GET LEsson Detail By Title failed!");
-      });
-  };
+  // getDetailLessonByTitle = (title) => {
+  //   axios
+  //     .get(`${API_URL}/admin/lesson-detail-by-title/` + title )
+  //     .then((res) => {
+  //       this.setState({
+  //         params: {
+  //           ...this.state.params,
+  //           lession_detail_id_create: res.data.data.id,
+  //         },
+  //       });
+  //       this.setState({
+  //         loadding: false,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       toast.error("GET LEsson Detail By Title failed!");
+  //     });
+  // };
   editAnswer = (answer) => {
     this.setState({
       status_form: {
@@ -659,7 +653,10 @@ class ManagerQuestion extends React.Component {
             </datalist> */}
 
             <select onChange={(e) => this.setState({
-              vocabulary_id: e.target.value
+              vocabulary_id: e.target.value,
+              params: {
+                lession_detail_id_create: e.target.value,
+              }
             })}> 
                 {listVocabulary?.data?.length > 0 &&
                 listVocabulary.data.map((vocabulary, index) => (

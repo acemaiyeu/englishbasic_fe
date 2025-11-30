@@ -34,6 +34,7 @@ import AdminLogin from "./pages/Admin/AdminLogin";
 import RealTimeQuiz from "./pages/sass/RealTimeQuiz";
 import QuizApp from "./pages/Client/QuizApp";
 import ChatApp2 from "./pages/Client/ChatApp2";
+import Gamequiz from "./pages/Client/Gamequiz";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -122,7 +123,7 @@ const App = () => {
           <Route path="/games" component={Games} />
           <Route path="/game/board/:id" component={GameBoard} />
           {/* <Route path="/game/quiz/:id" component={RealTimeQuiz} /> */}
-          <Route path="/game/quiz/:id" component={QuizApp} />
+          <Route path="/game/quiz/:id" component={Gamequiz} />
           {/* <Route path="/quiz" component={QuizHost} /> */}
           <Route path="/chat-app" component={ChatApp2} />
           

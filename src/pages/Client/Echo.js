@@ -13,8 +13,8 @@ const echo = new Echo({
     cluster: 'mt1', 
     
     // 👇 RẤT QUAN TRỌNG: Cấu hình để sử dụng HTTP/WS
-    // wsHost: '127.0.0.1', 
-    wsHost: `${MAIN_DOMAIN}`, // Thay thế {MAIN_DOMAIN} bằng tên miền chính của bạn
+    wsHost: '127.0.0.1', 
+    // wsHost: `${MAIN_DOMAIN}`, // Thay thế {MAIN_DOMAIN} bằng tên miền chính của bạn
     wsPort: 6001,       
     
     // 👇 Cần đặt là FALSE để sử dụng giao thức WS (không bảo mật)
