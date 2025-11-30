@@ -70,10 +70,11 @@ class VocabularyLesson extends React.Component {
         if(index+1 >= total_questions){
             // toast.error("Đã hết câu hỏi");
             this.setState({
-                ...this.state,
                 end_test: true
             })
-            this.updateProcess((100 / listLessonDetail.questions.length) * point);
+                this.updateProcess((100 / listLessonDetail.questions.length) * this.state.point);
+            
+           
             return;
         }
         this.setState({

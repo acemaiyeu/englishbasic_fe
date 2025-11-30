@@ -1,7 +1,7 @@
 import React from "react";
 import '../sass/ManagerVocabulary.scss'
 import { connect } from "react-redux";
-import axios from "axios";
+import api_admin from "./api_admin";
 import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 
@@ -93,7 +93,7 @@ class ManagerVocabularyIPA extends React.Component {
     getListLessons = async () => {
         let { params } = this.state;
 
-        axios.get(`${API_URL}/admin/lessons?title_english=` + 
+        api_admin.get(`${API_URL}/admin/lessons?title_english=` + 
             (params.subject_param ?? "") + `&vocabulary_name=` + 
             (params.vocabulary_param ?? "")+ `&question_name=` + 
             (params.question_param ?? "") + `&answer_param=` 
@@ -112,7 +112,7 @@ class ManagerVocabularyIPA extends React.Component {
     }
     createVocabulary = async () => {
         let { title_english, lesson_id_create,  transcription, means, sound} = this.state;
-        axios.post(`${API_URL}/admin/lesson-detail-ipa`, {
+        api_admin.post(`${API_URL}/admin/lesson-detail-ipa`, {
             title_english: title_english,
             lesson_id: lesson_id_create,
             transcription: transcription,
@@ -137,7 +137,7 @@ class ManagerVocabularyIPA extends React.Component {
         });
     }
     deleteLesson = async (id) => {
-        axios.delete(`${API_URL}/admin/lesson-detail/` + id).then((res) => {
+        api_admin.delete(`${API_URL}/admin/lesson-detail/` + id).then((res) => {
             this.getListLessons(this.state.params.current_page);
             if (this.state.language_type === "EN"){
                 toast.success("Delete vocabulary success!");
@@ -152,7 +152,7 @@ class ManagerVocabularyIPA extends React.Component {
 
     getListVocabularyIPA = async () => {
 
-       await axios.get(`${API_URL}/admin/lesson-details?page=` + this.state.params.current_page + "&type=ipa")
+       await api_admin.get(`${API_URL}/admin/lesson-details?page=` + this.state.params.current_page + "&type=ipa")
         .then(response => {
             this.setState({
                 listVocabulary: response.data,

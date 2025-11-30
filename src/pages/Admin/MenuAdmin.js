@@ -2,9 +2,10 @@ import React from "react";
 import '../sass/MenuAdmin.scss'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import axios from "axios";
+import api_admin from "./api_admin";
 import { toast } from "react-toastify";
 import { API_URL } from "../const/const";
+ import Cookies from "js-cookie";
 
 class MenuAdmin extends React.Component {
 
@@ -27,16 +28,22 @@ class MenuAdmin extends React.Component {
             });
         }
     }
+    getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        };
     checkLogin = async () => {
+
         let { language_type } = this.state;
         let token = sessionStorage.getItem("S_ADMIN"); 
-        await axios.get(`${API_URL}/auth/profile`, {
+        await api_admin.get(`${API_URL}/auth/profile`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         }).then((res) => {
             if((res.data.data.role_code.toLowerCase()).includes("admin")){
-                sessionStorage.setItem("S_ADMIN", res.data.access_token);
+                // sessionStorage.setItem("S_ADMIN", res.data.access_token);
             }else{
                 window.location.href = "/pages/admin/login"
             }

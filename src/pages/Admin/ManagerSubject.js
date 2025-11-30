@@ -1,7 +1,7 @@
 import React from "react";
 import '../sass/ManagerVocabulary.scss'
 import { connect } from "react-redux";
-import axios from "axios";
+import api_admin from "./api_admin";
 import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 
@@ -94,7 +94,7 @@ class ManagerSubject extends React.Component {
     getListLessons = async () => {
         let { params } = this.state;
 
-        axios.get(`${API_URL}/admin/lessons?title_english=` + 
+        api_admin.get(`${API_URL}/admin/lessons?title_english=` + 
             (params.subject_param ?? "") + `&vocabulary_name=` + 
             (params.vocabulary_param ?? "")+ `&question_name=` + 
             (params.question_param ?? "") + `&answer_param=` 
@@ -111,7 +111,7 @@ class ManagerSubject extends React.Component {
     }
     createSubject = async () => {
         let { title_english, title_vietnamese } = this.state;
-        axios.post(`${API_URL}/admin/lesson`, {
+        api_admin.post(`${API_URL}/admin/lesson`, {
             title_english: title_english,
             title_vietnamese: title_vietnamese
         }).then((res) => {
@@ -134,7 +134,7 @@ class ManagerSubject extends React.Component {
     }
     updateSubject = () => {
         let { title_english, title_vietnamese } = this.state;
-        axios.put(`${API_URL}/admin/lesson`, {
+        api_admin.put(`${API_URL}/admin/lesson`, {
             title_english: title_english,
             title_vietnamese: title_vietnamese,
             lesson_id: this.state.subject_id_update
@@ -164,7 +164,7 @@ class ManagerSubject extends React.Component {
         // subject_id_update
     }
     deleteLesson = async (id) => {
-        axios.delete(`${API_URL}/admin/lesson/` + id).then((res) => {
+        api_admin.delete(`${API_URL}/admin/lesson/` + id).then((res) => {
             this.getListLessons(this.state.params.current_page);
             if (this.state.language_type === "EN"){
                 toast.success("Delete lesson success!");
@@ -178,7 +178,7 @@ class ManagerSubject extends React.Component {
     }
 
     getListQuestionsByLessonDetail = async (lesson_detail_id) => {
-       await axios.get(`${API_URL}/admin/question-by-lesson-detail-id/` + lesson_detail_id)
+       await api_admin.get(`${API_URL}/admin/question-by-lesson-detail-id/` + lesson_detail_id)
         .then(response => {
             this.setState({
                 listQuestions: response.data.data

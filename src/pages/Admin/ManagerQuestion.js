@@ -1,7 +1,7 @@
 import React from "react";
 import "../sass/ManagerVocabulary.scss";
 import { connect } from "react-redux";
-import axios from "axios";
+import api_admin from "./api_admin.js";
 import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 import ExcelUploader from "../../functions/ExcelUploader.js";
@@ -146,7 +146,7 @@ class ManagerQuestion extends React.Component {
   getListLessons = async () => {
     let { params } = this.state;
 
-    axios
+    api_admin
       .get(
         `${API_URL}/admin/lessons?title_english=` +
           (params.subject_param ?? "") +
@@ -174,7 +174,7 @@ class ManagerQuestion extends React.Component {
   };
   createVocabulary = async () => {
     let { title_english, lesson_id_create, transcription, means } = this.state;
-    axios
+    api_admin
       .post(`${API_URL}/admin/lesson-detail`, {
         title_english: title_english,
         lesson_id: lesson_id_create,
@@ -201,7 +201,7 @@ class ManagerQuestion extends React.Component {
       });
   };
   deleteLesson = async (id) => {
-    axios
+    api_admin
       .delete(`${API_URL}/admin/lesson-detail/` + id)
       .then((res) => {
         console.log(res);
@@ -219,7 +219,7 @@ class ManagerQuestion extends React.Component {
   };
 
   getListVocabularyByLesson = async (lesson_id) => {
-    await axios
+    await api_admin
       .get(
         `${API_URL}/admin/lesson-detail-by-lesson-id/` +
           lesson_id +
@@ -252,10 +252,10 @@ class ManagerQuestion extends React.Component {
         this.state.params.subject_param = listLessons.data[0].id
     }
     this.setState({
-      listQuestions: [],
+      // listQuestions: [],
     });
 
-    await axios
+    await api_admin
       .get(
         `${API_URL}/admin/questions?lesson_detail_id=` + this.state.vocabulary_id +
           `&page=` +
@@ -281,7 +281,7 @@ class ManagerQuestion extends React.Component {
       });
   };
   getListAnswerByQuestion = async (question_id) => {
-    await axios
+    await api_admin
       .get(
         `${API_URL}/admin/answers-by-question-id/` +
           question_id +
@@ -301,7 +301,7 @@ class ManagerQuestion extends React.Component {
 
   createQuestion = async () => {
     let { params } = this.state;
-    axios
+    api_admin
       .post(`${API_URL}/admin/question`, {
         title_english: params.title_question,
         type: params.type_question ?? "WRITE",
@@ -333,7 +333,7 @@ class ManagerQuestion extends React.Component {
   };
   createAnswer = async () => {
     let { params } = this.state;
-    axios
+    api_admin
       .post(`${API_URL}/admin/answer`, {
         title: params.title_answer,
         text: params.text_answer,
@@ -364,7 +364,7 @@ class ManagerQuestion extends React.Component {
   };
   updateQuestion = async () => {
     let { params } = this.state;
-    axios
+    api_admin
       .put(`${API_URL}/admin/question/` + params.id_question, {
         title_english: params.title_question,
         type: params.type_question,
@@ -402,7 +402,7 @@ class ManagerQuestion extends React.Component {
   };
   updateAnswer = async () => {
     let { params } = this.state;
-    axios
+    api_admin
       .put(`${API_URL}/admin/answer/` + params.id_answer, {
         title: params.title_answer,
         text: params.text_answer,
@@ -439,7 +439,7 @@ class ManagerQuestion extends React.Component {
       });
   };
   deleteQuestion = (question) => {
-      axios
+      api_admin
         .delete(`${API_URL}/admin/question/` + question.id)
         .then((res) => {
           if (this.state.language_type === "EN") {
@@ -481,7 +481,7 @@ class ManagerQuestion extends React.Component {
     });
   };
   // getDetailLessonByTitle = (title) => {
-  //   axios
+  //   api_admin
   //     .get(`${API_URL}/admin/lesson-detail-by-title/` + title )
   //     .then((res) => {
   //       this.setState({
@@ -515,7 +515,7 @@ class ManagerQuestion extends React.Component {
     });
   };
    deleteAnswer = (answer) => {
-      axios
+      api_admin
         .delete(`${API_URL}/admin/answer/` + answer.id)
         .then((res) => {
           if (this.state.language_type === "EN") {
@@ -532,7 +532,7 @@ class ManagerQuestion extends React.Component {
         });
   };
   setCorrectSentence = (answer) => {
-    axios
+    api_admin
         .put(`${API_URL}/admin/answer-correct`,
             {
                 question_id: answer.question.id,
@@ -552,6 +552,21 @@ class ManagerQuestion extends React.Component {
           console.log(err);
           toast.error("Update answer failed!");
         });
+  }
+  handleChangeVocabulary = (event) => {
+    this.setState({ 
+      vocabulary_id: event.target.value,
+      params: {
+                lession_detail_id_create: event.target.value,
+              },
+              loadding: true
+      });
+      
+      setTimeout(() => this.getListQuestionByLesson(event.target.value), 1000
+
+      )
+      clearTimeout()
+    
   }
   showForm = (type) => {
     if (type) {
@@ -652,12 +667,7 @@ class ManagerQuestion extends React.Component {
                 ))}
             </datalist> */}
 
-            <select onChange={(e) => this.setState({
-              vocabulary_id: e.target.value,
-              params: {
-                lession_detail_id_create: e.target.value,
-              }
-            })}> 
+            <select onChange={(event) => this.handleChangeVocabulary(event)}> 
                 {listVocabulary?.data?.length > 0 &&
                 listVocabulary.data.map((vocabulary, index) => (
                   <option
@@ -673,59 +683,7 @@ class ManagerQuestion extends React.Component {
 
             </select>
           </div>
-          <div className="form">
-            <label>
-              {language_type === "EN"
-                ? "Question English"
-                : "Câu hỏi tiếng Anh"}{" "}
-            </label>
-            <input
-              type="text"
-              value={this.state.params.question_param ?? ""}
-              onChange={(e) =>
-                this.setState({
-                  params: {
-                    ...this.state.params,
-                    question_param: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div className="form">
-            <label>
-              {language_type === "EN"
-                ? "Question Vietnamese"
-                : "Câu hỏi tiếng Việt"}{" "}
-            </label>
-            <input
-              type="text"
-              value={this.state.params.question_param ?? ""}
-              onChange={(e) =>
-                this.setState({
-                  params: {
-                    ...this.state.params,
-                    question_param: e.target.value,
-                  },
-                })
-              }
-            />
-          </div>
-          <div className="form">
-            <label>{language_type === "EN" ? "Answer" : "Đáp án"}: </label>
-            <input
-              value={this.state.params.answer_param ?? ""}
-              onChange={(e) =>
-                this.setState({
-                  params: {
-                    ...this.state.params,
-                    answer_param: e.target.value,
-                  },
-                })
-              }
-              type="text"
-            />
-          </div>
+          
           <i
             className="bi bi-search"
             onClick={() => this.PageVocabulary(this.state.params.current_page)}
@@ -815,7 +773,8 @@ class ManagerQuestion extends React.Component {
                   <tbody>
                     {loadding && (
                       <tr>
-                        <td colSpan="4" style={{ textAlign: "center" }}>
+                        <td></td>
+                        <td colSpan="3" style={{ textAlign: "center" }}>
                           <button
                             className="btn btn-primary"
                             type="button"
@@ -841,7 +800,7 @@ class ManagerQuestion extends React.Component {
                         </td>
                       </tr>
                     )}
-                    {!loadding &&
+                    {
                       listQuestions?.data?.length > 0 &&
                       listQuestions.data.map((question, index) => (
                         <tr key={index}>
@@ -872,6 +831,35 @@ class ManagerQuestion extends React.Component {
                           </td>
                         </tr>
                       ))}
+                      {loadding && listQuestions?.data?.length > 0 && (
+                      <tr>
+                        <td></td>
+                        <td colSpan="3" style={{ textAlign: "center" }}>
+                          <button
+                            className="btn btn-primary"
+                            type="button"
+                            disabled
+                          >
+                            <span
+                              className="spinner-grow spinner-grow-sm"
+                              role="status"
+                              aria-hidden="true"
+                            ></span>
+                            <span className="sr-only">Loading...</span>
+                          </button>
+                          <button
+                            className="btn btn-primary"
+                            type="button"
+                            disabled
+                          >
+                            {/* <span className="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> */}
+                            {language_type === "EN"
+                              ? "Loadding Data..."
+                              : "Đang tải dữ liệu..."}
+                          </button>
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               )}

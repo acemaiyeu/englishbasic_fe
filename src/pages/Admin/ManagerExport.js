@@ -1,7 +1,7 @@
 import React from "react";
 
 import '../sass/VocabularyListLesson.scss'
-import axios from "axios";
+import api_admin from "./api_admin";
 import { API_URL } from "../const/const";
 import { toast } from "react-toastify";
 import { connect } from "react-redux";
@@ -32,7 +32,7 @@ class ManagerExport extends React.Component{
         
         
         
-        axios.get(`${API_URL}/admin/${uri}?limit=${limit_get_data}`, {
+        api_admin.get(`${API_URL}/admin/${uri}?limit=${limit_get_data}`, {
             responseType: 'blob' // ⬅️ bắt buộc để tải file
         })
         .then((res) => {
