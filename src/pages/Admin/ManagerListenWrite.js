@@ -1,7 +1,7 @@
 import React from "react";
 import '../sass/ManagerVocabulary.scss'
 import { connect } from "react-redux";
-import axios from "axios";
+import api_admin from "./api_admin";
 import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 
@@ -98,7 +98,7 @@ class ManagerListenWrite extends React.Component {
     getListListenWrittes = async () => {
         let { params } = this.state;
 
-        axios.get(`${API_URL}/admin/listens?title_english=` + 
+        api_admin.get(`${API_URL}/admin/listens?title_english=` + 
             (params.subject_param ?? "") + `&vocabulary_name=` + 
             (params.vocabulary_param ?? "")+ `&question_name=` + 
             (params.question_param ?? "") + `&answer_param=` 
@@ -118,7 +118,7 @@ class ManagerListenWrite extends React.Component {
     createListenWrite = async () => {
         let { url_video, url_audio, title, value} = this.state;
         alert(title);
-        axios.post(`${API_URL}/admin/listen`, {
+        api_admin.post(`${API_URL}/admin/listen`, {
             url_video: url_video,
             url_audio: url_audio,
             title,
@@ -148,7 +148,7 @@ class ManagerListenWrite extends React.Component {
     }
     updateListenWrite = async () => {
         let { url_video, url_audio,  title, value, listen_id_create} = this.state;
-        axios.put(`${API_URL}/admin/listen/${listen_id_create}`, {
+        api_admin.put(`${API_URL}/admin/listen/${listen_id_create}`, {
             url_video: url_video,
             url_audio: url_audio,
             title,
@@ -178,7 +178,7 @@ class ManagerListenWrite extends React.Component {
         });
     }
     deleteListenWrite = async (id) => {
-        axios.delete(`${API_URL}/admin/listen/` + id).then((res) => {
+        api_admin.delete(`${API_URL}/admin/listen/` + id).then((res) => {
             this.getListListenWrittes(this.state.params.current_page);
             if (this.state.language_type === "EN"){
                 toast.success("Delete listen and write success!");

@@ -33,8 +33,14 @@
             flex: 1;
             margin-top: 30px;
             max-width: 100%;
+            padding: 10px;
+            border:1px solid rgba(255, 0, 0, 0.438);
+            border-radius: 5px;
+            outline: none;
             .listen-write-content-input{
                 width: 100%;
+                outline: none;
+                border: none;
             }
         }
     }

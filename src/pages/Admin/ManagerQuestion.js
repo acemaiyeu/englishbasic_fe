@@ -125,6 +125,10 @@ class ManagerQuestion extends React.Component {
       params,
       loadding: true,
     });
+
+    if(this.state.params.lession_detail_id_create === 0 || this.state.params.lession_detail_id_create === undefined){
+        this.state.params.lession_detail_id_create = this.state.listVocabulary.data[0].id
+    }
     await this.getListQuestionByLesson(this.state.params.vocabulary_param);
   };
   refectData = () => {

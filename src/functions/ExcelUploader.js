@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import api_admin from "../pages/Admin/api_admin";
 
 class ExcelUploader extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class ExcelUploader extends Component {
       formData.append("file", selectedFile);
       formData.append("lesson_detail_id", lesson_detail_id);
 
-      const response = await axios.post(url_api, formData, {
+      const response = await api_admin.post(url_api, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
