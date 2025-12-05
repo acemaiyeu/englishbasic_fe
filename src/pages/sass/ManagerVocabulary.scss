@@ -372,6 +372,15 @@ button{
     }
     .data-manager-add-vocabulary-form{
         width: 95% !important;
+        font-size: 8px !important;
     }
-
+    .form label {
+        min-width: 30px !important;
+    }
+    .form input {
+        font-size: 14px !important;
+    }
+    .form {
+        font-size: 14px !important;
+    }
 }
