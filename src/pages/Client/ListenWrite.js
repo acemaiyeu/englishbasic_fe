@@ -16,7 +16,8 @@ class ListenWrite extends React.Component {
     state = {
             language_type: "EN",
             listen: {},
-            real_check_text: true
+            real_check_text: true,
+            check_character: false,
     }
     componentDidMount(){
         this.getListenById(this.props.match.params.id)
@@ -44,6 +45,9 @@ class ListenWrite extends React.Component {
         let { listen, language_type} = this.state;
         let input = e.target.value;
         let value_check = listen?.value.replace("  ", "").trim();
+        if(this.state.check_character){
+            value_check = value_check.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").replace("  ", " ").trim();
+        }
         if(input.toLowerCase() === value_check.slice(0, input.length).toLowerCase()){
             this.setState({
                 ...this.state,
@@ -65,7 +69,7 @@ class ListenWrite extends React.Component {
         
     }
     render() {
-        let { language_type, listen,real_check_text } = this.state;
+        let { language_type, listen,real_check_text, check_character } = this.state;
         return (
             <>
                 <div className="listen-write-container">
@@ -95,6 +99,9 @@ class ListenWrite extends React.Component {
                             }
                             
                         </div>
+                        <div className="Check_character_option">
+                            <input type="checkbox" checked={check_character} onChange={() => this.setState({check_character: !check_character})}/> {language_type === "EN" ? "NoCheck punctuation marks" : "Bỏ qua dấu câu"}
+                          </div>
                         <div className="listen-write-content-writing">
                             <textarea  className={`listen-write-content-input ${real_check_text ? '' : 'wrong'}`}  onChange={(e) => this.handleChangeWord(e)} placeholder={`${language_type === 'EN' ? "Typing...." : "Nhập tại đây"}`} rows={20} cols={30} ></textarea>
                         </div>
