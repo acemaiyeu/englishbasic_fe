@@ -346,9 +346,8 @@ button{
         flex: 1;
     }   
     select{
-        flex: 1;
-        margin-left: 3px;
-        padding: 5px;
+        width: inherit;
+        padding: 7px;
         max-height: 50px;
         overflow-y: auto;
     }
@@ -373,14 +372,27 @@ button{
     .data-manager-add-vocabulary-form{
         width: 95% !important;
         font-size: 8px !important;
+        padding: 0px !important;
+        top: 10% !important;
+        &::before{
+            background-color: #e0dedee5 !important;
+        }
     }
     .form label {
-        min-width: 30px !important;
+        min-width: 30% !important;
+        font-size: 10px;
     }
     .form input {
         font-size: 14px !important;
+        margin-left: 5px !important;
     }
     .form {
         font-size: 14px !important;
+    }
+    .data-manager-header{
+        width: 95% !important;
+    }
+    .data-manager-auth{
+        display: none !important;
     }
 }
