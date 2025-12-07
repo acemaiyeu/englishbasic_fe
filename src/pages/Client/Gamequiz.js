@@ -7,6 +7,7 @@ import axios from 'axios';
 import { API_URL } from '../const/const'; 
 import '../sass/Gamequiz.scss';
 import IntervalLogger from './IntervalLogger'; 
+import { toast } from 'react-toastify';
 
 function Gamequiz(props) {
     const { channelId } = useParams();
@@ -126,10 +127,18 @@ function Gamequiz(props) {
 
     // Hàm xử lý khi người dùng chọn câu trả lời
     const handleAnswerClick = (answer) => {
-        if (!isQuizActive) return;
+        // if (!isQuizActive) return;
         // Gửi câu trả lời (ví dụ: "A") đến Server
-        sendMessageToServer(answer, indexQuestion);
-        console.log(`Đã gửi câu trả lời: ${answer}`);
+        // sendMessageToServer(answer, indexQuestion);
+        // console.log(`Đã gửi câu trả lời: ${answer}`);
+        // console.log(`Đã gửi câu trả lời: `, questionList[indexQuestion]);
+        if(answer){
+            // sendMessageToServer(`Câu trả lời đúng! Đáp án là ${answer}`, questionList[indexQuestion]);
+            toast.success('Chúc mừng bạn đã trả lời đúng!');
+        }else{
+            // sendMessageToServer(`Câu trả lời sai!`, indexQuestion);
+        toast.error('Câu trả lời sai rồi bạn ơi!')
+        }
     }
 
     // --- 5. Giao diện ---
@@ -149,10 +158,19 @@ function Gamequiz(props) {
             </div>
             
             <div className="answer-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '15px' }}>
-                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("A")}>A. {currentQuestion?.option_a || 'Loading...'}</button>
-                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("B")}>B. {currentQuestion?.option_b || 'Loading...'}</button>
-                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("C")}>C. {currentQuestion?.option_c || 'Loading...'}</button>
-                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("D")}>D. {currentQuestion?.option_d || 'Loading...'}</button>
+                {questionList[indexQuestion]?.answers[0] && 
+                    <button disabled={!isQuizActive} onClick={() => handleAnswerClick(questionList[indexQuestion].answers[0].id === questionList[indexQuestion].answer)}>A. {questionList[indexQuestion].answers[0].title || 'Loading...'}</button>
+                }
+                {questionList[indexQuestion]?.answers[1] && 
+                    <button disabled={!isQuizActive} onClick={() => handleAnswerClick(questionList[indexQuestion].answers[1].id === questionList[indexQuestion].answer)}>B. {questionList[indexQuestion].answers[1].title || 'Loading...'}</button>
+                }
+                {questionList[indexQuestion]?.answers[2] && 
+                    <button disabled={!isQuizActive} onClick={() => handleAnswerClick(questionList[indexQuestion].answers[2].id === questionList[indexQuestion].answer)}>C. {questionList[indexQuestion].answers[2].title || 'Loading...'}</button>
+                }
+                {questionList[indexQuestion]?.answers[3] && 
+                    <button disabled={!isQuizActive} onClick={() => handleAnswerClick(questionList[indexQuestion].answers[3].id === questionList[indexQuestion].answer)}>D. {questionList[indexQuestion].answers[3].title || 'Loading...'}</button>
+                }
+
             </div>
 
             <h2 style={{marginTop: "15px"}}>Tin nhắn Real-time nhận được:</h2>
