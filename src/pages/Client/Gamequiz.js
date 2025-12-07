@@ -1,119 +1,202 @@
-// src/components/ChatApp2.js
-import React, { useEffect, useState } from 'react';
-import echo from './Echo'; // Đảm bảo đường dẫn đến file Echo.js là chính xác
-import axios from 'axios'; // Cần cài đặt axios: npm install axios
-import { API_URL } from '../const/const';
+// src/components/Gamequiz.js
+import React, { useEffect, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom'; 
+
+import echo from './Echo'; // Đảm bảo Echo đã được cấu hình đúng
+import axios from 'axios'; 
+import { API_URL } from '../const/const'; 
 import '../sass/Gamequiz.scss';
-import IntervalLogger from './IntervalLogger';
+import IntervalLogger from './IntervalLogger'; 
 
-function Gamequiz() {
-    // Trạng thái cho toàn bộ danh sách tin nhắn (Real-time + Tin nhắn đã gửi)
+function Gamequiz(props) {
+    const { channelId } = useParams();
+    
+    // State cho danh sách tin nhắn và câu hỏi
     const [messagesList, setMessagesList] = useState([]); 
-    
-    // Trạng thái cho input của người dùng
+    const [questionList, setQuestionsList] = useState([]); 
+    const [indexQuestion, setIndexQuestion] = useState(0); 
     const [inputValue, setInputValue] = useState(""); 
+    const [isQuizActive, setIsQuizActive] = useState(false); 
 
-    const channelName = 'chat.1.2'; 
-    const eventName = 'message.sent'; 
-    
-    // URL API Laravel của bạn để xử lý việc gửi tin nhắn
-    // Ví dụ: http://localhost:8000/api/send-message (Cần định nghĩa trong Laravel)
-    
+    const channelName = channelId || 'default-gamequiz-channel';
+    const eventName = 'quiz.message.sent'; 
 
-    // --- 1. LOGIC LẮNG NGHE REAL-TIME ---
+    // Hàm lấy danh sách câu hỏi
+    const getQuestions = useCallback(async () => {
+        try {
+            const response = await axios.get(`${API_URL}/questions`);
+            setQuestionsList(response.data.data);
+            console.log("Đã tải xong danh sách câu hỏi.");
+        } catch (error) {
+            console.error("Lỗi khi lấy câu hỏi từ API Laravel:", error);
+        }
+    }, []);
+
+    // --- 1. LOGIC GỬI LỆNH ĐẾN SERVER (Được dùng chung cho tin nhắn và lệnh Next) ---
+    const sendMessageToServer = useCallback(async (message, nextIndex = indexQuestion) => {
+        // Chỉ gửi khi Quiz đang hoạt động
+        if (!isQuizActive) return; 
+
+        try {
+            await axios.post(`${API_URL}/send-message`, {
+                message: message,
+                channel: channelName, 
+                event: eventName,
+                index_question: nextIndex, // Gửi chỉ số câu hỏi mới/hiện tại
+            });
+            // Xóa input value nếu không phải là lệnh "next"
+            if (message !== "next") {
+                setInputValue("");
+            }
+        } catch (error) {
+            console.error("Lỗi khi gửi tin nhắn đến API Laravel:", error);
+            alert("Gửi lệnh thất bại!");
+        }
+    }, [isQuizActive, channelName, eventName, indexQuestion]);
+
+    // --- 2. LOGIC LẮNG NGHE REAL-TIME (Chỉ hoạt động khi isQuizActive là true) ---
     useEffect(() => {
+        getQuestions();
+
+        if (!isQuizActive || !channelName) {
+            console.log('Quiz chưa bắt đầu hoặc chưa có channelId. Dừng lắng nghe.');
+            if (channelName) {
+                echo.leave(channelName);
+            }
+            return; 
+        }
+
+        console.log(`Bắt đầu lắng nghe kênh: ${channelName}`);
         
-        // Bắt đầu lắng nghe kênh công khai
+        // Bắt đầu lắng nghe kênh
         echo.channel(channelName)
             .listen(`.${eventName}`, (data) => {
                 console.log('✅ Sự kiện tin nhắn mới nhận được:', data);
                 
-                // Cập nhật danh sách tin nhắn với dữ liệu từ WebSocket
-                setMessagesList(prevMessages => [...prevMessages, data.message]);
+                // Cập nhật danh sách tin nhắn
+                if (data.message) {
+                    setMessagesList(prevMessages => [...prevMessages, data.message]);
+                }
+                
+                // 💡 LOGIC QUAN TRỌNG: Cập nhật chỉ số câu hỏi từ SERVER
+                // Đây là cách duy nhất để chuyển câu hỏi trên UI
+                if (data.index_question !== undefined) {
+                    // Chuyển đổi thành số nguyên trước khi cập nhật (đề phòng)
+                    setIndexQuestion(parseInt(data.index_question, 10)); 
+                    console.log(`✅ Index câu hỏi đã cập nhật: ${data.index_question}`);
+                }
             })
             .subscribed(() => {
                 console.log(`📡 Đã đăng ký kênh: ${channelName}`);
             });
             
-        // Hàm clean-up khi component bị unmount
+        // Hàm clean-up
         return () => {
             echo.leave(channelName);
             console.log(`Dừng lắng nghe kênh: ${channelName}`);
         };
-    }, []); // Chỉ chạy một lần khi mount
+    // Chỉ chạy lại khi channelName hoặc isQuizActive thay đổi
+    }, [isQuizActive, channelName, eventName, getQuestions]); 
 
-
-    // --- 2. LOGIC GỬI TIN NHẮN (Gửi đến Laravel API) ---
-    const sendMessage = async () => {
-        if (!inputValue.trim()) return;
-
-        // 1. Gửi tin nhắn đến Laravel API
-        try {
-            // Laravel API sẽ nhận tin nhắn, sau đó phát sự kiện WebSocket
-            await axios.post(`${API_URL}/send-message`, {
-                message:  inputValue,
-                channel: channelName, // Gửi kèm tên kênh để backend biết phát đi đâu
-                event: eventName
-            });
-
-            // 2. Xóa input sau khi gửi thành công
-            setInputValue("");
-            
-            // Lưu ý: Chúng ta KHÔNG cập nhật messagesList ở đây. 
-            // Danh sách sẽ được cập nhật tự động khi sự kiện được phát (từ useEffect ở trên)
-            
-        } catch (error) {
-            console.error("Lỗi khi gửi tin nhắn đến API Laravel:", error);
-            alert("Gửi tin nhắn thất bại!");
-        }
-    };
-    // const sendMessage2 = async () => {
-    //     let time = 30;
-    //     setInterval(() => {
-    //        sendMessage(time--)
-    //     }, 1000)
-
-    // }
-    // sendMessage2()
-    // Xử lý phím Enter
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    };
-
-    const start = () => {
-        
+    // --- 3. HÀM KÍCH HOẠT VÀ DỪNG GAME ---
+    const startQuiz = () => {
+        // Khởi động lại index về 0 khi bắt đầu game mới
+        setIndexQuestion(0); 
+        setMessagesList([]); 
+        setIsQuizActive(true); 
+        console.log('Kích hoạt Game Quiz!');
     }
-    // --- 3. Giao diện ---
+
+    const stopQuiz = () => {
+        setIsQuizActive(false); 
+        console.log('Dừng Game Quiz!');
+    }
+    
+    // --- 4. HÀM CHUYỂN CÂU HỎI (Gửi lệnh Next) ---
+    const handleNextQuestion = () => {
+        if (!isQuizActive || questionList.length === 0) return;
+
+        // Tính toán chỉ số câu hỏi tiếp theo
+        const nextIndex = (indexQuestion + 1) % questionList.length; 
+
+        // Gửi lệnh "next" kèm theo chỉ số câu hỏi tiếp theo đến Server
+        // Server sẽ broadcast, sau đó useEffect sẽ bắt và cập nhật indexQuestion
+        sendMessageToServer("next", nextIndex);
+    };
+
+    // Hàm xử lý khi người dùng chọn câu trả lời
+    const handleAnswerClick = (answer) => {
+        if (!isQuizActive) return;
+        // Gửi câu trả lời (ví dụ: "A") đến Server
+        sendMessageToServer(answer, indexQuestion);
+        console.log(`Đã gửi câu trả lời: ${answer}`);
+    }
+
+    // --- 5. Giao diện ---
+    const currentQuestion = questionList[indexQuestion];
+    
     return (
-        <div style={{display: "flex", flexDirection: "column", width: "100vw", margin: "0 auto"}}>
-            <h1>GAMEQUIZ</h1>
-            <ul style={{overflowY: "scroll", border: "1px solid #ccc", padding: "20px", textAlign: "center", fontSize: "24px", fontWeight: "bold"}}>
-                AI là người chiến thắng
-            </ul>
-            {/* <textarea 
-                style={{padding: "10px", marginTop: "10px"}} 
-                cols="30" rows="3" 
-                value={inputValue} 
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Nhập tin nhắn..."
-            /> */}
-            <div className="answer-list" >
-                <button>A. 10</button>
-                <button>B. 20</button>
-                <button>C. 30</button>
-                <button>D. 40</button>
+        <div style={{display: "flex", flexDirection: "column", width: "80vw", maxWidth: "800px", margin: "0 auto", padding: "20px"}}>
+            <h1>🕹️ GAMEQUIZ: Kênh **{channelName}** INDEX: {indexQuestion}</h1>
+            
+            <div style={{ border: "1px solid #ddd", padding: "20px", marginBottom: "15px", borderRadius: "8px", backgroundColor: "#f9f9f9" }}>
+                <p style={{ textAlign: "center", fontSize: "18px", fontWeight: "bold", margin: "0 0 10px 0" }}>
+                    Trạng thái: {isQuizActive ? '🟢 Đang diễn ra' : '🔴 Chưa bắt đầu'}
+                </p>
+                <p style={{ textAlign: "center", fontSize: "28px", fontWeight: "bold", color: "#333" }}>
+                    Câu hỏi {indexQuestion + 1}: {currentQuestion ? currentQuestion.title_english : 'Đang tải câu hỏi...'}
+                </p>
             </div>
-            <IntervalLogger />
+            
+            <div className="answer-list" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '15px' }}>
+                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("A")}>A. {currentQuestion?.option_a || 'Loading...'}</button>
+                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("B")}>B. {currentQuestion?.option_b || 'Loading...'}</button>
+                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("C")}>C. {currentQuestion?.option_c || 'Loading...'}</button>
+                <button disabled={!isQuizActive} onClick={() => handleAnswerClick("D")}>D. {currentQuestion?.option_d || 'Loading...'}</button>
+            </div>
+
+            <h2 style={{marginTop: "15px"}}>Tin nhắn Real-time nhận được:</h2>
+            <div style={{ height: "150px", overflowY: "scroll", border: "1px solid #ccc", padding: "10px", backgroundColor: "#fff", marginBottom: "15px" }}>
+                {messagesList.slice(-5).map((msg, index) => ( // Hiển thị 5 tin nhắn gần nhất
+                    <div key={index} style={{ borderBottom: "1px dotted #eee", padding: "5px 0" }}>
+                        **[{new Date().toLocaleTimeString()}]**: {msg}
+                    </div>
+                ))}
+            </div>
+            
+            <IntervalLogger /> 
+            
             <button 
-                // onClick={sendMessage} 
-                onClick={start}
-                style={{padding: "10px", marginTop: "5px", background: '#4CAF50', color: 'white', border: 'none', cursor: 'pointer'}}
+                onClick={isQuizActive ? stopQuiz : startQuiz} 
+                style={{
+                    padding: "10px", 
+                    marginTop: "10px", 
+                    background: isQuizActive ? '#F44336' : '#4CAF50', 
+                    color: 'white', 
+                    border: 'none', 
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '16px'
+                }}
             >
-                Gửi
+                {isQuizActive ? 'DỪNG QUIZ VÀ NGẮT KẾT NỐI' : 'BẮT ĐẦU QUIZ VÀ KẾT NỐI'}
+            </button>
+
+            <button 
+                onClick={handleNextQuestion} 
+                disabled={!isQuizActive}
+                style={{
+                    padding: "10px", 
+                    marginTop: "5px", 
+                    background: isQuizActive ? '#2196F3' : '#aaa', 
+                    color: 'white', 
+                    border: 'none', 
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '16px'
+                }}
+            >
+                Chuyển Câu Hỏi Kế Tiếp (Gửi lệnh đến Server)
             </button>
         </div>
     );

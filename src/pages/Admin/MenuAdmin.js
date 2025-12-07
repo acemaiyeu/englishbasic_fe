@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import api_admin from "./api_admin";
 import { toast } from "react-toastify";
-import { API_URL } from "../const/const";
+import { API_URL, getCookie } from "../const/const";
  import Cookies from "js-cookie";
 
 class MenuAdmin extends React.Component {
@@ -28,15 +28,11 @@ class MenuAdmin extends React.Component {
             });
         }
     }
-    getCookie = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-        };
     checkLogin = async () => {
 
         let { language_type } = this.state;
-        let token = sessionStorage.getItem("S_ADMIN"); 
+        let token = getCookie("S_ADMIN");
+       
         await api_admin.get(`${API_URL}/auth/profile`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -49,12 +45,13 @@ class MenuAdmin extends React.Component {
             }
         }).catch((e) => {
             console.log(e);
-            window.location.href = "/pages/admin/login"
+            
             if(language_type === "EN"){
                 toast.error("This account can't login to page admin")
             }else{
                 toast.error("Tài khoản của bạn sai hoặc không có quyền truy cập admin")
             }     
+            window.location.href = "/pages/admin/login"
         })
     }
     render(){

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../sass/AdminLogin.scss'; // See CSS section below
 import axios from 'axios';
-import { API_URL } from '../const/const';
+import { API_URL, setCookie } from '../const/const';
 
 class AdminLogin extends Component {
   // 1. Constructor: Initialize State
@@ -49,6 +49,8 @@ class AdminLogin extends Component {
         }
     }).then((res) => {
         sessionStorage.setItem("S_ADMIN", res.data.access_token);
+        setCookie("S_ADMIN", res.data.access_token, 1);
+        this.setState({ isLoggedIn: true, isLoading: false });
         window.location.href = "/pages/admin/"
     }).catch((e) => {
         this.setState({ error: 'Invalid username or password.', isLoading: false });
