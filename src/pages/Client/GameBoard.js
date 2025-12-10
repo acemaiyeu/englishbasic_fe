@@ -99,6 +99,7 @@ class GameBoard  extends React.Component{
              this.changeTeam(this.state.active_team);
         });
        
+       
     }
     changeTeam = (team) => {
         let { game_losed } = this.state;
@@ -119,11 +120,20 @@ class GameBoard  extends React.Component{
         }
     }
     render(){
-        let { modal, question_loadding, answer_loadding, open_box, active_team, point_team_1, point_team_2, game_losed, language_type} = this.state;
-        console.log("REDNDER", point_team_1, point_team_2, modal)
+        let { modal, question_loadding, answer_loadding, open_box, active_team, point_team_1, point_team_2, game_losed, language_type, complete_form} = this.state;
+       
         return (<>
-            <Prev uri="games" />
+                
             <div className="game-board-container">
+                <Prev uri="games" />     
+             {complete_form &&      
+             <div className="modal-board-end">
+                <div className="modal-board-end-content">
+                    <h2>{language_type === "EN" ? `Conratulation Team ${complete_form && (point_team_1 > point_team_2) ? "1" : ""} ${complete_form && (point_team_1 < point_team_2) ? "2" : ""} Win`: `Chúc mừng đội ${complete_form && (point_team_1 > point_team_2) ? "1" : ""} ${complete_form && (point_team_1 < point_team_2) ? "2" : ""} đã chiến thắng`}</h2>
+                    <button type="button" onClick={() => window.location.href="/games"}>{language_type === "EN" ? "Exit" : "Thoát"}</button>
+                </div>
+            </div>
+            }
                     <div className="game-board-team">
                         <div className="game-board-team-item">
                            

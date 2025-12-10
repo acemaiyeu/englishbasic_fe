@@ -14,6 +14,9 @@
     border: 1px solid gray;
     cursor: pointer;
     overflow: visible; /* Cho phép ảnh tràn ra ngoài khung */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     }
 
     .box-item img {
@@ -28,9 +31,31 @@
     transform: scale(1.3); /* phóng to 130% */
     z-index: 2;
     }
+    .box-item:hover .box-item-title {
+        z-index: 3; /* Đảm bảo tiêu đề luôn ở trên cùng khi hover */
+        color: rgb(206, 25, 79);
+        background-color: #fff;
+    }
 
    
 }
 .answer-correct{
     background-color: rgba(38, 190, 38, 0.418);
+}
+.box-item{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .box-item-title{
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        text-align: center;
+        padding: 5px 0;
+        font-size: 14px;
+        z-index: 1000;
+
+    }
 }

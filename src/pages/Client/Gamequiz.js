@@ -173,14 +173,14 @@ function Gamequiz(props) {
 
             </div>
 
-            <h2 style={{marginTop: "15px"}}>Tin nhắn Real-time nhận được:</h2>
+            {/* <h2 style={{marginTop: "15px"}}>Tin nhắn Real-time nhận được:</h2>
             <div style={{ height: "150px", overflowY: "scroll", border: "1px solid #ccc", padding: "10px", backgroundColor: "#fff", marginBottom: "15px" }}>
                 {messagesList.slice(-5).map((msg, index) => ( // Hiển thị 5 tin nhắn gần nhất
                     <div key={index} style={{ borderBottom: "1px dotted #eee", padding: "5px 0" }}>
                         **[{new Date().toLocaleTimeString()}]**: {msg}
                     </div>
                 ))}
-            </div>
+            </div> */}
             
             <IntervalLogger /> 
             
