@@ -138,7 +138,7 @@ class GameBoard  extends React.Component{
                         <div className="game-board-team-item">
                            
                             <div className={`game-board-team-item-title ${active_team === "TEAM 1" ? 'active' : ''}`}>{active_team === "TEAM 1" &&  <i class="bi bi-caret-right"></i> }TEAM 1</div>
-                           <div className="point">{point_team_1}</div>
+                           <div className="point">{oint_team_1}</div>
                         </div>
                         <div className="game-board-team-item">
                             

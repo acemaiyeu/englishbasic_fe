@@ -166,7 +166,7 @@ class VocabularyLesson extends React.Component {
     }
     updateProcess = async  (process) => {
         let { listLessonDetail } = this.state;
-        axios.put(`${API_URL}/admin/lesson-detail/${listLessonDetail.id}`, {
+        axios.put(`${API_URL}/lesson-detail/${listLessonDetail.id}`, {
             'process': process 
         }).then((res) => {
             if(this.state.language_type === "EN"){
