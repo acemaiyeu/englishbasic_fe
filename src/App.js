@@ -91,10 +91,14 @@ const App = () => {
                              </select>
         </div>
       </header>
+      { window.location.pathname.includes("admin") ? 
+         <MenuAdmin/> :
+      <Menu/> }
+     
       <div className="content">
         { window.location.pathname.includes("admin") ? 
         <>
-        <MenuAdmin/>
+        
         <Switch>
           <Route path="/pages/admin/manager-data" component={ManagerSubject} />
           <Route path="/pages/admin/manager-subject" component={ManagerSubject} />
@@ -111,7 +115,7 @@ const App = () => {
         </>   
         : 
           <>
-          <Menu/>
+          
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/vocabularybox" component={Vocabulary} />

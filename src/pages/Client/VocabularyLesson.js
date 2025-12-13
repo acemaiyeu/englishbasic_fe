@@ -72,7 +72,7 @@ class VocabularyLesson extends React.Component {
             this.setState({
                 end_test: true
             })
-                this.updateProcess((100 / listLessonDetail.questions.length) * this.state.point);
+                this.updateProcess(Math.ceil(100 / listLessonDetail.questions.length) * this.state.point);
             
            
             return;
