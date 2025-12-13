@@ -1,30 +1,51 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import { MAIN_DOMAIN } from '../const/const';
 
-// Gán Pusher vào window
+// Gán Pusher vào window (có thể bỏ qua nếu bạn đang dùng module bundler hiện đại)
 window.Pusher = Pusher;
 
-// Lấy các biến môi trường từ .env.development (hoặc tương tự) của React
-// Đảm bảo bạn đã định nghĩa chúng (ví dụ: REACT_APP_PUSHER_KEY, REACT_APP_WSS_HOST)
-const echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'mykey', // Hoặc PUSHER_APP_KEY của bạn
-    cluster: 'mt1', 
-    
-    // 👇 RẤT QUAN TRỌNG: Cấu hình để sử dụng HTTP/WS
-    wsHost: '127.0.0.1', 
-    // wsHost: `${MAIN_DOMAIN}`, // Thay thế {MAIN_DOMAIN} bằng tên miền chính của bạn
-    wsPort: 6001,       
-    
-    // 👇 Cần đặt là FALSE để sử dụng giao thức WS (không bảo mật)
-    forceTLS: false,    
-    
-    // 👇 Đảm bảo bạn đang sử dụng các giao thức không bảo mật cho HTTP
-    enabledTransports: ['ws', 'wss'], // Tốt nhất nên giữ lại wss
-    
-    // Cài đặt này cũng có thể giúp nếu lỗi vẫn xảy ra
-    disableStats: true, 
-    // ... các tùy chọn khác
-});
-export default echo;
+// Biến để lưu trữ thể hiện của Echo
+let echoInstance = null;
+
+// Hàm khởi tạo Echo
+export const initializeEcho = () => {
+    // Nếu Echo đã được khởi tạo, không làm gì nữa
+    if (echoInstance) {
+        console.log("Echo instance đã tồn tại.");
+        return echoInstance;
+    }
+
+    // Lấy cấu hình của bạn
+    echoInstance = new Echo({
+        broadcaster: 'pusher',
+        key: 'mykey', 
+        cluster: 'mt1', 
+        
+        wsHost: '127.0.0.1', 
+        wsPort: 6001,       
+        
+        forceTLS: false,    
+        enabledTransports: ['ws', 'wss'],
+        disableStats: true, 
+    });
+
+    console.log("Laravel Echo đã được khởi tạo.");
+    return echoInstance;
+};
+
+// Hàm lấy thể hiện Echo (để sử dụng sau khi khởi tạo)
+export const getEcho = () => {
+    if (!echoInstance) {
+        console.error("Lỗi: Echo chưa được khởi tạo! Hãy gọi initializeEcho() trước.");
+    }
+    return echoInstance;
+};
+
+// Hàm hủy kết nối (rất quan trọng khi rời trang)
+export const disconnectEcho = () => {
+    if (echoInstance) {
+        echoInstance.disconnect();
+        echoInstance = null; // Đặt lại về null để có thể khởi tạo lại
+        console.log("Laravel Echo đã ngắt kết nối.");
+    }
+};

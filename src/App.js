@@ -36,6 +36,7 @@ import QuizApp from "./pages/Client/QuizApp";
 import ChatApp2 from "./pages/Client/ChatApp2";
 import Gamequiz from "./pages/Client/Gamequiz";
 import ListComponent from "./pages/Client/ListComponent";
+import EnglishEveryDay from "./pages/Client/EnglishEveryDay";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -163,6 +164,9 @@ const App = () => {
       }
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
+      <div className="box-vocabulary">
+          <div>{language.language_type === "EN" ? "English everyday" : "Học tiếng anh mỗi ngày"}: <span><EnglishEveryDay /></span></div>
+      </div>
     </Router>
     
   );

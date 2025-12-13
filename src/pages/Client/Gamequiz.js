@@ -2,12 +2,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom'; 
 
-import echo from './Echo'; // Đảm bảo Echo đã được cấu hình đúng
 import axios from 'axios'; 
 import { API_URL } from '../const/const'; 
 import '../sass/Gamequiz.scss';
 import IntervalLogger from './IntervalLogger'; 
 import { toast } from 'react-toastify';
+import { initializeEcho } from './Echo';
 
 function Gamequiz(props) {
     const { channelId } = useParams();
@@ -21,7 +21,7 @@ function Gamequiz(props) {
 
     const channelName = channelId || 'default-gamequiz-channel';
     const eventName = 'quiz.message.sent'; 
-
+    const echo = initializeEcho();
     // Hàm lấy danh sách câu hỏi
     const getQuestions = useCallback(async () => {
         try {
@@ -43,7 +43,8 @@ function Gamequiz(props) {
                 message: message,
                 channel: channelName, 
                 event: eventName,
-                index_question: nextIndex, // Gửi chỉ số câu hỏi mới/hiện tại
+                index_question: nextIndex, 
+                user: "Huy"// Gửi chỉ số câu hỏi mới/hiện tại
             });
             // Xóa input value nếu không phải là lệnh "next"
             if (message !== "next") {
@@ -62,7 +63,7 @@ function Gamequiz(props) {
         if (!isQuizActive || !channelName) {
             console.log('Quiz chưa bắt đầu hoặc chưa có channelId. Dừng lắng nghe.');
             if (channelName) {
-                echo.leave(channelName);
+                // echo.leave(channelName);
             }
             return; 
         }
@@ -93,7 +94,7 @@ function Gamequiz(props) {
             
         // Hàm clean-up
         return () => {
-            echo.leave(channelName);
+            // echo.leave(channelName);
             console.log(`Dừng lắng nghe kênh: ${channelName}`);
         };
     // Chỉ chạy lại khi channelName hoặc isQuizActive thay đổi
