@@ -39,6 +39,7 @@ class Menu extends React.Component {
                     <Link to="/games" >{language_type === "EN" ?"Games":"Trò chơi"}</Link>
                     <Link to="/login" >{language_type === "EN" ?"Login":"Đăng nhập"}</Link>
                     <Link to="/login" >{language_type === "EN" ?"Logout":"Đăng Xuất"}</Link>
+                    <Link to="/setting" >{language_type === "EN" ?"Setting":"Cài đặt"}</Link>
                     {/* <Link to="/chat-app" >{language_type === "EN" ?"Chat app":"Chat"}</Link> */}
                   </nav>
             </div>

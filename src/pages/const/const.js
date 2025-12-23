@@ -46,3 +46,82 @@ export const setCookie = (name, value, days) => {
 export const eraseCookie = (name) => {   
     document.cookie = name + '=; Max-Age=-99999999; path=/';  
 }
+
+export const getSettings = () => {
+    let data = JSON.parse(localStorage.getItem("settings")) ?? [];
+
+    if(data?.length > 0){
+        return data;
+    }else{
+        setSettingDefault();
+        data = JSON.parse(localStorage.getItem("settings")) ?? [];
+        return data;
+    }
+}
+export const setSetting = (title_vie, title_eng, status, type) => {
+    let data = JSON.parse(localStorage.getItem("settings"));
+    let ob = {
+        "title_vietnamese": title_vie,
+        "title_english": title_eng,
+        "status": status
+    }
+    if(type === "basic"){
+        data[0].data.push(ob)
+    }
+    if(type === "advandced"){
+        data[1].data.push(ob)
+    }
+    data.push(ob)
+    return localStorage.setItem("settings", JSON.stringify(data));
+}
+export const updateSetting = (title_eng, status, type) => {
+    // 1. Cleanly coerce status to a boolean
+    const isEnabled = Boolean(status);
+    
+    // 2. Get current data
+    let data = getSettings();
+    
+    // 3. Determine which category index to use
+    // Using a map makes the code more scalable than multiple if-statements
+    const categoryIndex = type === "basic" ? 0 : (type === "advandced" ? 1 : null);
+
+    if (categoryIndex !== null && data[categoryIndex]?.data) {
+        const targetCategory = data[categoryIndex].data;
+        const itemIndex = targetCategory.findIndex((item) => item.title_english === title_eng);
+
+        // 4. Critical Check: Only update if the item was actually found
+        if (itemIndex !== -1) {
+            targetCategory[itemIndex].status = isEnabled;
+            localStorage.setItem("settings", JSON.stringify(data));
+            // console.log(`Updated ${type} setting: ${title_eng}`, targetCategory[itemIndex]);
+        } else {
+            console.error(`Setting "${title_eng}" not found in ${type} category.`);
+        }
+    } else {
+        console.error(`Invalid type or data structure for type: ${type}`);
+    }
+
+    return data;
+};
+export const setSettingDefault = () => {
+    let data = JSON.parse(localStorage.getItem("settings")) ?? [];
+    if (!data || data.length === 0){
+        data = [
+        {
+            "type": "basic",
+            "data": [
+            ]
+        },{
+            "type": "Advanced",
+            "data": [
+                {
+                "title_english": "Learning 5 word everyday",
+                "title_vietnamese": "Học ít nhất 5 từ vựng mỗi ngày",
+                "status": false
+                }
+            ]
+        }
+        ]
+    }
+    localStorage.setItem("settings", JSON.stringify(data)) 
+}

@@ -37,6 +37,8 @@ import ChatApp2 from "./pages/Client/ChatApp2";
 import Gamequiz from "./pages/Client/Gamequiz";
 import ListComponent from "./pages/Client/ListComponent";
 import EnglishEveryDay from "./pages/Client/EnglishEveryDay";
+import Setting from "./pages/Client/Setting";
+import Statistics from "./pages/Client/Statictics";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -118,7 +120,7 @@ const App = () => {
           <>
           
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={Statistics} />
           <Route path="/vocabularybox" component={Vocabulary} />
           <Route path="/grammerbox" component={Grammar} />
           <Route path="/list-lesson" component={VocabularyListLesson} />
@@ -152,6 +154,7 @@ const App = () => {
             />
           )} 
         />
+        <Route path="/setting" component={Setting} />
           
           
           <Route path="/pages/admin/manager-data" component={ManagerData} />
