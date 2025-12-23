@@ -1,0 +1,17 @@
+.statistics-page{
+    width: 100%;
+    padding: 20px;
+    .statistics-container{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        .statistic-item{
+            flex: 1 1 45%;
+            margin: 10px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+    }
+}

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class TopDeposit extends Component {
   render() {
     // 1. Lấy dữ liệu từ props (giả sử là mảng 'users')
-    const { users } = this.props;
+    const { users, language_type } = this.props;
 
     // 2. Sắp xếp dữ liệu từ cao đến thấp dựa trên thuộc tính 'amount'
     // Lưu ý: .sort() làm thay đổi mảng gốc nên ta dùng [...users] để tạo bản sao
@@ -11,14 +11,14 @@ class TopDeposit extends Component {
 
     return (
       <div className="top-deposit-container" style={{ padding: '20px', fontFamily: 'Arial' }}>
-        <h2 style={{ textAlign: 'center', color: '#d4af37' }}>🏆 BẢNG XẾP HẠNG NẠP TIỀN</h2>
+        <h2 style={{ textAlign: 'center', color: '#d4af37' }}>🏆 {language_type === "EN" ? "TOP DEPOSIT RANKING" : "BẢNG XẾP HẠNG NẠP TIỀN"}</h2>
         
         <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
           <thead>
             <tr style={{ backgroundColor: '#f2f2f2' }}>
-              <th style={tableHeaderStyle}>Hạng</th>
-              <th style={tableHeaderStyle}>Người dùng</th>
-              <th style={tableHeaderStyle}>Số tiền</th>
+              <th style={tableHeaderStyle}>{language_type === "EN" ? "Rank" : "Hạng"}</th>
+              <th style={tableHeaderStyle}> {language_type === "EN" ? "User" : "Người dùng"}</th>
+              <th style={tableHeaderStyle}> {language_type === "EN" ? "Amount" : "Số tiền"}</th>
             </tr>
           </thead>
           <tbody>

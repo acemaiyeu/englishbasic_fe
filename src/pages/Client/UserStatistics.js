@@ -25,7 +25,7 @@ class UserStatistics extends Component {
         <div style={styles.header}>
           <h2 style={styles.title}>{language_type === "EN" ? "New User Statistics" : "Thống kê người dùng mới"}</h2>
           <p style={styles.subtitle}>
-            Tổng cộng: <span style={styles.count}>{totalNewUsers}</span> thành viên mới
+            {language_type === "EN" ? "Total" : "Tổng cộng"}: <span style={styles.count}>{totalNewUsers}</span> {language_type === "EN" ? "new users" : "người dùng mới"}
           </p>
         </div>
 
