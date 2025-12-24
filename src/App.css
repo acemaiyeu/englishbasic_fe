@@ -60,6 +60,12 @@ header>.title{
   margin: 10px auto;
   text-align: center;
   font-size: 30px;
+  cursor: pointer;
+}
+header>.title:hover{
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  
 }
 header>.language{
   width: 100%;

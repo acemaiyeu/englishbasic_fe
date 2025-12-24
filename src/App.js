@@ -39,6 +39,8 @@ import ListComponent from "./pages/Client/ListComponent";
 import EnglishEveryDay from "./pages/Client/EnglishEveryDay";
 import Setting from "./pages/Client/Setting";
 import Statistics from "./pages/Client/Statictics";
+import ListReadding from "./pages/Client/ListReadding";
+import DetailReadding from "./pages/Client/DetailReadding";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -134,6 +136,9 @@ const App = () => {
           <Route path="/game/quiz/:id" component={Gamequiz} />
           {/* <Route path="/quiz" component={QuizHost} /> */}
           <Route path="/chat-app" component={ChatApp2} />
+          <Route path="/readings/:type" component={ListReadding} />
+          <Route path="/reading/:url" component={DetailReadding} />
+          
           <Route 
           path="/reading" 
           exact
@@ -147,8 +152,8 @@ const App = () => {
               title_vietnamese_1="Đọc đoạn văn ngắn" 
               url_img_1="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVHAhUv2dM73mg--xBV0j5X1EuOk_GiPre5Q&s" 
               url_img_2="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfV4-viZjiphsDSxnVZr_obOhk12QP2E_vlA&s"
-              url_direct_1="reading/reading-short-words"
-              url_direct_2="reading/reading-stories"
+              url_direct_1="readings/short-words"
+              url_direct_2="readings/stories"
               title_english_2="Reading Stories" 
               title_vietnamese_2="Đọc truyện"
             />

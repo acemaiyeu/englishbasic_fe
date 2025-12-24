@@ -14,7 +14,7 @@ class UserStatistics extends Component {
   calculateTotal = (data) => {
     return data.reduce((sum, item) => sum + item.count, 0);
   };
-
+za
   render() {
     // Lấy data từ props
     const { data, language_type } = this.props;
