@@ -41,6 +41,7 @@ import Setting from "./pages/Client/Setting";
 import Statistics from "./pages/Client/Statictics";
 import ListReadding from "./pages/Client/ListReadding";
 import DetailReadding from "./pages/Client/DetailReadding";
+import MenuV2 from "./pages/Client/MenuV2";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -98,7 +99,8 @@ const App = () => {
       </header>
       { window.location.pathname.includes("admin") ? 
          <MenuAdmin/> :
-      <Menu/> }
+      (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
+      }
      
       <div className="content">
         { window.location.pathname.includes("admin") ? 
