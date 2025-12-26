@@ -42,6 +42,7 @@ import Statistics from "./pages/Client/Statictics";
 import ListReadding from "./pages/Client/ListReadding";
 import DetailReadding from "./pages/Client/DetailReadding";
 import MenuV2 from "./pages/Client/MenuV2";
+import ListSubjects from "./pages/Client/ListSubjects";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -99,7 +100,8 @@ const App = () => {
       </header>
       { window.location.pathname.includes("admin") ? 
          <MenuAdmin/> :
-      (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
+      // (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
+      <MenuV2/>
       }
      
       <div className="content">
@@ -125,6 +127,7 @@ const App = () => {
           
         <Switch>
           <Route path="/" exact component={Statistics} />
+          <Route path="/subjects" component={ListSubjects} />
           <Route path="/vocabularybox" component={Vocabulary} />
           <Route path="/grammerbox" component={Grammar} />
           <Route path="/list-lesson" component={VocabularyListLesson} />
