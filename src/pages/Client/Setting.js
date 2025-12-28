@@ -28,11 +28,21 @@ class Setting extends React.Component{
         this.setState({
           listSettings:  updateSetting(title_eng, !status, type)
       })
+      if(type === "basic" && title_eng === "Dark mode"){
+        // Trigger a re-render or any additional logic for dark mode change
+        window.location.reload();
+      }
     }
   render() {
     let { listSettings, language_type } = this.state;
     return (
       <div className="setting-container">
+        <button className="setting-reset-btn" onClick={() => {
+            setSettingDefault();
+            this.setState({
+                listSettings: getSettings()
+            })
+        }}>{language_type === "EN" ? "Reset to default settings" : "Đặt lại cài đặt mặc định"}</button>
           <div className="setting-form">
               <div className="setting-title">{language_type === "EN" ? "Basic" : "Cơ bản"}</div>
               <div className="setting-list">
@@ -53,8 +63,8 @@ class Setting extends React.Component{
                 
                   {listSettings && listSettings.length > 0 && listSettings[1]?.data.length > 0 &&  listSettings[1]?.data.map((item) => {
                     return ( <div className="setting-item" onClick={() => this.handleChangeStatus(item.title_english, item.status, "advandced")}>
-                    <div className="setting-item-title">{language_type === "EN" ? item.title_english : item.title_vietnamese}</div>
-                    <div className="setting-item-status">{language_type === "EN" ? (item.status ? "ON" : "OFF") : (item.status ? "BẬT" : "TẮT")}</div>
+                      <div className="setting-item-title">{language_type === "EN" ? item.title_english : item.title_vietnamese}</div>
+                      <div className="setting-item-status">{language_type === "EN" ? (item.status ? "ON" : "OFF") : (item.status ? "BẬT" : "TẮT")}</div>
                   </div>
                   )
                   })}

@@ -27,7 +27,7 @@ import ListenWriteList from "./pages/Client/ListenWriteList";
 import ManagerExport from "./pages/Admin/ManagerExport";
 import Games from "./pages/Client/Games";
 import GameBoard from "./pages/Client/GameBoard";
-import { API_URL, auth } from "./pages/const/const";
+import { API_URL, auth, getDarkMode } from "./pages/const/const";
 import ZaloChatApp from "./pages/Client/ZaloChatApp";
 import AuthContainerAdmin from "./pages/Admin/AuthContainerAdmin";
 import AdminLogin from "./pages/Admin/AdminLogin";
@@ -78,16 +78,18 @@ const App = () => {
     }
    
   };
-
   return (
     
     <Router>
       <header>
-         <div className="title"><b onClick={() => {
-          window.location.href = "/"
-         }}>English Basic</b> <i>by #{auth}</i></div>
-         <div className="language">
-                             {language.language_text}: 
+      </header>
+      { window.location.pathname.includes("admin") ? 
+         <MenuAdmin/> :
+      // (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
+      <MenuV2/>
+      }
+     <div className={`language ${getDarkMode() ? 'dark-mode' : ''}`}>
+                             <span className="lang-title">{language.language_text}:</span> 
                              <select onChange={(e) => changeLanguages(e.target.value)}>
                                  {language.language_list && language.language_list.length > 0 && language.language_list.map((i, n) => {
                                      return (
@@ -97,14 +99,7 @@ const App = () => {
                                  
                              </select>
         </div>
-      </header>
-      { window.location.pathname.includes("admin") ? 
-         <MenuAdmin/> :
-      // (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
-      <MenuV2/>
-      }
-     
-      <div className="content">
+      <div className={`content ${getDarkMode() ? 'dark-mode' : ''}`}>
         { window.location.pathname.includes("admin") ? 
         <>
         
@@ -127,7 +122,8 @@ const App = () => {
           
         <Switch>
           <Route path="/" exact component={Statistics} />
-          <Route path="/subjects" component={ListSubjects} />
+          <Route path="/subjects" exact component={ListSubjects} />
+          <Route path="/subjects/url" component={VocabularyListLesson} />
           <Route path="/vocabularybox" component={Vocabulary} />
           <Route path="/grammerbox" component={Grammar} />
           <Route path="/list-lesson" component={VocabularyListLesson} />

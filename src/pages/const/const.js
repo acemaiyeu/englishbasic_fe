@@ -71,7 +71,6 @@ export const setSetting = (title_vie, title_eng, status, type) => {
     if(type === "advandced"){
         data[1].data.push(ob)
     }
-    data.push(ob)
     return localStorage.setItem("settings", JSON.stringify(data));
 }
 export const updateSetting = (title_eng, status, type) => {
@@ -104,12 +103,17 @@ export const updateSetting = (title_eng, status, type) => {
     return data;
 };
 export const setSettingDefault = () => {
-    let data = JSON.parse(localStorage.getItem("settings")) ?? [];
+    let data = [];
     if (!data || data.length === 0){
         data = [
         {
             "type": "basic",
             "data": [
+                {
+                "title_english": "Dark mode",
+                "title_vietnamese": "Chế độ tối",
+                "status": false
+                }
             ]
         },{
             "type": "Advanced",
@@ -124,4 +128,9 @@ export const setSettingDefault = () => {
         ]
     }
     localStorage.setItem("settings", JSON.stringify(data)) 
+}
+export const getDarkMode = () => {
+    let settings = getSettings();
+    let darkModeSetting = settings[0].data.find(item => item.title_english === "Dark mode");
+    return darkModeSetting ? darkModeSetting.status : false;
 }
