@@ -6,17 +6,37 @@
   gap: 20px;
   padding: 20px;
   .subject-item{
-    width: 400px;
+    width: 30%;
     height: 250px;
     background-color: #f0f0f0;
     border-radius: 10px;
+    animation: animation_border_move 5s infinite;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     cursor: pointer;
+    position: relative;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 40%;
+      left: 101%;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 18px;
+      border-color: transparent  transparent  transparent red;
+      z-index: 200000;
+      animation: animation_border_move2 5s infinite;
+    }
+    &:last-child::before{
+      display: none;
+    }
+
     &:hover{
       transform: scale(1.05);
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -33,4 +53,47 @@
       padding: 0 10px;
     }
   }
+}
+//create border animation
+@keyframes animation_border_move {
+  0% {
+    border-color: red;
+  }
+  25% {
+    border-color: blue;
+  }
+  50% {
+    border-color: green;
+  }
+  75% {
+    border-color: yellow;
+  }
+  100% {
+    border-color: red;
+  }
+}
+@keyframes animation_border_move2 {
+  0% {
+    border-color: transparent transparent transparent red;
+  }
+  25% {
+    border-color: transparent transparent transparent blue;
+  }
+  50% {
+    border-color:transparent transparent transparent green;
+  }
+  75% {
+    border-color: transparent transparent transparent yellow;
+  }
+  100% {
+    border-color: transparent transparent transparent red;
+  }
+}
+
+
+@media screen and (max-width: 768px) {
+  .subjects-container .subject-item {
+    width: 40vw;
+  }
+
 }

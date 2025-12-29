@@ -113,6 +113,11 @@ export const setSettingDefault = () => {
                 "title_english": "Dark mode",
                 "title_vietnamese": "Chế độ tối",
                 "status": false
+                },
+                {
+                "title_english": "Effect Led",
+                "title_vietnamese": "Hiệu ứng led",
+                "status": true
                 }
             ]
         },{

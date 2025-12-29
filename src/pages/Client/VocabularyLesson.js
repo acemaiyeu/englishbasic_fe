@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import AudioButton from "./AudioButton";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {API_URL } from '../const/const'
+import {API_URL, getDarkMode } from '../const/const'
 import Prev from "./Prev";
 import TestResult from "./TestResult";
 import { type } from "@testing-library/user-event/dist/type";
@@ -27,11 +27,13 @@ class VocabularyLesson extends React.Component {
             point: 0, 
             check_answer: true,
             index_correct_answer: -1,
+            dark_mode: false,
     }
     componentDidMount(){
         this.getListLessionDetail(this.props.match.params.id)
         this.setState({
             language_type: this.props.language_type,
+            dark_mode: getDarkMode()
         })
     }
     componentDidUpdate(prevProps) {
@@ -205,7 +207,7 @@ class VocabularyLesson extends React.Component {
         })
     }
     render() {
-        let { language_type, listLessonDetail, check_answer, index, active_answer, result, end_test, index_correct_answer} = this.state;
+        let { language_type, listLessonDetail, check_answer, index, active_answer, result, end_test, index_correct_answer, dark_mode } = this.state;
         return (
             <>  
             {end_test ? <TestResult point={this.state.point} lesson_id={listLessonDetail.lesson_id} language_type="EN" page="/test-list" />
@@ -222,7 +224,7 @@ class VocabularyLesson extends React.Component {
                     <div className="box-content">
                             <span className="label label-success sentences">{language_type === "EN" ? "Sentences: " : "Câu: "} {index + 1
                                 }/{listLessonDetail.questions.length}</span>
-                            <div className="less-question"> <HtmlRenderer htmlContent={ language_type === "EN" ? (listLessonDetail?.questions[index]?.title_english)  : (listLessonDetail?.questions[index]?.title_vietnamese)} /></div>
+                            <div className={`less-question ${dark_mode ? "dark-mode" : ""}`}> <HtmlRenderer htmlContent={ language_type === "EN" ? (listLessonDetail?.questions[index]?.title_english)  : (listLessonDetail?.questions[index]?.title_vietnamese)} /></div>
                             <div className="answers">
                                 {listLessonDetail.questions[index].type === "CHOOSE" ||  listLessonDetail.questions[index].type === "READ" ? 
                                 <div className="answer-item"> 

@@ -54,7 +54,32 @@ const App = () => {
     language_text: "Language",
     language_list: ["English", "Vietnamese"],
   });
-  
+  if(!localStorage.getItem("language_type")){
+    localStorage.setItem("language_type", "EN");
+  }
+  useEffect(() => {
+    // load language_type from localStorage
+    let language_type = localStorage.getItem("language_type");
+    if (language_type === "EN") {
+      setLanguage({
+        language_type: "EN",
+        language_text: "Language",
+        language_list: ["English", "Vietnamese"],
+      });
+      dispatch(
+        changeLanguage("English")
+      );
+    } else {
+      setLanguage({
+        language_type: "VI",
+        language_text: "Ngôn ngữ",
+        language_list: ["English", "Vietnamese"],
+      });
+      dispatch(
+        changeLanguage("Vietnamese")
+      );
+    }
+  }, []);
   const changeLanguages = (type) => {
 
     dispatch(changeLanguage(type))
@@ -66,7 +91,7 @@ const App = () => {
           language_list: ["English", "Vietnamese"]
         }
       )
-      
+      localStorage.setItem("language_type", "EN");
     }else{
       setLanguage(
         {
@@ -75,6 +100,7 @@ const App = () => {
           language_list: ["English", "Vietnamese"]
         }
       )
+      localStorage.setItem("language_type", "VI");
     }
    
   };
@@ -83,6 +109,18 @@ const App = () => {
     <Router>
       <header>
       </header>
+      <div className="modal-default">
+        <div className="modal-default-box">
+          <div className="modal-default-header">Có lẽ đây là lần đầu bạn đến với trang web này!</div>
+          <div className="modal-default-content"> Chào mừng bạn đến với trang học tiếng Anh miễn phí của chúng tôi. Ở đây bạn có thể học từ vựng, ngữ pháp, phát âm, luyện nghe viết và chơi các trò chơi để nâng cao kỹ năng tiếng Anh của mình. Chúc bạn học tập vui vẻ và hiệu quả!</div>
+          <div className="modal-default-footer">
+            <button className="btn btn-primary" onClick={() => {
+              localStorage.setItem("first_visit", "true");
+              document.querySelector(".modal-default").style.display = "none";
+            }}>{language.language_type === "EN" ? "Close" : "Đóng"}</button>
+          </div>
+        </div>
+      </div>
       { window.location.pathname.includes("admin") ? 
          <MenuAdmin/> :
       // (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
@@ -93,7 +131,7 @@ const App = () => {
                              <select onChange={(e) => changeLanguages(e.target.value)}>
                                  {language.language_list && language.language_list.length > 0 && language.language_list.map((i, n) => {
                                      return (
-                                         <option  selected={((language.language_list[n]).slice(2)).toLocaleLowerCase() === (language.language_type).toLocaleLowerCase()} key={n} value={i} >{i}</option>
+                                         <option  selected={((language.language_list[n]).slice(0,2)).toLocaleLowerCase() === (language.language_type).toLocaleLowerCase()} key={n} value={i} >{i}</option>
                                      )
                                  })}
                                  

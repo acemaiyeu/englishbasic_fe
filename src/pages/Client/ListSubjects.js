@@ -28,10 +28,11 @@ class ListSubjects extends React.Component {
                     <div className="subject-title">Subject 1</div>
                     <div className="subject-description">Description for Subject 1</div>
                 </div>
-                <div className="subject-item">
-                    <div className="subject-title">Subject 1</div>
-                    <div className="subject-description">Description for Subject 1</div>
-                </div>
+               
+                    <div className="subject-item">
+                        <div className="subject-title">Subject 1</div>
+                        <div className="subject-description">Description for Subject 1</div>
+                    </div>
                 <div className="subject-item">
                     <div className="subject-title">Subject 1</div>
                     <div className="subject-description">Description for Subject 1</div>

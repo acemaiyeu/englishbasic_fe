@@ -289,7 +289,15 @@
 }
 
 .dark-mode{
-    background-color: #121212;
+    background-color: #2e2e2e;
+    color: white;
+    .form-in:hover{
+      color: white;
+      background-color: #dfdfdf44 !important;
+    }
+}
+.less-question.dark-mode{
+    background-color: #817e7e !important;
     color: white;
 }
 .dark-mode.menu-container-v2{
