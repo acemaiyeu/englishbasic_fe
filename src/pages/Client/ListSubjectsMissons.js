@@ -38,7 +38,7 @@ class ListSubjectsMissons extends React.Component {
                         {language_type === "EN" ? "Vocabulary" : "Từ vựng"}
                     </div>
                 </div>
-                 <div className="mission-item disabled" onClick={() => this.forWardPage(`reading/${subject_id}`, false)}>
+                 <div className="mission-item" onClick={() => this.forWardPage(`reading/${subject_id}`, true)}>
                     <div className="mission-title">
                         {language_type === "EN" ? "Reading" : "Bài đọc"}
                     </div>
@@ -48,7 +48,7 @@ class ListSubjectsMissons extends React.Component {
                         {language_type === "EN" ? "Final test" : "Kiểm tra"}
                     </div>
                 </div>
-                 <div className="mission-item disabled" onClick={() => this.forWardPage(`listening/${subject_id}`, false)}>
+                 <div className="mission-item " onClick={() => this.forWardPage(`listening/${subject_id}`, true)}>
                     <div className="mission-title">
                         {language_type === "EN" ? "Listenning" : "Bài nghe"}
                     </div>
