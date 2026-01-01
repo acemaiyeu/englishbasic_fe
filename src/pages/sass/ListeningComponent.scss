@@ -1,0 +1,176 @@
+.reading-container{
+    width: 100%;
+    display: flex;
+    height: 82vh;
+    // background-color: red;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+        .reading-header{
+        // background-color: red;
+        padding: 10px 20px;
+        font-size: 1.5rem;
+        box-shadow: 0px 0px 12px 0px gray;
+        width: 50vw;
+        height: 25vh;
+        text-align: center;
+        position: relative;
+        overflow: auto;
+        // overfloy: scroll;
+        &:nth-child(3){
+            height: 10vh;
+            margin-top: -100px;
+        }
+        &::-webkit-scrollbar {
+                width: 8px;               /* Độ rộng của thanh scroll dọc */
+                height: 8px;              /* Độ cao của thanh scroll ngang */
+            }
+
+            /* 2. Phần nền bên dưới (Track) */
+            &::-webkit-scrollbar-track {
+                background: #f1f1f1;      /* Màu nền của đường ray */
+                border-radius: 10px;
+            }
+
+            /* 3. Phần thanh trượt (Thumb) */
+            &::-webkit-scrollbar-thumb {
+                background: rgb(233, 16, 81);         /* Màu của thanh kéo */
+                border-radius: 10px;      /* Bo tròn góc */
+            }
+
+            /* 4. Hiệu ứng khi di chuột vào (Hover) */
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;         /* Màu đậm hơn khi hover */
+            }
+        .reading-time{
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: rgba(185, 4, 58, 0.788);
+            font-size: 1.2rem;
+            border-radius: 5px;
+            color: white;
+            box-shadow: 0px 0px 5px 0px gray;
+        }
+        .reading-step{
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            background-color: rgba(185, 4, 58, 0.788);
+            font-size: 1.2rem;
+            border-radius: 5px;
+            color: white;
+            box-shadow: 0px 0px 5px 0px gray;
+        }
+    }
+    .reading-footer{
+        width: 100%;
+        text-align: center;
+        margin-bottom: 50px;
+        .list-answers{
+            width: 70vw;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            .answer-item{
+                font-size: 1.2rem;
+                border: 1px solid gray;
+                width: 48%;
+                padding: 20px;
+                text-align: left;
+                box-shadow: 0px 0px 5px 0px grey;
+                position: relative;
+                border-radius: 5px;
+                color: white;
+                font-weight: bold;
+                z-index: 1;
+                &:hover{
+                    cursor: pointer;
+                    transition: transform .3s linear;
+                    transform: scale(1.2);
+                    box-shadow: 0px 0px 5px 0px rgb(236, 12, 79);
+                    z-index: 2;
+                }
+                .answer-item-title{
+                    margin-left: 20px;
+                }
+                &:first-child{
+                    background-color: #0d98ed;
+                    &::before{
+                        content: "A.";
+                        position: absolute;
+                    }
+                }
+                &:nth-child(2){
+                    background-color: #1dacd6;
+                    &::before{
+                        content: "B.";
+                        position: absolute;
+                    }
+                }
+                &:nth-child(3){
+                    background-color: #7ac5c6;
+                    &::before{
+                        content: "C.";
+                        position: absolute;
+                    }
+                }
+                &:last-child{
+                    background-color: #007ba7;
+                    &::before{
+                        content: "D.";
+                        position: absolute;
+                    }
+                }
+            }
+            .answer-item + .answer-item{
+                border-top: none;
+            }
+            .answer-item.correct{
+                background-color: green;
+            }
+            .answer-item.wrong{
+                background-color: rgb(202, 16, 16);
+            }
+        }
+        .btn-next{
+            border: none;
+            outline: none;
+            box-shadow: 0px 0px 5px 0px blue;
+            background-color: rgb(12, 12, 190);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+        .answer-item-input{
+            width: 50%;
+            background-color: red;
+            height: 100px;
+            margin: 0 auto;
+            box-shadow: 0px 0px 3px 0px gray;
+            .answer-input{
+                width: 100%;
+                height: 100%;
+                border: none;
+                outline: none;
+                padding: 10px;
+                font-size: 1.2rem;
+                &:focus{
+                    box-shadow: 0px 0px 3px 0px rgb(231, 13, 104);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .reading-container .reading-header {
+           width: 90vw !important;
+           margin-top: 50px;
+        }
+}

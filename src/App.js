@@ -44,6 +44,10 @@ import DetailReadding from "./pages/Client/DetailReadding";
 import MenuV2 from "./pages/Client/MenuV2";
 import ListSubjects from "./pages/Client/ListSubjects";
 import ListSubjectsMissons from "./pages/Client/ListSubjectsMissons";
+import VocabularyListLessonDetailV2 from "./pages/Client/VocabularyListLessonDetailV2";
+import VocabularyComponent from "./pages/Client/VocabularyComponent";
+import ReadingComponent from "./pages/Client/ReadingComponent";
+import ListeningComponent from "./pages/Client/ListeningComponent";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -163,6 +167,9 @@ const App = () => {
           <Route path="/" exact component={Statistics} />
           <Route path="/subjects" exact component={ListSubjects} />
           <Route path="/subjects/:subject_id" exact component={ListSubjectsMissons} />
+          <Route path="/subjects/vocabulary/:subject_id" exact component={VocabularyComponent} />
+          <Route path="/subjects/reading/:subject_id" exact component={ReadingComponent} />
+          <Route path="/subjects/listening/:subject_id" exact component={ListeningComponent} />
           <Route path="/subjects/url" component={VocabularyListLesson} />
           <Route path="/vocabularybox" component={Vocabulary} />
           <Route path="/grammerbox" component={Grammar} />

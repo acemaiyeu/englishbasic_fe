@@ -22,6 +22,11 @@
             color: white;
             font-size: 2rem;
         }
+        &:hover{
+            transition: transform 0.5s ease;
+            transform: scale(1.1);
+            cursor: pointer;
+        }
         &::before{
             // content: "";
             // position: absolute;
@@ -130,14 +135,14 @@
         padding: 20px;
         .mission-item{
             width: 42vw;
-        &:nth-child(2)::before{
-            transform: rotate(90deg);
-            top: calc(100% + 4%);
-            left: 50%;
-        }
-        &:nth-child(3)::before{
-            display: none;
-        }
+            &:nth-child(2)::before{
+                transform: rotate(90deg);
+                top: calc(100% + 4%);
+                left: 50%;
+            }
+            &:nth-child(3)::before{
+                display: none;
+            }
         }
     }
 }
@@ -175,17 +180,17 @@
         padding: 20px;
         .mission-item{
             width: 36vw;
-        &:nth-child(1)::before{
-            left: calc(100% + 10%)
-        }
-        &:nth-child(2)::before{
-            transform: rotate(90deg);
-            top: calc(100% + 4%);
-            left: 50%;
-        }
-        &:nth-child(4)::before{
-            right: calc(100% + 10%)
-        }
+            &:nth-child(1)::before{
+                left: calc(100% + 10%)
+            }
+            &:nth-child(2)::before{
+                transform: rotate(90deg);
+                top: calc(100% + 4%);
+                left: 50%;
+            }
+            &:nth-child(4)::before{
+                right: calc(100% + 10%)
+            }
         }
     }
 }

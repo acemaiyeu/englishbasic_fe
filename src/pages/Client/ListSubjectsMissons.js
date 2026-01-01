@@ -24,26 +24,31 @@ class ListSubjectsMissons extends React.Component {
             });
         }
     }
+    forWardPage = (uri, forward_status = false) => {
+        if(forward_status){
+            window.location.href = uri;
+        }
+    }
     render(){
-        let { language_type } = this.state;
+        let { language_type, subject_id } = this.state;
         return (
             <div className="mission-container">
-                <div className="mission-item">
+                <div className="mission-item" onClick={() => this.forWardPage(`vocabulary/${subject_id}`,true)}>
                     <div className="mission-title">
                         {language_type === "EN" ? "Vocabulary" : "Từ vựng"}
                     </div>
                 </div>
-                 <div className="mission-item disabled">
+                 <div className="mission-item disabled" onClick={() => this.forWardPage(`reading/${subject_id}`, false)}>
                     <div className="mission-title">
                         {language_type === "EN" ? "Reading" : "Bài đọc"}
                     </div>
                 </div>
-                 <div className="mission-item disabled">
+                 <div className="mission-item disabled" onClick={() => this.forWardPage(`final/${subject_id}`, false)}>
                     <div className="mission-title">
                         {language_type === "EN" ? "Final test" : "Kiểm tra"}
                     </div>
                 </div>
-                 <div className="mission-item disabled" >
+                 <div className="mission-item disabled" onClick={() => this.forWardPage(`listening/${subject_id}`, false)}>
                     <div className="mission-title">
                         {language_type === "EN" ? "Listenning" : "Bài nghe"}
                     </div>
