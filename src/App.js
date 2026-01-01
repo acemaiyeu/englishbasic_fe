@@ -43,6 +43,7 @@ import ListReadding from "./pages/Client/ListReadding";
 import DetailReadding from "./pages/Client/DetailReadding";
 import MenuV2 from "./pages/Client/MenuV2";
 import ListSubjects from "./pages/Client/ListSubjects";
+import ListSubjectsMissons from "./pages/Client/ListSubjectsMissons";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -161,6 +162,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Statistics} />
           <Route path="/subjects" exact component={ListSubjects} />
+          <Route path="/subjects/:subject_id" exact component={ListSubjectsMissons} />
           <Route path="/subjects/url" component={VocabularyListLesson} />
           <Route path="/vocabularybox" component={Vocabulary} />
           <Route path="/grammerbox" component={Grammar} />

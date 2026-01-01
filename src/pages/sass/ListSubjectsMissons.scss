@@ -1,0 +1,191 @@
+.mission-container{
+    width: 100%;
+    display: flex;
+    gap: 60px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 20px;
+    .mission-item{
+        width:  45vw;
+        height: 300px;
+        background-color: rgba(185, 4, 58, 0.288);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 10px;
+        position: relative;
+        box-shadow: 0px 0px 12px 0px rgb(71, 71, 71);
+        z-index: 1;
+        .mission-title{
+            font-weight: bold;
+            color: white;
+            font-size: 2rem;
+        }
+        &::before{
+            // content: "";
+            // position: absolute;
+            // top: 45%;
+            // left: calc(100% + 10px);
+            // border-width: 20px;
+            // border-color: transparent transparent transparent red ;
+            // border-style: solid;
+            // z-index: 2;
+            // animation: border-animation .5s infinite;
+
+            content: "";
+                position: absolute;
+                top: 45%;
+                left: calc(100% + 5%);
+                
+                /* 1. Thay vì dùng border, ta dùng kích thước thật cho tam giác */
+                width: 20px; 
+                height: 40px; /* Tương đương border-width: 20px trên dưới */
+
+                /* 2. Tạo dải màu cực dài để kéo ngang */
+                background: linear-gradient(to left, 
+                    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
+                background-size: 600% 100%; /* Dải màu càng dài chạy càng mượt */
+
+                /* 3. Dùng clip-path để cắt khối chữ nhật thành hình tam giác hướng sang phải */
+                /* (Cắt theo các điểm: trái-trên, phải-giữa, trái-dưới) */
+                clip-path: polygon(0 0, 100% 50%, 0 100%);
+
+                z-index: 2;
+                
+                /* 4. Animation kéo dải màu */
+                animation: drag-rainbow 5s infinite linear;
+        }
+        
+        &:nth-child(2)::before{
+            transform: rotate(90deg);
+            top: calc(100% + 4%);
+            left: 50%;
+        }
+        &:nth-child(3)::before{
+            display: none;
+        }
+        &:nth-child(4)::before{
+            // display: none;/
+            // color: red;
+            left: auto;
+            transform: rotate(180deg);
+            right:calc( 100% + 5%);
+            content: ""
+        }
+    }
+    .mission-item.disabled{
+        background-color: rgba(128, 128, 128, 0.377);
+    }
+    .mission-item.done{
+        background-color: rgba(42, 194, 12, 0.911);
+    }
+}
+@keyframes border-animation {
+   0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%; /* Kéo dải màu trượt từ phải qua trái */
+  }
+}
+@keyframes drag-rainbow {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .mission-container{
+        width: 100%;
+        display: flex;
+        gap: 60px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 20px;
+        .mission-item{
+            width: 44vw;
+        &:nth-child(2)::before{
+            transform: rotate(90deg);
+            top: calc(100% + 4%);
+            left: 50%;
+        }
+        &:nth-child(3)::before{
+            display: none;
+        }
+        }
+    }
+}
+
+@media screen and (max-width: 972px) {
+    .mission-container{
+        width: 100%;
+        display: flex;
+        gap: 60px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 20px;
+        .mission-item{
+            width: 42vw;
+        &:nth-child(2)::before{
+            transform: rotate(90deg);
+            top: calc(100% + 4%);
+            left: 50%;
+        }
+        &:nth-child(3)::before{
+            display: none;
+        }
+        }
+    }
+}
+@media screen and (max-width: 725px) {
+    .mission-container{
+        width: 100%;
+        display: flex;
+        gap: 60px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 20px;
+        .mission-item{
+            width: 40vw;
+        &:nth-child(1)::before{
+            left: calc(100% + 10%)
+        }
+        &:nth-child(2)::before{
+            transform: rotate(90deg);
+            top: calc(100% + 4%);
+            left: 50%;
+        }
+        &:nth-child(4)::before{
+            right: calc(100% + 10%)
+        }
+        }
+    }
+}
+@media screen and (max-width: 579px) {
+    .mission-container{
+        width: 100%;
+        display: flex;
+        gap: 60px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding: 20px;
+        .mission-item{
+            width: 36vw;
+        &:nth-child(1)::before{
+            left: calc(100% + 10%)
+        }
+        &:nth-child(2)::before{
+            transform: rotate(90deg);
+            top: calc(100% + 4%);
+            left: 50%;
+        }
+        &:nth-child(4)::before{
+            right: calc(100% + 10%)
+        }
+        }
+    }
+}

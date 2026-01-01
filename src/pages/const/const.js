@@ -135,6 +135,16 @@ export const setSettingDefault = () => {
                 "title_english": "Learning 5 word everyday",
                 "title_vietnamese": "Học ít nhất 5 từ vựng mỗi ngày",
                 "status": false
+                },
+                {
+                "title_english": "Review the previous vocabulary",
+                "title_vietnamese": "Ôn lại từ vựng hôm trước",
+                "status": false
+                },
+                {
+                "title_english": "Testing myself on previous words",
+                "title_vietnamese": "Ôn lại tất cả từ vựng đã học",
+                "status": false
                 }
             ]
         }
