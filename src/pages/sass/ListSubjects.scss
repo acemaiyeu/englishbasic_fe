@@ -3,13 +3,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
+  gap: 50px;
   padding: 20px;
   .subject-item{
     width: 30%;
     height: 250px;
     background-color: #f0f0f0;
-    border-radius: 10px;
+    border-radius: 50%;
     animation: animation_border_move 5s infinite;
     display: flex;
     flex-direction: column;
@@ -24,7 +24,7 @@
       content: "";
       position: absolute;
       top: 40%;
-      left: 101%;
+      left: calc(101% + 10px);
       width: 0;
       height: 0;
       border-style: solid;

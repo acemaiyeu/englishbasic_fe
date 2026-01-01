@@ -73,24 +73,26 @@ export const setSetting = (title_vie, title_eng, status, type) => {
     }
     return localStorage.setItem("settings", JSON.stringify(data));
 }
-export const updateSetting = (title_eng, status, type) => {
+export const updateSetting = (title_eng, status, type, value = undefined) => {
     // 1. Cleanly coerce status to a boolean
     const isEnabled = Boolean(status);
     
     // 2. Get current data
     let data = getSettings();
-    
     // 3. Determine which category index to use
     // Using a map makes the code more scalable than multiple if-statements
     const categoryIndex = type === "basic" ? 0 : (type === "advandced" ? 1 : null);
 
     if (categoryIndex !== null && data[categoryIndex]?.data) {
         const targetCategory = data[categoryIndex].data;
-        const itemIndex = targetCategory.findIndex((item) => item.title_english === title_eng);
+        const itemIndex = targetCategory.findIndex((item) => item.title_english == title_eng);
 
         // 4. Critical Check: Only update if the item was actually found
         if (itemIndex !== -1) {
             targetCategory[itemIndex].status = isEnabled;
+            if(value){
+                targetCategory[itemIndex].value = value;
+            }
             localStorage.setItem("settings", JSON.stringify(data));
             // console.log(`Updated ${type} setting: ${title_eng}`, targetCategory[itemIndex]);
         } else {
@@ -110,14 +112,20 @@ export const setSettingDefault = () => {
             "type": "basic",
             "data": [
                 {
-                "title_english": "Dark mode",
-                "title_vietnamese": "Chế độ tối",
-                "status": false
+                    "title_english": "Dark mode",
+                    "title_vietnamese": "Chế độ tối",
+                    "status": false
                 },
                 {
-                "title_english": "Effect Led",
-                "title_vietnamese": "Hiệu ứng led",
-                "status": true
+                    "title_english": "Effect Led",
+                    "title_vietnamese": "Hiệu ứng led",
+                    "status": true
+                },
+                {
+                    "title_english": "Font size",
+                    "title_vietnamese": "Kích thước chữ",
+                    "status": true,
+                    "value": "14px"
                 }
             ]
         },{
@@ -133,6 +141,11 @@ export const setSettingDefault = () => {
         ]
     }
     localStorage.setItem("settings", JSON.stringify(data)) 
+}
+export const getSettingByTitle = (title) => {
+    let settings = getSettings();
+    let darkModeSetting = settings[0].data.find(item => item.title_english.toLowerCase() === title.toLowerCase());
+    return darkModeSetting ? darkModeSetting.status : false;
 }
 export const getDarkMode = () => {
     let settings = getSettings();
