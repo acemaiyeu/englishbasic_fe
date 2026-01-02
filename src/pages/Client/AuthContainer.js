@@ -3,6 +3,7 @@ import '../sass/AuthContainer.scss';
 import axios from 'axios';
 import { API_URL, setCookie } from '../const/const';
 import { toast } from 'react-toastify';
+import { connect } from 'react-redux';
 
 class AuthContainer extends Component {
   constructor(props) {
@@ -55,6 +56,7 @@ class AuthContainer extends Component {
     }).then((res) => {
         localStorage.setItem("ca_cli_", "S_CLIENT");
         sessionStorage.setItem("S_CLIENT",res.data.access_token); 
+        this.props.setProfile(res.data.data)
         this.props.history.push("/");
     }).catch((e) => {
       toast.error("Register fail!");
@@ -120,5 +122,10 @@ class AuthContainer extends Component {
     );
   }
 }
-
-export default AuthContainer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setProfile: (profile) => dispatch({ type: 'SET_PROFILE', payload: profile }),
+    logout: () => dispatch({ type: 'LOGOUT' })
+  };
+};
+export default connect(mapDispatchToProps)(AuthContainer);

@@ -74,7 +74,7 @@ class MenuV2 extends React.Component {
                       <div className="nav-menu-item" style={{justifyContent: "right"}}> 
                         {profile.name ? <div className="nav-account">
                             <div className="auth-avatar">
-                                    <img src="https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg" alt="avatar" />
+                                    <img src={`${profile.avatar == "" ? "https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg" : profile.avatar}`} alt="avatar" />
                                     <div className="auth-username">
                                         {profile.name ?? "Đặng Nguyễn Tùng Dương"}
                                     </div>  
