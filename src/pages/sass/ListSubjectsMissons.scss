@@ -6,8 +6,8 @@
     flex-wrap: wrap;
     padding: 20px;
     .mission-item{
-        width:  45vw;
-        height: 300px;
+        width:  100%;
+        // height: 300px;
         background-color: rgba(185, 4, 58, 0.288);
         display: flex;
         justify-content: center;
@@ -17,6 +17,17 @@
         position: relative;
         box-shadow: 0px 0px 12px 0px rgb(71, 71, 71);
         z-index: 1;
+        padding: 30px;
+        .misson-item-modal{
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(185, 4, 58, 0.288);
+            border-radius: 5px;
+            padding: 5px;
+            color: white;
+
+        }
         .mission-title{
             font-weight: bold;
             color: white;
@@ -27,6 +38,9 @@
             transform: scale(1.1);
             cursor: pointer;
         }
+        &:last-child::before{
+        display: none
+       }
         &::before{
             // content: "";
             // position: absolute;
@@ -55,28 +69,13 @@
                 /* 3. Dùng clip-path để cắt khối chữ nhật thành hình tam giác hướng sang phải */
                 /* (Cắt theo các điểm: trái-trên, phải-giữa, trái-dưới) */
                 clip-path: polygon(0 0, 100% 50%, 0 100%);
-
+                transform: rotate(90deg);
+                top: calc(100% + 4%);
+                left: 50%;
                 z-index: 2;
                 
                 /* 4. Animation kéo dải màu */
                 animation: drag-rainbow 5s infinite linear;
-        }
-        
-        &:nth-child(2)::before{
-            transform: rotate(90deg);
-            top: calc(100% + 4%);
-            left: 50%;
-        }
-        &:nth-child(3)::before{
-            display: none;
-        }
-        &:nth-child(4)::before{
-            // display: none;/
-            // color: red;
-            left: auto;
-            transform: rotate(180deg);
-            right:calc( 100% + 5%);
-            content: ""
         }
     }
     .mission-item.disabled{
@@ -100,97 +99,5 @@
     }
     100% {
         background-position: 100% 50%;
-    }
-}
-
-@media screen and (max-width: 1200px) {
-    .mission-container{
-        width: 100%;
-        display: flex;
-        gap: 60px;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 20px;
-        .mission-item{
-            width: 44vw;
-        &:nth-child(2)::before{
-            transform: rotate(90deg);
-            top: calc(100% + 4%);
-            left: 50%;
-        }
-        &:nth-child(3)::before{
-            display: none;
-        }
-        }
-    }
-}
-
-@media screen and (max-width: 972px) {
-    .mission-container{
-        width: 100%;
-        display: flex;
-        gap: 60px;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 20px;
-        .mission-item{
-            width: 42vw;
-            &:nth-child(2)::before{
-                transform: rotate(90deg);
-                top: calc(100% + 4%);
-                left: 50%;
-            }
-            &:nth-child(3)::before{
-                display: none;
-            }
-        }
-    }
-}
-@media screen and (max-width: 725px) {
-    .mission-container{
-        width: 100%;
-        display: flex;
-        gap: 60px;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 20px;
-        .mission-item{
-            width: 40vw;
-        &:nth-child(1)::before{
-            left: calc(100% + 10%)
-        }
-        &:nth-child(2)::before{
-            transform: rotate(90deg);
-            top: calc(100% + 4%);
-            left: 50%;
-        }
-        &:nth-child(4)::before{
-            right: calc(100% + 10%)
-        }
-        }
-    }
-}
-@media screen and (max-width: 579px) {
-    .mission-container{
-        width: 100%;
-        display: flex;
-        gap: 60px;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        padding: 20px;
-        .mission-item{
-            width: 36vw;
-            &:nth-child(1)::before{
-                left: calc(100% + 10%)
-            }
-            &:nth-child(2)::before{
-                transform: rotate(90deg);
-                top: calc(100% + 4%);
-                left: 50%;
-            }
-            &:nth-child(4)::before{
-                right: calc(100% + 10%)
-            }
-        }
     }
 }

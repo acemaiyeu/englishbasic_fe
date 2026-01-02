@@ -48,6 +48,7 @@ import VocabularyListLessonDetailV2 from "./pages/Client/VocabularyListLessonDet
 import VocabularyComponent from "./pages/Client/VocabularyComponent";
 import ReadingComponent from "./pages/Client/ReadingComponent";
 import ListeningComponent from "./pages/Client/ListeningComponent";
+import AccountProfile from "./pages/Client/AccountProfile";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -186,6 +187,7 @@ const App = () => {
           <Route path="/chat-app" component={ChatApp2} />
           <Route path="/readings/:type" component={ListReadding} />
           <Route path="/reading/:url" component={DetailReadding} />
+          <Route path="/profile" component={AccountProfile} />
           
           <Route 
           path="/reading" 

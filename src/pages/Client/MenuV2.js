@@ -2,16 +2,19 @@ import React from "react";
 import '../sass/MenuV2.scss'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { auth, getDarkMode } from "../const/const";
+import { API_URL, auth, getDarkMode } from "../const/const";
+import api from "./api";
+import { setProfile } from "../../reduce/actions";
 
 class MenuV2 extends React.Component {
 
     state =  {
         language_type: "EN",
-        dark_mode: false
+        dark_mode: false,
+        profile: {}
     }
     componentDidMount(){
-        
+        this.getProfile();
         this.setState({
             language_type: this.props.language_type,
             dark_mode: getDarkMode()
@@ -23,9 +26,23 @@ class MenuV2 extends React.Component {
                 language_type: this.props.language_type,
             });
         }
+        if (prevProps.profile !== this.props.profile) {
+            this.setState({
+                profile: this.props.profile,
+            });
+        }
     }
+   getProfile = async () => {
+        await api.get(`${API_URL}/auth/profile`).then((res) => {
+            this.props.setProfile(res.data.data);
+        }).catch((err) => {
+            console.log("Profile err", err)
+            // toast.warn("Not get profile")
+        })
+   } 
+   
     render(){
-        let { language_type, dark_mode } = this.state;
+        let { language_type, dark_mode, profile } = this.state;
         return (
             <div className={`menu-container-v2 ${dark_mode ? 'dark-mode':''}`} id="nav-menu">
                 {/* <i class="bi bi-bar-chart-steps"></i> */}
@@ -59,7 +76,7 @@ class MenuV2 extends React.Component {
                             <div className="auth-avatar">
                                     <img src="https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg" alt="avatar" />
                                     <div className="auth-username">
-                                        Đặng Nguyễn Tùng Dương
+                                        {profile.name ?? "Đặng Nguyễn Tùng Dương"}
                                     </div>  
                             </div>
                             <div className="auth-modal">
@@ -91,4 +108,10 @@ class MenuV2 extends React.Component {
 const mapStateToProps = (state) => {
     return state;
 }
-export default connect(mapStateToProps)(MenuV2);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setProfile: (profile) => dispatch({ type: 'SET_PROFILE', payload: profile }),
+    logout: () => dispatch({ type: 'LOGOUT' })
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(MenuV2);

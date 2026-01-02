@@ -1,7 +1,7 @@
 import React, { cache, Component } from 'react';
 import '../sass/AuthContainer.scss';
 import axios from 'axios';
-import { API_URL } from '../const/const';
+import { API_URL, setCookie } from '../const/const';
 import { toast } from 'react-toastify';
 
 class AuthContainer extends Component {
@@ -31,8 +31,9 @@ class AuthContainer extends Component {
     axios.post(`${API_URL}/login`, {
       email, password
     }).then((res) => {
-        localStorage.setItem("ca_cli_", "S_CLIENT");
-        sessionStorage.setItem("S_CLIENT",res.data.access_token); 
+        // localStorage.setItem("ca_cli_", "S_CLIENT");
+        // sessionStorage.setItem("S_CLIENT",res.data.access_token); 
+        setCookie("S_CLIENT", res.data.access_token, 1);
         this.props.history.push("/");
     }).catch((e) => {
       toast.error("Login fail! Email or Password not correct!");

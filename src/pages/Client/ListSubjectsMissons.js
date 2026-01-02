@@ -34,23 +34,27 @@ class ListSubjectsMissons extends React.Component {
         return (
             <div className="mission-container">
                 <div className="mission-item" onClick={() => this.forWardPage(`vocabulary/${subject_id}`,true)}>
+                    <div className="misson-item-modal">Chưa hoàn thành</div>
                     <div className="mission-title">
                         {language_type === "EN" ? "Vocabulary" : "Từ vựng"}
                     </div>
                 </div>
                  <div className="mission-item" onClick={() => this.forWardPage(`reading/${subject_id}`, true)}>
+                    <div className="misson-item-modal">Chưa hoàn thành</div>
                     <div className="mission-title">
                         {language_type === "EN" ? "Reading" : "Bài đọc"}
                     </div>
                 </div>
-                 <div className="mission-item disabled" onClick={() => this.forWardPage(`final/${subject_id}`, false)}>
-                    <div className="mission-title">
-                        {language_type === "EN" ? "Final test" : "Kiểm tra"}
-                    </div>
-                </div>
                  <div className="mission-item " onClick={() => this.forWardPage(`listening/${subject_id}`, true)}>
+                    <div className="misson-item-modal">Chưa hoàn thành</div>
                     <div className="mission-title">
                         {language_type === "EN" ? "Listenning" : "Bài nghe"}
+                    </div>
+                </div>
+                 <div className="mission-item disabled" onClick={() => this.forWardPage(`final/${subject_id}`, false)}>
+                    <div className="misson-item-modal">Chưa đủ điều kiện</div>
+                    <div className="mission-title">
+                        {language_type === "EN" ? "Final test" : "Kiểm tra"}
                     </div>
                 </div>
                 

@@ -48,7 +48,7 @@ class AdminLogin extends Component {
             'Content-Type': 'application/json',
         }
     }).then((res) => {
-        sessionStorage.setItem("S_ADMIN", res.data.access_token);
+        // sessionStorage.setItem("S_ADMIN", res.data.access_token);
         setCookie("S_ADMIN", res.data.access_token, 1);
         this.setState({ isLoggedIn: true, isLoading: false });
         window.location.href = "/pages/admin/"
