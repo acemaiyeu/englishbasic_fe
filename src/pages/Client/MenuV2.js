@@ -72,7 +72,7 @@ class MenuV2 extends React.Component {
                     </div>
                     </div>
                       <div className="nav-menu-item" style={{justifyContent: "right"}}> 
-                        <div className="nav-account">
+                        {profile.name ? <div className="nav-account">
                             <div className="auth-avatar">
                                     <img src="https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg" alt="avatar" />
                                     <div className="auth-username">
@@ -91,8 +91,8 @@ class MenuV2 extends React.Component {
                                 </div> 
                                 
                             </div>
-                        </div>
-                        {/* <Link to="/login" >{language_type === "EN" ?"Login":"Đăng nhập"}</Link> */}
+                        </div> :
+                       <Link to="/login" >{language_type === "EN" ?"Login":"Đăng nhập"}</Link>  }
                         
 
                        </div>
