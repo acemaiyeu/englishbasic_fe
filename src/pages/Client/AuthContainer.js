@@ -64,7 +64,6 @@ class AuthContainer extends Component {
         setCookie("S_CLIENT", res.data.access_token, 1);
         
         // Cập nhật Redux trước khi chuyển trang
-        this.props.setProfile(res.data.data);
 
         toast.success("Đăng ký thành công!");
         this.props.history.push("/");
