@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { API_URL, auth, getDarkMode } from "../const/const";
 import api from "./api";
 import { setProfile } from "../../reduce/actions";
+import { toast } from "react-toastify";
 
 class MenuV2 extends React.Component {
 
@@ -40,7 +41,24 @@ class MenuV2 extends React.Component {
             // toast.warn("Not get profile")
         })
    } 
-   
+   handleLogout = () => {
+    let { language_type } = this.state;
+       api.post(`${API_URL}/auth/logout`).then((res) => {
+            this.props.setProfile({});
+            
+            if(language_type === "EN"){
+                toast.success("Logout Successfully!")
+            }else{
+                toast.success("Đăng xuất thành công!")
+            }
+       }).catch((err) => {
+            if(language_type === "EN"){
+                toast.warn("Logout fail!");
+            }else{
+                toast.warn("Đăng xuất lỗi!");
+            }
+       }) 
+   }
     render(){
         let { language_type, dark_mode, profile } = this.state;
         return (
@@ -84,7 +102,7 @@ class MenuV2 extends React.Component {
                                     <Link to="/profile" >{language_type === "EN" ?"Profile":"Hồ sơ cá nhân"}</Link>
                                 </div>
                                 <div className="auth-modal-item">
-                                    <Link to="/login" >{language_type === "EN" ?"Logout":"Đăng Xuất"}</Link>
+                                    <Link to="#" onClick={() => this.handleLogout()}>{language_type === "EN" ?"Logout":"Đăng Xuất"}</Link>
                                 </div> 
                                 <div className="auth-modal-item">
                                     <Link to="/setting" >{language_type === "EN" ?"Setting":"Cài đặt"}</Link>
