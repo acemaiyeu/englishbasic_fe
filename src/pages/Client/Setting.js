@@ -32,7 +32,7 @@ class Setting extends React.Component{
         this.setState({
           listSettings:  updateSetting(title_eng, !status, type)
       })
-      if(type === "basic" && title_eng === "Dark mode"){
+      if((type === "basic" && title_eng === "Dark mode") || (title_eng === "English everyday")){
         // Trigger a re-render or any additional logic for dark mode change
         window.location.reload();
       }

@@ -36,8 +36,7 @@ class EnglishEveryDay extends React.Component {
             this.setState({
                     messagage: quote.title + " => " + quote.mean
                 })
-        }
-        
+        }  
     }
     render() {
         let { messagage }   = this.state;

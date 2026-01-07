@@ -33,7 +33,8 @@ class ListSubjectsMissons extends React.Component {
         let { language_type, subject_id } = this.state;
         return (
             <div className="mission-container">
-                <div className="mission-item" onClick={() => this.forWardPage(`vocabulary/${subject_id}`,true)}>
+                <div className="mission-list">
+                     <div className="mission-item" onClick={() => this.forWardPage(`vocabulary/${subject_id}`,true)}>
                     <div className="misson-item-modal">Chưa hoàn thành</div>
                     <div className="mission-title">
                         {language_type === "EN" ? "Vocabulary" : "Từ vựng"}
@@ -45,18 +46,22 @@ class ListSubjectsMissons extends React.Component {
                         {language_type === "EN" ? "Reading" : "Bài đọc"}
                     </div>
                 </div>
-                 <div className="mission-item " onClick={() => this.forWardPage(`listening/${subject_id}`, true)}>
-                    <div className="misson-item-modal">Chưa hoàn thành</div>
-                    <div className="mission-title">
-                        {language_type === "EN" ? "Listenning" : "Bài nghe"}
-                    </div>
                 </div>
-                 <div className="mission-item disabled" onClick={() => this.forWardPage(`final/${subject_id}`, false)}>
-                    <div className="misson-item-modal">Chưa đủ điều kiện</div>
-                    <div className="mission-title">
-                        {language_type === "EN" ? "Final test" : "Kiểm tra"}
+               
+                 <div className="mission-list">
+                    <div className="mission-item " onClick={() => this.forWardPage(`listening/${subject_id}`, true)}>
+                        <div className="misson-item-modal">Chưa hoàn thành</div>
+                        <div className="mission-title">
+                            {language_type === "EN" ? "Listenning" : "Bài nghe"}
+                        </div>
                     </div>
-                </div>
+                    <div className="mission-item disabled" onClick={() => this.forWardPage(`final/${subject_id}`, false)}>
+                        <div className="misson-item-modal">Chưa đủ điều kiện</div>
+                        <div className="mission-title">
+                            {language_type === "EN" ? "Final test" : "Kiểm tra"}
+                        </div>
+                    </div>
+                 </div>
                 
             </div>
         )  

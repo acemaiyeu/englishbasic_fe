@@ -27,7 +27,7 @@ import ListenWriteList from "./pages/Client/ListenWriteList";
 import ManagerExport from "./pages/Admin/ManagerExport";
 import Games from "./pages/Client/Games";
 import GameBoard from "./pages/Client/GameBoard";
-import { API_URL, auth, getDarkMode } from "./pages/const/const";
+import { API_URL, auth, getDarkMode, getSettingByTitle, getSettingByTitleAdvand } from "./pages/const/const";
 import ZaloChatApp from "./pages/Client/ZaloChatApp";
 import AuthContainerAdmin from "./pages/Admin/AuthContainerAdmin";
 import AdminLogin from "./pages/Admin/AdminLogin";
@@ -55,11 +55,13 @@ const App = () => {
   // 2. ✅ KHỞI TẠO: Sử dụng hook useHistory
   const history = useHistory(); 
   
+  
   const [language, setLanguage] = useState({
     language_type: "EN",
     language_text: "Language",
     language_list: ["English", "Vietnamese"],
   });
+  const [englishEveryday, setEnglishEveryday] = useState(true)
   if(!localStorage.getItem("language_type")){
     localStorage.setItem("language_type", "EN");
   }
@@ -84,6 +86,9 @@ const App = () => {
       dispatch(
         changeLanguage("Vietnamese")
       );
+    }
+    if(!getSettingByTitleAdvand("English everyday")){
+      setEnglishEveryday(false)
     }
   }, []);
   const changeLanguages = (type) => {
@@ -222,9 +227,11 @@ const App = () => {
       }
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="box-vocabulary">
-          <div>{language.language_type === "EN" ? "English everyday" : "Học tiếng anh mỗi ngày"}: <span><EnglishEveryDay /></span></div>
-      </div>
+      {englishEveryday &&
+        <div className="box-vocabulary">
+            <div>{language.language_type === "EN" ? "English everyday" : "Học tiếng anh mỗi ngày"}: <span><EnglishEveryDay /></span></div>
+        </div>
+      }
     </Router>
     
   );

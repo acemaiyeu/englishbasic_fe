@@ -146,6 +146,12 @@ export const setSettingDefault = () => {
                 "title_vietnamese": "Ôn lại tất cả từ vựng đã học",
                 "status": false
                 }
+                ,
+                {
+                "title_english": "English everyday",
+                "title_vietnamese": "Học tiếng anh mỗi ngày",
+                "status": true
+                }
             ]
         }
         ]
@@ -155,6 +161,11 @@ export const setSettingDefault = () => {
 export const getSettingByTitle = (title) => {
     let settings = getSettings();
     let darkModeSetting = settings[0].data.find(item => item.title_english.toLowerCase() === title.toLowerCase());
+    return darkModeSetting ? darkModeSetting.status : false;
+}
+export const getSettingByTitleAdvand = (title) => {
+    let settings = getSettings();
+    let darkModeSetting = settings[1].data.find(item => item.title_english.toLowerCase() === title.toLowerCase());
     return darkModeSetting ? darkModeSetting.status : false;
 }
 export const getDarkMode = () => {

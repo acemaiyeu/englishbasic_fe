@@ -1,12 +1,18 @@
 .mission-container{
     width: 100%;
     display: flex;
-    gap: 60px;
+    gap: 20px;
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 20px;
-    .mission-item{
-        width:  100%;
+    .mission-list{
+        width: 100%;
+        display: flex;
+        
+        aspect-ratio: 2 / 1.5;
+        gap: 20px;
+        .mission-item{
+        flex: 1;
         // height: 300px;
         background-color: rgba(185, 4, 58, 0.288);
         display: flex;
@@ -38,45 +44,9 @@
             transform: scale(1.1);
             cursor: pointer;
         }
-        &:last-child::before{
-        display: none
-       }
-        &::before{
-            // content: "";
-            // position: absolute;
-            // top: 45%;
-            // left: calc(100% + 10px);
-            // border-width: 20px;
-            // border-color: transparent transparent transparent red ;
-            // border-style: solid;
-            // z-index: 2;
-            // animation: border-animation .5s infinite;
-
-            content: "";
-                position: absolute;
-                top: 45%;
-                left: calc(100% + 5%);
-                
-                /* 1. Thay vì dùng border, ta dùng kích thước thật cho tam giác */
-                width: 20px; 
-                height: 40px; /* Tương đương border-width: 20px trên dưới */
-
-                /* 2. Tạo dải màu cực dài để kéo ngang */
-                background: linear-gradient(to left, 
-                    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff, #ff0000);
-                background-size: 600% 100%; /* Dải màu càng dài chạy càng mượt */
-
-                /* 3. Dùng clip-path để cắt khối chữ nhật thành hình tam giác hướng sang phải */
-                /* (Cắt theo các điểm: trái-trên, phải-giữa, trái-dưới) */
-                clip-path: polygon(0 0, 100% 50%, 0 100%);
-                transform: rotate(90deg);
-                top: calc(100% + 4%);
-                left: 50%;
-                z-index: 2;
-                
-                /* 4. Animation kéo dải màu */
-                animation: drag-rainbow 5s infinite linear;
-        }
+       
+       
+    }
     }
     .mission-item.disabled{
         background-color: rgba(128, 128, 128, 0.377);

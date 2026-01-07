@@ -82,7 +82,7 @@
           .submenu{
             position: absolute;
             color: white;
-            width: 30%;
+            width: 100%;
             top: 127%;
             // &:hover{
             //   max-width: 350px;
@@ -125,6 +125,7 @@
           height: 100%;
           display: flex;
           position: relative;
+          margin-right: 100px;
           .auth-avatar{
             // max-height: 100%;
             border-radius: 50%;
@@ -153,6 +154,8 @@
               display: none;
               flex-direction: column;
               z-index: 200;
+              // right: 
+              right: -200%;
               padding: 10px 0px;
               .auth-modal-item{
                 // padding: 10px;
