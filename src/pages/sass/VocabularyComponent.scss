@@ -97,4 +97,13 @@
         .vocabulary-container .vocabulary-read .vocabulary-speak {
             padding: 0;
         }
+        .vocabulary-container .vocabulary-read .vocabulary-image {
+            height: 30vh;
+            width: 80vw;
+            img
+            {
+                height: auto;
+                width: 100%;
+            }
+        }
 }
