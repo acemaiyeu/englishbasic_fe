@@ -8,31 +8,33 @@
   .subject-item{
     width: 30%;
     height: 250px;
-    background-color: #f0f0f0;
-    border-radius: 50%;
+    background: linear-gradient(to bottom, rgba(243, 17, 73, 0.1), rgba(243, 17, 74, 0.493));
+    border-radius: 2%;
     animation: animation_border_move 5s infinite;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    // border: 1px solid #ccc;
+    box-shadow: 0 4px 8px grey;
     transition: transform 0.2s;
     cursor: pointer;
     position: relative;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 40%;
-      left: calc(101% + 10px);
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-width: 18px;
-      border-color: transparent  transparent  transparent red;
-      z-index: 200000;
-      animation: animation_border_move2 5s infinite;
-    }
+
+    color: white;
+    // &::before {
+    //   content: "";
+    //   position: absolute;
+    //   top: 40%;
+    //   left: calc(101% + 10px);
+    //   width: 0;
+    //   height: 0;
+    //   border-style: solid;
+    //   border-width: 18px;
+    //   border-color: transparent  transparent  transparent red;
+    //   z-index: 200000;
+    //   animation: animation_border_move2 5s infinite;
+    // }
     &:last-child::before{
       display: none;
     }

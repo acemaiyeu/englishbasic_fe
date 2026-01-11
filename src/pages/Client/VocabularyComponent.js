@@ -3,10 +3,13 @@ import { connect } from "react-redux";
 import '../sass/VocabularyComponent.scss'
 import Prev from "./Prev";
 import HtmlRenderer from "./HtmlRenderer";
+import AudioButton from "./AudioButton";
+import SpeechButton from "./SpeechSupport/SpeechButton";
 
 class VocabularyComponent extends React.Component{
     state = {
-        language_type: "EN"
+        language_type: "EN",
+        type_speech: "nomal"
     }
      componentDidMount(){
             // this.getListLessionDetail(this.props.match.params.id)
@@ -28,7 +31,12 @@ class VocabularyComponent extends React.Component{
 
             }
         }
+        handleChangeSpeechType = (e) => {
+            const value = e.target.value;
+            this.setState({ type_speech: value });
+        };
         render() {
+            let { type_speech } = this.state;
             return (
                 <div className="vocabulary-container">
                     <Prev uri="subjects"/>
@@ -64,26 +72,36 @@ class VocabularyComponent extends React.Component{
                         </div> */}
 
                         <div className="vocabulary-read">
-                                <div className="vocabulary-read-header">
-                                    <div className="">Prev</div>
-                                    <div className="">1</div>
-                                    <div className="">Next</div>
+                                <div className="vocabulary-title">
+                                    <b>Con voi</b>
                                 </div>
-                                <div className="vocabulary-read-body">
-                                    <div className="vocabulary-read-content">
-                                        <div className="vocabulary-read-content-left">
-                                            <div className="vocabulary-read-title">
-                                                Elephant
-                                            </div>
-                                            <div className="vocabulary-read-description">
-                                                (Phiên âm: /ˈel.ɪ.fənt/)
-                                            </div>
-                                        </div>
-                                         <div className="vocabulary-read-content-right">
-                                            <div className="vocabulary-read-image">
-                                                <img src="https://png.pngtree.com/png-vector/20240921/ourmid/pngtree-colorful-picture-of-an-elephant-png-image_13880501.png" loading="lazy"/>
-                                            </div>
-                                        </div>
+                                <div className="vocabulary-image">
+                                   <img loading="lazy" src="https://png.pngtree.com/png-vector/20240921/ourmid/pngtree-colorful-picture-of-an-elephant-png-image_13880501.png"/>
+                                </div>
+                                <div className="vocabulary-text">
+                                    <b>Elephant</b>
+                                    <i>/ˈel.ɪ.fənt/</i>
+                                </div>
+                                <div className="vocabulary-speak">
+                                    {/* <i class="bi bi-volume-up"></i> */}
+                                    <SpeechButton type_speech={type_speech} text={`Elephant là con voi đó`} lang="vi-VI" />
+                                    <div className="vocabulary-speak-type">
+                                        <select onChange={(e) => this.handleChangeSpeechType(e)}>
+                                            <option value="nomal">Tốc độ đọc: Bình thường</option>
+                                            <option value="fast">Tốc độ đọc: Nhanh</option>
+                                            <option value="slow">Tốc độ đọc: Chậm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="vocabulary-footer">
+                                    <div className="btn-prev">
+                                        <i class="bi bi-arrow-left-circle"></i>
+                                    </div>
+                                    <div className="btn-page">
+                                        1/100
+                                    </div>
+                                    <div className="btn-next">
+                                        <i class="bi bi-arrow-right-circle"></i>
                                     </div>
                                 </div>
                         </div>

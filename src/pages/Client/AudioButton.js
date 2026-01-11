@@ -16,8 +16,8 @@ const AudioButton = ({ text, lang = "en-US", size = 32 }) => {
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
-    utterance.rate = 1; // tốc độ nói (1 = bình thường)
-    utterance.pitch = 1; // cao độ
+    utterance.rate = 0.5; // tốc độ nói (1 = bình thường)
+    utterance.pitch = 2; // cao độ
     utterance.volume = 1; // âm lượng 0–1
 
     utterance.onstart = () => setIsSpeaking(true);
