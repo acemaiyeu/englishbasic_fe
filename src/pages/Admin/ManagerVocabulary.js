@@ -49,6 +49,12 @@ class ManagerVocabulary extends React.Component {
                 means: event.target.value,
             })
         }
+        if(type === "img"){
+            this.setState({
+                img : event.target.value,
+            })
+        }
+        
     }
     componentDidMount(){
         this.getListLessons();
@@ -171,17 +177,19 @@ class ManagerVocabulary extends React.Component {
       vocabulary_form: true,
       transcription: vocabulary.transcription,
       title_english: vocabulary.title_english,
-      means: vocabulary.means
+      means: vocabulary.means,
+      img: vocabulary.img
     });
   };
    updateVocabulary = async () => {
-    let { params, id_vocabulary, means, title_english, transcription } = this.state;
+    let { params, id_vocabulary, means, title_english, transcription, img } = this.state;
     api_admin
       .put(`${API_URL}/admin/lesson-detail/` + id_vocabulary, {
         means: means,
         transcription: transcription,
         title_english: title_english,
         id: id_vocabulary,
+        img: img
       })
       .then((res) => {
         this.PageVocabulary(this.state.current_page)
@@ -192,6 +200,7 @@ class ManagerVocabulary extends React.Component {
             transcription: "",
             id_vocabulary: undefined,
           vocabulary_form: false,
+          img: "",
           status_form: {
             ...this.state.status_form,
             update_vocabulary_form: false
@@ -210,7 +219,7 @@ class ManagerVocabulary extends React.Component {
       });
   };
     render(){
-        let { language_type, loadding, listLessons, vocabulary_form, transcription, means, title_english, listVocabulary } = this.state;
+        let { language_type, loadding, listLessons, vocabulary_form, transcription, means, title_english, listVocabulary, img } = this.state;
         return (
             <div className="data-manager-container">
                 <div className="data-manager-title" >{language_type === "EN" ? "MANAGER VACABULARY" : "Quản lý từ vựng"}</div>
@@ -227,7 +236,7 @@ class ManagerVocabulary extends React.Component {
                                 ))}
                         </select>
                     </div>
-                    <div className="form">
+                    {/* <div className="form">
                         <label>{ language_type === "EN" ? "Vocabulary" : "Từ vựng"}: </label>
                         <input 
                         value={this.state.params.vocabulary_param ?? ""}
@@ -275,7 +284,7 @@ class ManagerVocabulary extends React.Component {
                                 answer_param: e.target.value
                             }
                         })} type="text" />
-                    </div>
+                    </div> */}
                         <i className="bi bi-search" onClick={() => this.PageVocabulary(this.state.params.current_page)}></i>
                 </div>
                 <div className="data-manager-body">
@@ -372,6 +381,12 @@ class ManagerVocabulary extends React.Component {
                             <label> {language_type === "EN" ? "Means" : "Nghĩa"}: </label>
                             <input type="text" value={means} onChange={(e) => this.handleChangeInput(e, "means")}/>
                         </div>
+                        <div className="form">
+                            <label> {language_type === "EN" ? "Link img" : "Link hình ảnh"}: </label>
+                            <input type="text" value={img} onChange={(e) => this.handleChangeInput(e, "img")}/>
+                        </div>
+
+                        
                         {this.state.status_form.update_vocabulary_form ? 
                         <button className="btn-save" onClick={() => this.updateVocabulary()}>{language_type === "EN" ?  "SAVE" : "Lưu"}</button>
                         :
