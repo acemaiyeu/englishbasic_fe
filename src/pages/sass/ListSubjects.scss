@@ -95,7 +95,12 @@
 
 @media screen and (max-width: 768px) {
   .subjects-container .subject-item {
-    width: 40vw;
+    width: 35vw;
+    .subject-title{
+      font-size: 1rem;
+      justify-content: center;
+    }
+    
   }
 
 }

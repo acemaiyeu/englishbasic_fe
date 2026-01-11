@@ -22,7 +22,7 @@ class ListSubjects extends React.Component {
     }
     getListSubject = async () => {
         let { current_page } = this.state;
-        await axios.get(`${API_URL}/list-lessons?page=${current_page}`).then((res) => {
+        await axios.get(`${API_URL}/list-lessons?page=${current_page}&limit=10000`).then((res) => {
             this.setState({
                 ListSubjects: res.data.data
             })
