@@ -137,6 +137,7 @@ const App = () => {
       { window.location.pathname.includes("admin") ? 
          <MenuAdmin/> :
       // (window.location.pathname.includes("/v2/") ? <MenuV2/> : <Menu/>)
+      // <Menu/>
       <MenuV2/>
       }
      <div className={`language ${getDarkMode() ? 'dark-mode' : ''}`}>

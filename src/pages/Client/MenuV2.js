@@ -86,6 +86,7 @@ class MenuV2 extends React.Component {
                             <Link to="/phrasal-verbs" >{language_type === "EN" ?"Phrasal verbs":"Cụm động từ"}</Link>
                             <Link to="/chat-app" >{language_type === "EN" ?"Chat app":"Chat"}</Link>
                             <Link to="/reading" >{language_type === "EN" ?"Reading":"Đọc đoạn văn bản"}</Link>
+                            <Link to="/setting" >{language_type === "EN" ?"Setting":"Cài đặt"}</Link>
                         </div>
                     </div>
                     </div>
@@ -104,9 +105,9 @@ class MenuV2 extends React.Component {
                                 <div className="auth-modal-item">
                                     <Link to="#" onClick={() => this.handleLogout()}>{language_type === "EN" ?"Logout":"Đăng Xuất"}</Link>
                                 </div> 
-                                <div className="auth-modal-item">
+                                {/* <div className="auth-modal-item">
                                     <Link to="/setting" >{language_type === "EN" ?"Setting":"Cài đặt"}</Link>
-                                </div> 
+                                </div>  */}
                                 
                             </div>
                         </div> :
