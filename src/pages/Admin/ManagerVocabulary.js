@@ -30,7 +30,8 @@ class ManagerVocabulary extends React.Component {
         edit_vocabulary_form: true,
         transcription: "",
         means: "",
-        lesson_id_create: 0
+        lesson_id_create: 0,
+        id_vocabulary : undefined
     }
     handleChangeInput = (event, type) => {
         if(type === "title_english"){
@@ -166,11 +167,47 @@ class ManagerVocabulary extends React.Component {
       status_form: {
         update_vocabulary_form: true,
       },
+      id_vocabulary: vocabulary.id,
       vocabulary_form: true,
       transcription: vocabulary.transcription,
       title_english: vocabulary.title_english,
       means: vocabulary.means
     });
+  };
+   updateVocabulary = async () => {
+    let { params, id_vocabulary, means, title_english, transcription } = this.state;
+    api_admin
+      .put(`${API_URL}/admin/lesson-detail/` + id_vocabulary, {
+        means: means,
+        transcription: transcription,
+        title_english: title_english,
+        id: id_vocabulary,
+      })
+      .then((res) => {
+        this.PageVocabulary(this.state.current_page)
+        this.setState({
+          ...this.state,
+            title_english: "",
+            means: "",
+            transcription: "",
+            id_vocabulary: undefined,
+          vocabulary_form: false,
+          status_form: {
+            ...this.state.status_form,
+            update_vocabulary_form: false
+          }
+        });
+        if (this.state.language_type === "EN") {
+          toast.success("Update vocabulary success!");
+        } else {
+          toast.success("Cập nhật từ vựng thành công!");
+        }
+        console.log(res.data)
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Update vocabulary failed!");
+      });
   };
     render(){
         let { language_type, loadding, listLessons, vocabulary_form, transcription, means, title_english, listVocabulary } = this.state;
@@ -336,7 +373,7 @@ class ManagerVocabulary extends React.Component {
                             <input type="text" value={means} onChange={(e) => this.handleChangeInput(e, "means")}/>
                         </div>
                         {this.state.status_form.update_vocabulary_form ? 
-                        <button className="btn-save" onClick={() => this.createVocabulary()}>{language_type === "EN" ?  "SAVE" : "Lưu"}</button>
+                        <button className="btn-save" onClick={() => this.updateVocabulary()}>{language_type === "EN" ?  "SAVE" : "Lưu"}</button>
                         :
                         <button className="btn-save" onClick={() => this.createVocabulary()}>{language_type === "EN" ?  "CREATE" : "Tạo"}</button>
                         }
