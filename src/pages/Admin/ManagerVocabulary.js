@@ -21,6 +21,9 @@ class ManagerVocabulary extends React.Component {
             question_param: "",
             answer_param: "",
         },
+        status_form: {
+            update_vocabulary_form: false
+        },
         title_english: "",
         title_vietnamese: "",
         vocabulary_form: false,
@@ -158,6 +161,17 @@ class ManagerVocabulary extends React.Component {
             toast.error("Get list questions failed!")
         });
     }
+    editVocabulary = (vocabulary) => {
+    this.setState({
+      status_form: {
+        update_vocabulary_form: true,
+      },
+      vocabulary_form: true,
+      transcription: vocabulary.transcription,
+      title_english: vocabulary.title_english,
+      means: vocabulary.means
+    });
+  };
     render(){
         let { language_type, loadding, listLessons, vocabulary_form, transcription, means, title_english, listVocabulary } = this.state;
         return (
@@ -271,7 +285,7 @@ class ManagerVocabulary extends React.Component {
                                             <td>{ language_type === "EN" ? vocabulary.title_english : vocabulary.title_vietnamese}</td>
                                             <td> {vocabulary.transcription}</td>
                                             <td> {vocabulary.means}</td>
-                                            <td><button onClick={() => this.editVocabulary(vocabulary.lesson_id)}>{ language_type === "EN" ? "Edit" : "Chỉnh sửa"}</button>
+                                            <td><button onClick={() => this.editVocabulary(vocabulary)}>{ language_type === "EN" ? "Edit" : "Chỉnh sửa"}</button>
                                             <button onClick={() => this.deleteLesson(vocabulary.id)}>{ language_type === "EN" ? "Delete" : "Xóa"}</button>
                                             </td>
                                         </tr>
@@ -306,7 +320,7 @@ class ManagerVocabulary extends React.Component {
                        vocabulary_form: false 
                     })}>X</div>
                     <div className="data-manager-add-vocabulary-form-title">
-                        { language_type === "EN" ? "Add New Vocabulary" : "Thêm từ vựng mới"}
+                        {this.state.status_form.update_vocabulary_form ? (language_type === "EN" ? "Update Vocabulary" : "Cập nhật vựng mới") : (language_type === "EN" ? "Add New Vocabulary" : "Thêm từ vựng mới")}
                     </div>
                     <div className="data-manager-add-vocabulary-form-body">
                         <div className="form">
@@ -321,7 +335,11 @@ class ManagerVocabulary extends React.Component {
                             <label> {language_type === "EN" ? "Means" : "Nghĩa"}: </label>
                             <input type="text" value={means} onChange={(e) => this.handleChangeInput(e, "means")}/>
                         </div>
+                        {this.state.status_form.update_vocabulary_form ? 
                         <button className="btn-save" onClick={() => this.createVocabulary()}>{language_type === "EN" ?  "SAVE" : "Lưu"}</button>
+                        :
+                        <button className="btn-save" onClick={() => this.createVocabulary()}>{language_type === "EN" ?  "CREATE" : "Tạo"}</button>
+                        }
                     </div>
                 </div>
             }
