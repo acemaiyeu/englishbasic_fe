@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import UserStatistics from "./UserStatistics";
 import TopDeposit from "./TopDeposit";
 import TopVocabulary from "./TopVocabulary";
+import WordEditor from "./ComponentSupport/WordEditor";
 
 class Statistics extends React.Component {
     state = {

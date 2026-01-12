@@ -51,6 +51,7 @@ import ListeningComponent from "./pages/Client/ListeningComponent";
 import AccountProfile from "./pages/Client/AccountProfile";
 import ListGrammars from "./pages/Client/ListGrammars";
 import ListGrammarMissons from "./pages/Client/ListGrammarMissons";
+import LessonGrammar from "./pages/Client/LessonGrammar";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -182,6 +183,7 @@ const App = () => {
           <Route path="/subjects/url" component={VocabularyListLesson} />
           <Route path="/vocabularybox" component={Vocabulary} />
           <Route path="/grammerbox" component={Grammar} />
+          <Route path="/grammar/lesson/:grammar_id" component={LessonGrammar} />
           <Route path="/list-lesson" component={VocabularyListLesson} />
           <Route path="/list-lesson-details/:lesson_id" component={VocabularyListLessonDetail} />
           <Route path="/lesson/:id" component={VocabularyLesson} />

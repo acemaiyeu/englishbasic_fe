@@ -1,0 +1,85 @@
+import React, { Component, createRef } from 'react';
+import Quill from 'quill';
+import DOMPurify from 'dompurify';
+import 'quill/dist/quill.snow.css'; // Giao diện chuẩn
+import DisplayContent from './DisplayContent';
+
+class WordEditor extends Component {
+  constructor(props) {
+    super(props);
+    this.editorRef = createRef(); // Dùng Ref thay vì findDOMNode
+    this.quill = null;
+    this.state = {
+      content: ''
+    };
+  }
+
+  componentDidMount() {
+    // Khởi tạo Quill thủ công sau khi component mount
+    if (this.editorRef.current) {
+      this.quill = new Quill(this.editorRef.current, {
+        theme: 'snow',
+        modules: {
+          toolbar: [
+            [{ header: [1, 2, false] }],
+            ['bold', 'italic', 'underline'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            ['link', 'image'],
+            ['clean']
+          ]
+        },
+        placeholder: 'Bắt đầu soạn thảo văn bản...'
+      });
+
+      // Lắng nghe sự kiện thay đổi nội dung
+      this.quill.on('text-change', () => {
+        this.setState({
+          content: this.quill.root.innerHTML
+        });
+      });
+    }
+  }
+
+  handleSave = () => {
+    // Làm sạch HTML bằng DOMPurify trước khi xuất
+    const cleanHTML = DOMPurify.sanitize(this.state.content);
+    console.log("HTML an toàn để lưu:", cleanHTML);
+    alert("Đã lưu HTML! Kiểm tra Console.");
+  };
+
+  render() {
+    return (
+      <div style={{ padding: '20px' }}>
+        <h2>React 19 Editor (No findDOMNode Error)</h2>
+        
+        {/* Container cho Quill */}
+        <div style={{ marginBottom: '20px' }}>
+          <div ref={this.editorRef} style={{ height: '300px' }} />
+        </div>
+
+        <button 
+          onClick={this.handleSave}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#007bff',
+            color: '#fff',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Lưu nội dung HTML
+        </button>
+
+        <div style={{ marginTop: '30px' }}>
+          <h4>Xem trước mã HTML:</h4>
+          <code style={{ background: '#eee', display: 'block', padding: '10px' }}>
+            {this.state.content}
+          </code>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default WordEditor;

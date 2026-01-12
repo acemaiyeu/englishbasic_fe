@@ -1,0 +1,48 @@
+.lesson-box-container{
+  width: 100%;
+  min-height: 85vh;
+  .lesson-box-content{
+    width: 80%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    margin: 0 auto;
+    padding: 2%;
+    box-sizing: border-box;
+    box-shadow: 0px 0px 10px 0px rgba(255, 0, 106, 0.438);
+    margin-top: 20px;
+    .btn-prev, .btn-title, .btn-next{
+        position: absolute;
+        bottom: 10px;
+        // background-color: red;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        outline: none;
+        box-shadow: 0px 0px 5px 0px gray;
+        font-weight: bold;
+        &:hover{
+          background-color: #e62e7a;
+          cursor: pointer;
+          transition: background-color .5s linear;
+        }
+    }
+    .btn-prev{
+      left: 1%;
+    }
+    .btn-title{
+        left: 50%;
+        background-color: #e62e7a;
+        color: white;
+        cursor: default;
+        &:hover{
+          cursor: context-menu;
+        }
+    }
+    .btn-next{
+        right: 1%;
+    }
+  }
+}
