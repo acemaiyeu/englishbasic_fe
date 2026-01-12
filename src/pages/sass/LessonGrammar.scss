@@ -46,3 +46,34 @@
     }
   }
 }
+.progress-container{
+  width: 100%;
+  padding: 0px 1%;
+  display: flex;
+  height: 3px;
+  // background-color: red;
+  gap: 5px;
+  .progress-item{
+    flex: 1;
+    height: 100%;
+    background-color: #e62e7a;
+    border-radius: 3px;
+  }
+  .progress-item.active{
+    // background: linear-gradient(to right, rgb(83, 228, 83), green);
+    
+    background-color: rgb(95, 255, 47);
+  }
+}
+
+@keyframes bc_animation {
+    0%{
+      background-size: 10%;
+    }
+    50%{
+      background-size: 50%;
+    }
+    100%{
+      background-size: 100%;
+    }
+}

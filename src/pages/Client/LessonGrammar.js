@@ -54,6 +54,15 @@ class LessonGrammar extends React.Component{
         return(
             <div className="lesson-box-container">
                 <div className="lesson-box-content">
+                    <div className="progress-container">
+                        <div className="progress-item active"></div>
+                        <div className="progress-item active"></div>
+                        <div className="progress-item active"></div>
+                        <div className="progress-item active"></div>
+                        <div className="progress-item"></div>
+                        <div className="progress-item"></div>
+                        <div className="progress-item"></div>
+                    </div>
                     <DisplayContent htmlFromEditor={this.state.content}/>
                     <div className="btn-prev">{language_type === "EN" ? "Prev Page" : "Trang trước"}</div>
                     <div className="btn-title">1/2</div>
