@@ -14,6 +14,8 @@ class WordEditor extends Component {
     };
   }
 
+  
+
   componentDidMount() {
     // Khởi tạo Quill thủ công sau khi component mount
     if (this.editorRef.current) {
@@ -47,17 +49,24 @@ class WordEditor extends Component {
     alert("Đã lưu HTML! Kiểm tra Console.");
   };
 
+
+  componentDidUpdate = (prevState) => {
+    if (this.state.content !== prevState.content) {
+      this.props.getDataWord(this.state.content)
+    }
+  }
   render() {
+    
     return (
-      <div style={{ padding: '20px' }}>
-        <h2>React 19 Editor (No findDOMNode Error)</h2>
+      <div style={{ padding: '20px', width: "100%" }}>
+        {/* <h2>React 19 Editor (No findDOMNode Error)</h2> */}
         
         {/* Container cho Quill */}
         <div style={{ marginBottom: '20px' }}>
           <div ref={this.editorRef} style={{ height: '300px' }} />
         </div>
 
-        <button 
+        {/* <button 
           onClick={this.handleSave}
           style={{
             padding: '10px 20px',
@@ -69,14 +78,14 @@ class WordEditor extends Component {
           }}
         >
           Lưu nội dung HTML
-        </button>
+        </button> */}
 
-        <div style={{ marginTop: '30px' }}>
+        {/* <div style={{ marginTop: '30px' }}>
           <h4>Xem trước mã HTML:</h4>
           <code style={{ background: '#eee', display: 'block', padding: '10px' }}>
             {this.state.content}
           </code>
-        </div>
+        </div> */}
       </div>
     );
   }

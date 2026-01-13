@@ -52,6 +52,8 @@ import AccountProfile from "./pages/Client/AccountProfile";
 import ListGrammars from "./pages/Client/ListGrammars";
 import ListGrammarMissons from "./pages/Client/ListGrammarMissons";
 import LessonGrammar from "./pages/Client/LessonGrammar";
+import ManagerGrammar from "./pages/Admin/ManagerGrammar";
+import '../src/pages/sass/allpage.scss'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -167,6 +169,7 @@ const App = () => {
           <Route path="/pages/admin/manager-export-excel" exact component={ManagerExport} />
           <Route path="/pages/admin/counter" exact component={ZaloChatApp} />
           <Route path="/pages/admin/login" exact component={AdminLogin} />
+          <Route path="/pages/admin/manager-grammars" exact component={ManagerGrammar} />
           
         </Switch>
         </>   
