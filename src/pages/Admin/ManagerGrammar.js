@@ -8,6 +8,8 @@ import ExcelUploader from "../../functions/ExcelUploader.js";
 
 import '../sass/ManagerGrammar.scss'
 import WordEditor from "../Client/ComponentSupport/WordEditor.js";
+import DisplayContent from "../Client/ComponentSupport/DisplayContent.js";
+import axios from "axios";
 
 class ManagerGrammar extends React.Component {
   state = {
@@ -21,6 +23,14 @@ class ManagerGrammar extends React.Component {
     status_form: {
       update_grammar_form: false,
       update_answer_form: false,
+    },
+    grammar_item: {
+      title: "",
+      details: [{
+        data: ""
+      },{
+        data: ""
+      }]
     },
     params: {
       current_page: 1,
@@ -57,12 +67,10 @@ class ManagerGrammar extends React.Component {
       [tabName]: !prevState[tabName],
     }));
   };
-  getDataWord = (data) => {
+  getDataWord = (data, index_detail) => {
     // alert(this.state.grammar_detail_data !== data)
     if(this.state.grammar_detail_data !== data){
-       this.setState({
-      grammar_detail_data: data
-    })
+      this.state.grammar_item.details[index_detail].data = data;
     }
   }
   handleChangeInput = (event, type) => {
@@ -159,6 +167,42 @@ class ManagerGrammar extends React.Component {
     });
     this.getListVocabularyByLesson(this.state.listLessons.data[0].id);
   };
+  handleCreateGrammar = (accept_create) => {
+    let { grammar_item , language_type} = this.state;
+      if(accept_create){
+        api_admin.post(`${API_URL}/admin/grammar`, {
+          id: grammar_item.id ?? undefined,
+          title: grammar_item.title,
+          details: grammar_item.details
+        }).then((res) => {
+            if(language_type === "EN"){
+              toast.success("Create Grammar Successfully!")
+            }else{
+              toast.success("Tạo ngữ pháp thành công!")
+            }
+        }).catch((e) => {
+          if(language_type === "EN"){
+              toast.warn("Create Grammar Fail!")
+            }else{
+              toast.warn("Tạo ngữ pháp thất bại!")
+            }
+            console.log(e)
+        })
+      }
+  }
+  handleAddDetailItem = () => {
+    let grammar_item_details = this.state.grammar_item.details;
+    let ob = {
+      id: undefined,
+      data: ""
+    }
+    grammar_item_details.push(ob);
+    this.setState({
+      grammar_item: {
+        details: grammar_item_details
+      }
+    })
+  }
   getListLessons = async () => {
     let { params } = this.state;
 
@@ -618,14 +662,15 @@ class ManagerGrammar extends React.Component {
       listAnswers,
       grammar_form,
       answer_form,
-      grammar_detail_data
+      grammar_detail_data,
+      grammar_item
     } = this.state;
     return (
       <div className="data-manager-container">
         <div className="data-manager-title">
           {language_type === "EN" ? "MANAGER grammar" : "Quản lý ngữ pháp"}
         </div>
-       {grammar_detail_data} 
+       <DisplayContent htmlFromEditor={grammar_detail_data} />
         <div className="data-manager-body">
           <div className="data-manager-title">
             {language_type === "EN" ? "DATA TABLE" : "BẢNG DỮ LIỆU"}
@@ -923,23 +968,41 @@ class ManagerGrammar extends React.Component {
           <button>#{auth}</button>
         </div>
         {/* {grammar_form && ( */}
-        <div className="grammar-create-box">
-          <div className="grammar-create-title">Create Form</div>
-          <div className="form-container-default">
-              <div className="form-control-default">
-                  <label className="form-control-label">
-                    Title: 
-                  </label>
-                  <input type="text" className="form-control-input"/>
-              </div>
-              <div className="form-control-default">
-                  <label className="form-control-label">
-                    Data: 
-                  </label>
-                  <WordEditor getDataWord={this.getDataWord} />
-              </div>
+        {grammar_item && 
+          <div className="grammar-create-box">
+            <div className="grammar-create-title">Create Form</div>
+            <div className="form-container-default">
+                <div className="form-control-default">
+                    <label className="form-control-label">
+                      Title: 
+                    </label>
+                    <input type="text" className="form-control-input" defaultValue={this.state.grammar_item.title} onChange={(e) => this.setState({
+                      grammar_item: {
+                        ...this.state.grammar_item,
+                        title: e.target.value
+                      }
+                    })}/>
+                </div>
+                {grammar_item.details && grammar_item.details.length > 0 && grammar_item.details.map((detail, detail_index) => {
+                  return (
+                     <div className="form-control-default flex-column">
+                    {/* <label className="form-control-label">
+                      Data {detail_index}: 
+                    </label> */}
+                    <br></br>
+                    <WordEditor getDataWord={this.getDataWord} title={`Data page ${detail_index + 1}`} index_details={detail_index}/>
+                    {detail_index + 1 === grammar_item.details.length && <div className="grammar_detail_add" onClick={() => this.handleAddDetailItem()}>{language_type === "EN" ? "Add data page" : "Thêm trang dữ liệu"} </div>}
+                </div>
+                  )
+                })}
+            </div>
+            <div className="grammar-create-btn">
+                <div className="btn-refect" onClick={() => this.handleRefectForm()}>{language_type === "EN" ? "Refect" : "Làm mới"}</div>
+                <div className="btn-create" onClick={() => this.handleCreateGrammar(true)}>{language_type === "EN" ? "Create" : "Tạo mới"}</div>
+                <div className="btn-update disabled" onClick={() => this.handleUpdateGrammar(false)}>{language_type === "EN" ? "Update" : "Cập nhật"}</div>
+            </div>
           </div>
-          </div>
+        }
         {/* )} */}
       
       </div>

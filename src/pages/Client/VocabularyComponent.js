@@ -9,6 +9,7 @@ import { API_URL } from "../const/const";
 import axios from "axios";
 import { ListVideo } from "lucide-react";
 import { toast } from "react-toastify";
+import AudioRecorder from "./ComponentSupport/AudioRecorder";
 
 class VocabularyComponent extends React.Component{
     state = {
@@ -140,6 +141,7 @@ class VocabularyComponent extends React.Component{
                                             <option value="slow">{language_type === "EN" ? "Speed: Slow" : "Tốc độ đọc: Chậm"}</option>
                                         </select>
                                     </div>
+                                    {/* <AudioRecorder /> */}
                                 </div>
                                 <div className="vocabulary-footer">
                                     <div className="btn-prev" disabled={`${index <= 0}`} onClick={() => this.handlePrev()}>

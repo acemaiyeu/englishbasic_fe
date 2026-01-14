@@ -52,14 +52,14 @@ class WordEditor extends Component {
 
   componentDidUpdate = (prevState) => {
     if (this.state.content !== prevState.content) {
-      this.props.getDataWord(this.state.content)
+      this.props.getDataWord(this.state.content, this.props.index_details)
     }
   }
   render() {
     
     return (
-      <div style={{ padding: '20px', width: "100%" }}>
-        {/* <h2>React 19 Editor (No findDOMNode Error)</h2> */}
+      <div style={{  width: "100%" }}>
+        <h2 style={{fontSize: "1.1rem", fontWeight: "bold"}}>{this.props.title}:</h2>
         
         {/* Container cho Quill */}
         <div style={{ marginBottom: '20px' }}>

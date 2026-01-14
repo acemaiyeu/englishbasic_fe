@@ -7,10 +7,71 @@
     z-index: 1000;
     right: 0;
     background-color: white;
+    max-height: 90%;
+    overflow: hidden;
+    overflow-y: auto;
     .grammar-create-title{
         font-size: 2rem;
         font-weight: bold;
         text-align: center;
         padding: 10px;
+    }
+    .grammar-create-btn{
+        width: 100%;
+        padding: 2%;
+        display: flex;
+        justify-content: space-evenly;
+        .btn-refect,.btn-create,.btn-update{
+            min-width: 20%;
+            border: none;
+            outline: none;
+            box-shadow: 0px 0px 5px 0px rgba(128, 128, 128, 0.616);
+            height: 30px;
+            text-align: center;
+            display: flex;
+            font-size: 1rem;
+            align-items: center;
+            justify-content: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-weight: bold;
+            color: #f51068;
+            background-color: rgb(255, 255, 255);
+            border-radius: 5px;
+            position: relative;
+            &:hover{
+                background-color: #f51068;
+                color: white;
+                transition: background-color .5s linear;
+                cursor: pointer;
+            }
+        }
+        .btn-refect.disabled,.btn-create.disabled,.btn-update.disabled
+        {
+            cursor: default;
+            color: #f51068;
+            background-color: rgb(255, 255, 255);
+            &::before{
+                width: 100%;
+                height: 100%;
+                content: "";
+                background-color: rgba(224, 221, 221, 0.418);
+                position: absolute;
+            }
+            &:hover{
+                color: #f51068;
+                background-color: rgb(255, 255, 255);
+            }
+        }
+    }
+}
+.grammar_detail_add{
+    font-size: 1rem;
+    color: white;
+    background-color: #f51068;
+    border-radius: 5px;
+    padding: 2px 10px;
+    &:hover{
+        cursor: pointer;
+        font-weight: bold;
     }
 }
