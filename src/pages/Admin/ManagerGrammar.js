@@ -670,7 +670,6 @@ class ManagerGrammar extends React.Component {
         <div className="data-manager-title">
           {language_type === "EN" ? "MANAGER grammar" : "Quản lý ngữ pháp"}
         </div>
-       <DisplayContent htmlFromEditor={grammar_detail_data} />
         <div className="data-manager-body">
           <div className="data-manager-title">
             {language_type === "EN" ? "DATA TABLE" : "BẢNG DỮ LIỆU"}
@@ -968,8 +967,11 @@ class ManagerGrammar extends React.Component {
           <button>#{auth}</button>
         </div>
         {/* {grammar_form && ( */}
-        {grammar_item && 
+        {grammar_form && grammar_item && 
           <div className="grammar-create-box">
+            <div className="grammar-close" onClick={() => this.setState({
+              grammar_form: false
+            })}>Close</div>
             <div className="grammar-create-title">Create Form</div>
             <div className="form-container-default">
                 <div className="form-control-default">

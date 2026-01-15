@@ -11,7 +11,7 @@ class DisplayContent extends Component {
 
     return (
       <div className="content-container">
-        <h3>Nội dung an toàn:</h3>
+        {/* <h3>Nội dung an toàn:</h3> */}
         {/* Trong React, dùng dangerouslySetInnerHTML để hiển thị HTML chuỗi */}
         <div 
           dangerouslySetInnerHTML={{ __html: cleanHTML }} 
