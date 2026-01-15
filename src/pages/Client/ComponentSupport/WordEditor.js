@@ -16,31 +16,66 @@ class WordEditor extends Component {
 
   
 
+  // componentDidMount() {
+  //   // Khởi tạo Quill thủ công sau khi component mount
+  //   if (this.editorRef.current) {
+  //     this.quill = new Quill(this.editorRef.current, {
+  //       theme: 'snow',
+  //       modules: {
+  //         toolbar: [
+  //           [{ header: [1, 2, false] }],
+  //           ['bold', 'italic', 'underline'],
+  //           [{ list: 'ordered' }, { list: 'bullet' }],
+  //           ['link', 'image'],
+  //           ['clean']
+  //         ]
+  //       },
+  //       placeholder: 'Bắt đầu soạn thảo văn bản...'
+  //     });
+  //     // Lắng nghe sự kiện thay đổi nội dung
+  //     this.quill.on('text-change', () => {
+  //       this.setState({
+  //         // content: this.quill.root.innerHTML
+  //         content: this.props.content ?? this.quill.root.innerHTML
+  //       });
+  //     });
+  //   }
+  // }
   componentDidMount() {
-    // Khởi tạo Quill thủ công sau khi component mount
-    if (this.editorRef.current) {
-      this.quill = new Quill(this.editorRef.current, {
-        theme: 'snow',
-        modules: {
-          toolbar: [
-            [{ header: [1, 2, false] }],
-            ['bold', 'italic', 'underline'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image'],
-            ['clean']
-          ]
-        },
-        placeholder: 'Bắt đầu soạn thảo văn bản...'
-      });
+  if (this.editorRef.current) {
+    this.quill = new Quill(this.editorRef.current, {
+      theme: 'snow',
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['link', 'image'],
+          ['clean']
+        ]
+      },
+      placeholder: 'Bắt đầu soạn thảo văn bản...'
+    });
 
-      // Lắng nghe sự kiện thay đổi nội dung
-      this.quill.on('text-change', () => {
-        this.setState({
-          content: this.quill.root.innerHTML
-        });
-      });
+    // Thiết lập nội dung ban đầu từ props (nếu có)
+    if (this.props.content) {
+      this.quill.root.innerHTML = this.props.content;
     }
+
+    // Lắng nghe sự kiện thay đổi
+    this.quill.on('text-change', () => {
+      const html = this.quill.root.innerHTML;
+      
+      // Cập nhật state nội bộ
+      this.setState({ content: html });
+
+      // Gửi nội dung lên component cha (nếu cần)
+      if (this.props.onChange) {
+        this.props.onChange(html);
+      }
+    });
   }
+}
 
   handleSave = () => {
     // Làm sạch HTML bằng DOMPurify trước khi xuất

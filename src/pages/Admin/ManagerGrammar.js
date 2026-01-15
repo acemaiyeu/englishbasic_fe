@@ -25,7 +25,8 @@ class ManagerGrammar extends React.Component {
       update_answer_form: false,
     },
     grammar_item: {
-      title: "",
+      title_vietnamese: "",
+      title_english: "",
       details: [{
         data: ""
       },{
@@ -125,7 +126,7 @@ class ManagerGrammar extends React.Component {
     this.getListVocabularyByLesson(event.target.value)
   }
   componentDidMount() {
-    this.getListLessons();
+    this.getListGrammar();
     this.setState({
       language_type: this.props.language_type,
     });
@@ -145,11 +146,7 @@ class ManagerGrammar extends React.Component {
       params,
       loadding: true,
     });
-
-    if(this.state.params.lession_detail_id_create === 0 || this.state.params.lession_detail_id_create === undefined){
-        this.state.params.lession_detail_id_create = this.state.listVocabulary.data[0].id
-    }
-    await this.getListgrammarByLesson(this.state.params.vocabulary_param);
+    await this.getListGrammar();
   };
   refectData = () => {
     this.setState({
@@ -172,7 +169,8 @@ class ManagerGrammar extends React.Component {
       if(accept_create){
         api_admin.post(`${API_URL}/admin/grammar`, {
           id: grammar_item.id ?? undefined,
-          title: grammar_item.title,
+          title_english: grammar_item.title_english,
+          title_vietnamese: grammar_item.title_vietnamese,
           details: grammar_item.details
         }).then((res) => {
             if(language_type === "EN"){
@@ -203,161 +201,6 @@ class ManagerGrammar extends React.Component {
       }
     })
   }
-  getListLessons = async () => {
-    let { params } = this.state;
-
-    api_admin
-      .get(
-        `${API_URL}/admin/lessons?title_english=` +
-          (params.subject_param ?? "") +
-          `&vocabulary_name=` +
-          (params.vocabulary_param ?? "") +
-          `&grammar_name=` +
-          (params.grammar_param ?? "") +
-          `&answer_param=` +
-          (params.answer_param ?? "") +
-          `&page=1&limit=1000`
-      )
-      .then((res) => {
-        this.setState({
-          loadding: false,
-          listLessons: res.data,
-        });
-        if (this.state.listVocabulary.length === 0) {
-          this.getListVocabularyByLesson(res.data?.data[0]?.id);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Get list lessons failed!");
-      });
-  };
-  createVocabulary = async () => {
-    let { title_english, lesson_id_create, transcription, means } = this.state;
-    api_admin
-      .post(`${API_URL}/admin/lesson-detail`, {
-        title_english: title_english,
-        lesson_id: lesson_id_create,
-        transcription: transcription,
-        means: means,
-      })
-      .then((res) => {
-        console.log(res);
-        this.getListLessons(this.state.params.current_page);
-        this.setState({
-          vocabulary_form: false,
-          title_english: "",
-          title_vietnamese: "",
-        });
-        if (this.state.language_type === "EN") {
-          toast.success("Create vocabulary success!");
-        } else {
-          toast.success("Tạo từ vựng thành công!");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Create lesson failed!");
-      });
-  };
-  deleteLesson = async (id) => {
-    api_admin
-      .delete(`${API_URL}/admin/lesson-detail/` + id)
-      .then((res) => {
-        console.log(res);
-        this.getListLessons(this.state.params.current_page);
-        if (this.state.language_type === "EN") {
-          toast.success("Delete vocabulary success!");
-        } else {
-          toast.success("Đã xóa từ vựng thành công!");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Delete lesson failed!");
-      });
-  };
-
-  getListVocabularyByLesson = async (lesson_id) => {
-    await api_admin
-      .get(
-        `${API_URL}/admin/lesson-detail-by-lesson-id/` +
-          lesson_id +
-          `?page=` +
-          this.state.params.current_page +
-          "&limit=100"
-      )
-      .then((response) => {
-        this.setState({
-          listVocabulary: response.data,
-          loadding: false,
-          lesson_id_create: lesson_id,
-          vocabulary_id: response.data.data[0].id,
-          params: {
-            ...this.state.params,
-            vocabulary_param: response.data.data[0].title_english,
-          },
-        });
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gọi API:", error);
-        toast.error("Get list grammars failed!");
-      });
-    // this.refectData();
-  };
-
-  getListgrammarByLesson = async (vocabulary) => {
-    let { params, listLessons } = this.state;
-    if(!this.state.params.subject_param){
-        this.state.params.subject_param = listLessons.data[0].id
-    }
-    this.setState({
-      // listgrammars: [],
-    });
-
-    await api_admin
-      .get(
-        `${API_URL}/admin/grammars?lesson_detail_id=` + this.state.vocabulary_id +
-          `&page=` +
-          this.state.params.current_page
-      )
-      .then((response) => {
-        if (response.data.data.length > 0) {
-        //   params.lession_detail_id_create =
-        //     response.data?.data[0]?.lessonDetail?.lesson_detail_id ?? 0;
-          this.setState({
-            listgrammars: response.data,
-            loadding: false,
-            params: {
-              ...params,
-              lession_detail_id_create: response.data.data[0].lessonDetail.id,
-            },
-          });
-        }
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gọi API:", error);
-        toast.error("Get list grammars failed!");
-      });
-  };
-  getListAnswerBygrammar = async (grammar_id) => {
-    await api_admin
-      .get(
-        `${API_URL}/admin/answers-by-grammar-id/` +
-          grammar_id +
-          `?page=` +
-          this.state.params.current_page_answer
-      )
-      .then((response) => {
-        this.setState({
-          listAnswers: response.data,
-        });
-      })
-      .catch((error) => {
-        console.error("Lỗi khi gọi API:", error);
-        toast.error("Get list grammars failed!");
-      });
-  };
 
   creategrammar = async () => {
     let { params } = this.state;
@@ -368,7 +211,7 @@ class ManagerGrammar extends React.Component {
         lesson_detail_id: this.state.params.lession_detail_id_create,
       })
       .then((res) => {
-        this.getListgrammarByLesson(this.state.params.vocabulary_param);
+        this.getListGrammar(this.state.params.vocabulary_param);
         this.setState({
           ...this.state,
           params: {
@@ -391,37 +234,6 @@ class ManagerGrammar extends React.Component {
         toast.error("Create grammar failed!");
       });
   };
-  createAnswer = async () => {
-    let { params } = this.state;
-    api_admin
-      .post(`${API_URL}/admin/answer`, {
-        title: params.title_answer,
-        text: params.text_answer,
-        grammar_id: params.grammar_id_create,
-      })
-      .then((res) => {
-        this.getListgrammarByLesson(this.state.params.vocabulary_param);
-        this.setState({
-          params: {
-            ...params,
-            title_answer: "",
-            text_answer: "",
-            answer_form: false
-          },
-          grammar_form: false
-        });
-        if (this.state.language_type === "EN") {
-          toast.success("Create answer success!");
-        } else {
-          toast.success("Tạo câu trả lời thành công!");
-        }
-        this.getListAnswerBygrammar(res.data.data.grammar.id)
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Create grammar failed!");
-      });
-  };
   updategrammar = async () => {
     let { params } = this.state;
     api_admin
@@ -432,7 +244,7 @@ class ManagerGrammar extends React.Component {
         id: params.id_grammar,
       })
       .then((res) => {
-        this.getListgrammarByLesson(this.state.params.vocabulary_param);
+        this.getListGrammar(this.state.params.vocabulary_param);
         this.setState({
           ...this.state,
           params: {
@@ -460,44 +272,6 @@ class ManagerGrammar extends React.Component {
         toast.error("Update grammar failed!");
       });
   };
-  updateAnswer = async () => {
-    let { params } = this.state;
-    api_admin
-      .put(`${API_URL}/admin/answer/` + params.id_answer, {
-        title: params.title_answer,
-        text: params.text_answer,
-        grammar_id: params.grammar_id_create,
-        id: params.id_answer,
-      })
-      .then((res) => {
-        // alert(this.state.params.grammar_id_create)
-        this.getListgrammarByLesson(this.state.params.vocabulary_param);
-        this.getListAnswerBygrammar(this.state.params.grammar_id_create);
-        this.setState({
-          ...this.state,
-          params: {
-            ...this.state.params,
-            title_answer: "",
-            // type_grammar: "CHOOSE",
-            // id_grammar: 0,
-          },
-          status_form: {
-            ...this.state.status_form,
-            update_answer_form: false
-          },
-          answer_form: false,
-        });
-        if (this.state.language_type === "EN") {
-          toast.success("Update answer success!");
-        } else {
-          toast.success("Cập nhật câu trả lời thành công!");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Update grammar failed!");
-      });
-  };
   deletegrammar = (grammar) => {
       api_admin
         .delete(`${API_URL}/admin/grammar/` + grammar.id)
@@ -507,127 +281,30 @@ class ManagerGrammar extends React.Component {
           } else {
             toast.success("Đã xóa ngữ pháp thành công!");
           }
-          this.getListgrammarByLesson(this.state.params.vocabulary_param);
+          this.getListGrammar(this.state.params.vocabulary_param);
         })
         .catch((err) => {
           console.log(err);
           toast.error("Delete grammar failed!");
         });
   };
-  toAnswerList = (grammar_id) => {
-    toast.success(grammar_id)
-    this.getListAnswerBygrammar(grammar_id);
-    this.setState({
-      tab_answer_list: true,
-      tab_grammar_list: false,
-      params: {
-        ...this.state.params,
-        grammar_id_create: grammar_id,
-      },
-    });
-  };
   editgrammar = (grammar) => {
+    console.log(grammar)
     this.setState({
       status_form: {
         update_grammar_form: true,
       },
       grammar_form: true,
-      params: {
-        ...this.state.params,
-        id_grammar: grammar.id,
-        type_grammar: grammar.type ?? "CHOOSE",
-        title_grammar: grammar.title_english,
-      },
+      grammar_item: {
+        id: grammar.id,
+        title_english: grammar.title_english,
+        title_vietnamese: grammar.title_vietnamese,
+        details: grammar.details
+      }
     });
-  };
-  // getDetailLessonByTitle = (title) => {
-  //   api_admin
-  //     .get(`${API_URL}/admin/lesson-detail-by-title/` + title )
-  //     .then((res) => {
-  //       this.setState({
-  //         params: {
-  //           ...this.state.params,
-  //           lession_detail_id_create: res.data.data.id,
-  //         },
-  //       });
-  //       this.setState({
-  //         loadding: false,
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       toast.error("GET LEsson Detail By Title failed!");
-  //     });
-  // };
-  editAnswer = (answer) => {
-    this.setState({
-      status_form: {
-        update_answer_form: true,
-      },
-      
-      answer_form: true,
-      params: {
-        ...this.state.params,
-        id_answer: answer.id,
-        text_answer: answer.text,
-        title_answer: answer.title,
-      },
-    });
-  };
-   deleteAnswer = (answer) => {
-      api_admin
-        .delete(`${API_URL}/admin/answer/` + answer.id)
-        .then((res) => {
-          if (this.state.language_type === "EN") {
-            toast.success("Delete grammar success!");
-          } else {
-            toast.success("Đã xóa ngữ pháp thành công!");
-          }
-        //   this.getListgrammarByLesson(this.state.params.vocabulary_param);
-        this.getListAnswerBygrammar(answer.grammar.id)
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Delete grammar failed!");
-        });
-  };
-  setCorrectSentence = (answer) => {
-    api_admin
-        .put(`${API_URL}/admin/answer-correct`,
-            {
-                grammar_id: answer.grammar.id,
-                answer_id: answer.id
-            }
-        )
-        .then((res) => {
-          if (this.state.language_type === "EN") {
-            toast.success("Update answer cuccess!");
-          } else {
-            toast.success("Cập nhật đáp án thành công!");
-          }
-        //   this.getListgrammarByLesson(this.state.params.vocabulary_param);
-        this.getListAnswerBygrammar(answer.grammar.id)
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error("Update answer failed!");
-        });
-  }
-  handleChangeVocabulary = (event) => {
-    this.setState({ 
-      vocabulary_id: event.target.value,
-      params: {
-                lession_detail_id_create: event.target.value,
-              },
-              loadding: true
-      });
-      
-      setTimeout(() => this.getListgrammarByLesson(event.target.value), 1000
-
-      )
-      clearTimeout()
     
-  }
+  };
+ 
   showForm = (type) => {
     if (type) {
       this.setState({
@@ -644,6 +321,28 @@ class ManagerGrammar extends React.Component {
         })
       }
     }
+  };
+  getListGrammar = async () => {
+    await api_admin
+      .get(
+        `${API_URL}/admin/grammars?` +
+          `&page=` +
+          this.state.params.current_page
+      )
+      .then((response) => {
+        if (response.data.data.length > 0) {
+        //   params.lession_detail_id_create =
+        //     response.data?.data[0]?.lessonDetail?.lesson_detail_id ?? 0;
+          this.setState({
+            listgrammars: response.data,
+            loadding: false,
+          });
+        }
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gọi API:", error);
+        toast.error("Get list grammars failed!");
+      });
   };
   render() {
     let {
@@ -665,6 +364,7 @@ class ManagerGrammar extends React.Component {
       grammar_detail_data,
       grammar_item
     } = this.state;
+    console.log(grammar_item)
     return (
       <div className="data-manager-container">
         <div className="data-manager-title">
@@ -727,10 +427,7 @@ class ManagerGrammar extends React.Component {
                     <tr>
                       <th scope="col-1">#</th>
                       <th scope="col">
-                        {language_type === "EN" ? "Vocabulary" : "Từ vựng"}{" "}
-                      </th>
-                      <th scope="col">
-                        {language_type === "EN" ? "Type" : "Loại ngữ pháp"}{" "}
+                        {language_type === "EN" ? "Title" : "Tiêu đề"}{" "}
                       </th>
                       <th scope="col-1">
                         {language_type === "EN" ? "Action" : "Hành động"}
@@ -777,7 +474,6 @@ class ManagerGrammar extends React.Component {
                               ? grammar.title_english
                               : grammar.title_vietnamese}
                           </td>
-                          <td> {grammar.type}</td>
                           <td>
                             <button onClick={() => this.editgrammar(grammar)}>
                               {language_type === "EN" ? "Edit" : "Chỉnh sửa"}
@@ -787,14 +483,6 @@ class ManagerGrammar extends React.Component {
                             >
                               {language_type === "EN" ? "Delete" : "Xóa"}
                             </button>
-                            <button
-                              onClick={() => this.toAnswerList(grammar.id)}
-                            >
-                              {language_type === "EN"
-                                ? "to Answer"
-                                : "Đến câu trả lời"}
-                            </button>
-                            
                           </td>
                         </tr>
                       ))}
@@ -970,18 +658,40 @@ class ManagerGrammar extends React.Component {
         {grammar_form && grammar_item && 
           <div className="grammar-create-box">
             <div className="grammar-close" onClick={() => this.setState({
-              grammar_form: false
+              grammar_form: false,
+              grammar_item: {
+                id: undefined,
+                title_english: "",
+                title_vietnamese: "",
+                details: [{
+                  data: ""
+                }]
+              },
+              status_form: {
+                update_grammar_form: false
+              }
             })}>Close</div>
             <div className="grammar-create-title">Create Form</div>
             <div className="form-container-default">
                 <div className="form-control-default">
                     <label className="form-control-label">
-                      Title: 
+                     {language_type === "EN" ? "Title English" : "Tiêu đề tiếng Anh"}: 
                     </label>
-                    <input type="text" className="form-control-input" defaultValue={this.state.grammar_item.title} onChange={(e) => this.setState({
+                    <input type="text" className="form-control-input" defaultValue={this.state.grammar_item.title_english} onChange={(e) => this.setState({
                       grammar_item: {
                         ...this.state.grammar_item,
-                        title: e.target.value
+                        title_english: e.target.value
+                      }
+                    })}/>
+                </div>
+                 <div className="form-control-default">
+                    <label className="form-control-label">
+                      {language_type === "EN" ? "Title Vietnamese" : "Tiêu đề tiếng Việt"}: 
+                    </label>
+                    <input type="text" className="form-control-input" defaultValue={this.state.grammar_item.title_vietnamese} onChange={(e) => this.setState({
+                      grammar_item: {
+                        ...this.state.grammar_item,
+                        title_vietnamese: e.target.value
                       }
                     })}/>
                 </div>
@@ -992,7 +702,7 @@ class ManagerGrammar extends React.Component {
                       Data {detail_index}: 
                     </label> */}
                     <br></br>
-                    <WordEditor getDataWord={this.getDataWord} title={`Data page ${detail_index + 1}`} index_details={detail_index}/>
+                    <WordEditor getDataWord={this.getDataWord} content={detail.data} title={`Data page ${detail_index + 1}`} index_details={detail_index}/>
                     {detail_index + 1 === grammar_item.details.length && <div className="grammar_detail_add" onClick={() => this.handleAddDetailItem()}>{language_type === "EN" ? "Add data page" : "Thêm trang dữ liệu"} </div>}
                 </div>
                   )
