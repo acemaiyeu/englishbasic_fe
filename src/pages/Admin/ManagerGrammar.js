@@ -71,7 +71,18 @@ class ManagerGrammar extends React.Component {
   getDataWord = (data, index_detail) => {
     // alert(this.state.grammar_detail_data !== data)
     if(this.state.grammar_detail_data !== data){
-      this.state.grammar_item.details[index_detail].data = data;
+      // this.state.grammar_item.details[index_detail].data = data;
+      let details_temp = this.state.grammar_item.details;
+      details_temp[index_detail].data = data;
+      this.setState(
+        {
+        ...this.state,
+        grammar_item: {
+          ...this.state.grammar_item,
+          details: details_temp
+        }
+      }
+      )
     }
   }
   handleChangeInput = (event, type) => {
@@ -166,6 +177,7 @@ class ManagerGrammar extends React.Component {
   };
   handleCreateGrammar = (accept_create) => {
     let { grammar_item , language_type} = this.state;
+    console.log(grammar_item)
       if(accept_create){
         api_admin.post(`${API_URL}/admin/grammar`, {
           id: grammar_item.id ?? undefined,
@@ -194,10 +206,13 @@ class ManagerGrammar extends React.Component {
       id: undefined,
       data: ""
     }
-    grammar_item_details.push(ob);
+    let details_temp = this.state.grammar_item.details;
+    details_temp.push(ob);
     this.setState({
+      ...this.state,
       grammar_item: {
-        details: grammar_item_details
+        ...this.state.grammar_item,
+        details: details_temp
       }
     })
   }
@@ -289,7 +304,6 @@ class ManagerGrammar extends React.Component {
         });
   };
   editgrammar = (grammar) => {
-    console.log(grammar)
     this.setState({
       status_form: {
         update_grammar_form: true,
@@ -364,7 +378,7 @@ class ManagerGrammar extends React.Component {
       grammar_detail_data,
       grammar_item
     } = this.state;
-    console.log(grammar_item)
+        console.log(grammar_item)
     return (
       <div className="data-manager-container">
         <div className="data-manager-title">
