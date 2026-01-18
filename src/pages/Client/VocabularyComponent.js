@@ -2,14 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import '../sass/VocabularyComponent.scss'
 import Prev from "./Prev";
-import HtmlRenderer from "./HtmlRenderer";
-import AudioButton from "./AudioButton";
 import SpeechButton from "./SpeechSupport/SpeechButton";
 import { API_URL } from "../const/const";
 import axios from "axios";
-import { ListVideo } from "lucide-react";
 import { toast } from "react-toastify";
-import AudioRecorder from "./ComponentSupport/AudioRecorder";
 
 class VocabularyComponent extends React.Component{
     state = {
@@ -34,7 +30,7 @@ class VocabularyComponent extends React.Component{
             }
         }
         handleSubmit = (e) => {
-            let { input_value } = this.state;
+            // let { input_value } = this.state;
             if(e.key === 'Enter'){
 
             }
@@ -69,7 +65,7 @@ class VocabularyComponent extends React.Component{
             })
         }
         handlePrev = () => {
-            let {index, ListVocabulary, language_type} = this.state;
+            let {index, language_type} = this.state;
             if(index <= 0){
                 if(language_type === "EN"){
                     toast.error("No data")
@@ -124,7 +120,7 @@ class VocabularyComponent extends React.Component{
                                     <b>{ListVocabulary[index].means}</b>
                                 </div>
                                 <div className="vocabulary-image">
-                                   <img loading="lazy" src={`${ListVocabulary[index].img != "" ? ListVocabulary[index].img : 'https://hthdigital.vn/image/450/430/1/0/article/category/'}`}/>
+                                   <img  alt="" loading="lazy" src={`${ListVocabulary[index].img !== "" ? ListVocabulary[index].img : 'https://hthdigital.vn/image/450/430/1/0/article/category/'}`}/>
                                 {/*  */}
                                 </div>
                                 <div className="vocabulary-text">

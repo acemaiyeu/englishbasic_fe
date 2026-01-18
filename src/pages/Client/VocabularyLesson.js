@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import {API_URL, getDarkMode } from '../const/const'
 import Prev from "./Prev";
 import TestResult from "./TestResult";
-import { type } from "@testing-library/user-event/dist/type";
 import HtmlRenderer from "./HtmlRenderer";
 
 
@@ -63,7 +62,7 @@ class VocabularyLesson extends React.Component {
         })
     }
     handleNextQuestion = () => {
-        let { index, total_questions, listLessonDetail, point } = this.state;
+        let { index, total_questions, listLessonDetail } = this.state;
         if(listLessonDetail.questions[index].type === "READ"){
             this.setState({
                 point: this.state.point + 1,

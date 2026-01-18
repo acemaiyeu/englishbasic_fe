@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import api_admin from "./api_admin";
 import { toast } from "react-toastify";
 import { API_URL, getCookie } from "../const/const";
- import Cookies from "js-cookie";
 
 class MenuAdmin extends React.Component {
 

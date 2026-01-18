@@ -23,7 +23,7 @@ class ReadingComponent extends React.Component{
             }
         }
         handleSubmit = (e) => {
-            let { input_value } = this.state;
+            // let { input_value } = this.state;
             if(e.key === 'Enter'){
 
             }

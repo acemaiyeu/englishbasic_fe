@@ -1,4 +1,4 @@
-import axios from "axios";
+
 
 // export const API_URL = "http://192.168.1.108:8000/api";
 export const API_URL = "https://themeforstudents.io.vn/api";
@@ -85,7 +85,7 @@ export const updateSetting = (title_eng, status, type, value = undefined) => {
 
     if (categoryIndex !== null && data[categoryIndex]?.data) {
         const targetCategory = data[categoryIndex].data;
-        const itemIndex = targetCategory.findIndex((item) => item.title_english == title_eng);
+        const itemIndex = targetCategory.findIndex((item) => item.title_english === title_eng);
 
         // 4. Critical Check: Only update if the item was actually found
         if (itemIndex !== -1) {

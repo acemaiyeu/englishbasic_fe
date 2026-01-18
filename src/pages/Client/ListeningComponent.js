@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import '../sass/ListeningComponent.scss'
 import Prev from "./Prev";
-import HtmlRenderer from "./HtmlRenderer";
 
 class ListeningComponent extends React.Component{
     state = {
@@ -23,7 +22,7 @@ class ListeningComponent extends React.Component{
             }
         }
         handleSubmit = (e) => {
-            let { input_value } = this.state;
+            // let { input_value } = this.state;
             if(e.key === 'Enter'){
 
             }

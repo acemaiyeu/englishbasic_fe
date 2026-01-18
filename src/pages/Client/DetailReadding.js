@@ -33,7 +33,7 @@ class DetailReadding extends React.Component {
         }
 
     render(){
-        let { type, readding } = this.state;
+        let { readding } = this.state;
         return (    
             <div className="reading-detail-container">
                 <div className="reading-detail-prev">

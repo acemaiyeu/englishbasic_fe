@@ -4,7 +4,6 @@ import axios from "axios";
 import { connect } from 'react-redux'
 import { toast } from "react-toastify";
 import { API_URL } from '../const/const'
-import Prev from "./Prev";
 
 
 class ListenWriteList extends React.Component {

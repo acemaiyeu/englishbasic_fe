@@ -13,7 +13,7 @@ class EnglishEveryDay extends React.Component {
         let quote = JSON.parse(localStorage.getItem("quotes"));
         let call_api_again = true;
         if(quote){
-            if(quote.time == new Date().toISOString().split('T')[0]){
+            if(quote.time === new Date().toISOString().split('T')[0]){
                  call_api_again = false;
             }
         }

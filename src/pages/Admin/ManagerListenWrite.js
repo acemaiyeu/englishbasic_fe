@@ -206,7 +206,7 @@ class ManagerListenWrite extends React.Component {
         })
     }
     render(){
-        let { language_type, loadding, url_video, vocabulary_form, url_audio, title, value, listVocabulary, listListens } = this.state;
+        let { language_type, loadding, url_video, vocabulary_form, title, value, listVocabulary, listListens } = this.state;
         return (
             <div className="data-manager-container">
                 <div className="data-manager-title" >{language_type === "EN" ? "MANAGER VACABULARY" : "Quản lý từ vựng"}</div>

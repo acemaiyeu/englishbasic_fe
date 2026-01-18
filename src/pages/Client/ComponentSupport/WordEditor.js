@@ -2,7 +2,6 @@ import React, { Component, createRef } from 'react';
 import Quill from 'quill';
 import DOMPurify from 'dompurify';
 import 'quill/dist/quill.snow.css'; // Giao diện chuẩn
-import DisplayContent from './DisplayContent';
 
 class WordEditor extends Component {
   constructor(props) {

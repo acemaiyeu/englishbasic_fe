@@ -8,8 +8,6 @@ import ExcelUploader from "../../functions/ExcelUploader.js";
 
 import '../sass/ManagerGrammar.scss'
 import WordEditor from "../Client/ComponentSupport/WordEditor.js";
-import DisplayContent from "../Client/ComponentSupport/DisplayContent.js";
-import axios from "axios";
 
 class ManagerGrammar extends React.Component {
   state = {
@@ -201,7 +199,6 @@ class ManagerGrammar extends React.Component {
       }
   }
   handleAddDetailItem = () => {
-    let grammar_item_details = this.state.grammar_item.details;
     let ob = {
       id: undefined,
       data: ""
@@ -364,13 +361,6 @@ class ManagerGrammar extends React.Component {
       tab_answer_list,
       tab_grammar_list,
       loadding,
-      listLessons,
-    //   vocabulary_form,
-    //   transcription,
-    //   vocabulary_param,
-    //   means,
-    //   title_english,
-      listVocabulary,
       listgrammars,
       listAnswers,
       grammar_form,

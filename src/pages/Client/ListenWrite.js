@@ -3,10 +3,6 @@ import { connect } from "react-redux";
 import '../sass/ListenWrite.scss'
 import axios from "axios";
 import { API_URL } from "../const/const";
-import { Replace } from "lucide-react";
-import YouTubeAudioPlayer from "./YouTubeAudioPlayer";
-import YouTubeVideoController from "./YoutubeVideoController";
-import YouTubeControlsOnly from "./YouTubeControlsOnly";
 import { toast } from "react-toastify";
 // import test_video from '';
 //'../video/Varun Sivaram- How AI can solve its own energy crisis - TED Talk.mp4';

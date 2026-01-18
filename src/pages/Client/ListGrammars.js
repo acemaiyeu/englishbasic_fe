@@ -1,11 +1,9 @@
 import React from "react";
 import '../sass/ListSubjects.scss'
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import axios from "axios";
 import { API_URL } from "../const/const";
 import { toast } from "react-toastify";
-import { List } from "lucide-react";
 
 class ListGrammars extends React.Component {
 

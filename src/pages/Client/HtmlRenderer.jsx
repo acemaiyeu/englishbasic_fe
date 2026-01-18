@@ -1,6 +1,5 @@
-import axios from 'axios';
+
 import React, { useEffect, useRef, useCallback } from 'react';
-import { API_URL } from '../const/const';
 
 // Hàm hỗ trợ: Biến chuỗi text thành chuỗi HTML với các thẻ <span> bọc từng từ
 const wrapTextWithClickableSpans = (htmlContent) => {
@@ -35,7 +34,7 @@ function HtmlRenderer({ htmlContent }) {
 
         // Hàm xử lý sự kiện DOM thuần
         const handleClick =async (event) => {
-            const word = event.target.textContent;
+            // const word = event.target.textContent;
             // Gọi hàm logic của Component (noti)
             // await axios.post(`${API_URL}/chat-ai`, {
             //     message: `Nghĩa của từ: ${word} trong tiếng anh là gì? trả lời bằng tiếng việt`

@@ -1,9 +1,8 @@
 import  {  useEffect, useState  } from "react";
-import {  useHistory, BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import {   BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./pages/Home";
-import Menu from "./pages/Client/Menu";
 import MenuAdmin from "./pages/Admin/MenuAdmin";
 import Grammar from "./pages/Client/Grammar";
 import VocabularyListLesson from './pages/Client/VocabularyListLesson'
@@ -11,7 +10,7 @@ import Vocabulary  from "./pages/Client/Vocabulary";
 import VocabularyListLessonDetail from "./pages/Client/VocabularyListLessonDetail"
 import './App.css';
 import VocabularyLesson from './pages/Client/VocabularyLesson'
-import { changeLanguage, setUser } from './reduce/actions'
+import { changeLanguage } from './reduce/actions'
 import { useDispatch } from 'react-redux';
 import ManagerData from "./pages/Admin/ManagerSubject";
 import ManagerSubject from "./pages/Admin/ManagerSubject";
@@ -27,12 +26,9 @@ import ListenWriteList from "./pages/Client/ListenWriteList";
 import ManagerExport from "./pages/Admin/ManagerExport";
 import Games from "./pages/Client/Games";
 import GameBoard from "./pages/Client/GameBoard";
-import { API_URL, auth, getDarkMode, getSettingByTitle, getSettingByTitleAdvand } from "./pages/const/const";
+import { getDarkMode, getSettingByTitleAdvand } from "./pages/const/const";
 import ZaloChatApp from "./pages/Client/ZaloChatApp";
-import AuthContainerAdmin from "./pages/Admin/AuthContainerAdmin";
 import AdminLogin from "./pages/Admin/AdminLogin";
-import RealTimeQuiz from "./pages/sass/RealTimeQuiz";
-import QuizApp from "./pages/Client/QuizApp";
 import ChatApp2 from "./pages/Client/ChatApp2";
 import Gamequiz from "./pages/Client/Gamequiz";
 import ListComponent from "./pages/Client/ListComponent";
@@ -44,7 +40,6 @@ import DetailReadding from "./pages/Client/DetailReadding";
 import MenuV2 from "./pages/Client/MenuV2";
 import ListSubjects from "./pages/Client/ListSubjects";
 import ListSubjectsMissons from "./pages/Client/ListSubjectsMissons";
-import VocabularyListLessonDetailV2 from "./pages/Client/VocabularyListLessonDetailV2";
 import VocabularyComponent from "./pages/Client/VocabularyComponent";
 import ReadingComponent from "./pages/Client/ReadingComponent";
 import ListeningComponent from "./pages/Client/ListeningComponent";
@@ -57,9 +52,6 @@ import '../src/pages/sass/allpage.scss'
 
 const App = () => {
   const dispatch = useDispatch();
-  // 2. ✅ KHỞI TẠO: Sử dụng hook useHistory
-  const history = useHistory(); 
-  
   
   const [language, setLanguage] = useState({
     language_type: "EN",

@@ -182,7 +182,7 @@ class ManagerVocabulary extends React.Component {
     });
   };
    updateVocabulary = async () => {
-    let { params, id_vocabulary, means, title_english, transcription, img } = this.state;
+    let {  id_vocabulary, means, title_english, transcription, img } = this.state;
     api_admin
       .put(`${API_URL}/admin/lesson-detail/` + id_vocabulary, {
         means: means,
