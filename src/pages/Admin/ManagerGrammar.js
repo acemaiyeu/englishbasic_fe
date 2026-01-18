@@ -20,7 +20,6 @@ class ManagerGrammar extends React.Component {
     vocabulary_id: 0,
     status_form: {
       update_grammar_form: false,
-      update_answer_form: false,
     },
     grammar_item: {
       title_vietnamese: "",
@@ -171,7 +170,7 @@ class ManagerGrammar extends React.Component {
         current_page_answer: 1,
       },
     });
-    this.getListVocabularyByLesson(this.state.listLessons.data[0].id);
+    // this.getListVocabularyByLesson(this.state.listLessons.data[0].id);
   };
   handleCreateGrammar = (accept_create) => {
     let { grammar_item , language_type} = this.state;
@@ -182,12 +181,29 @@ class ManagerGrammar extends React.Component {
           title_english: grammar_item.title_english,
           title_vietnamese: grammar_item.title_vietnamese,
           details: grammar_item.details
-        }).then((res) => {
+        }).then(() => {
             if(language_type === "EN"){
               toast.success("Create Grammar Successfully!")
             }else{
               toast.success("Tạo ngữ pháp thành công!")
             }
+            this.setState({
+              ...this.state,
+              status_form: {
+                update_data_form: false
+              },
+              grammar_form: false
+            })
+             this.setState({
+          ...this.state,
+          grammar_form: false,
+          status_form: {
+            ...this.state.status_form,
+            update_grammar_form: false
+          }
+        });
+            this.handleRefectForm();
+            this.getListGrammar();
         }).catch((e) => {
           if(language_type === "EN"){
               toast.warn("Create Grammar Fail!")
@@ -213,87 +229,67 @@ class ManagerGrammar extends React.Component {
       }
     })
   }
-
-  creategrammar = async () => {
-    let { params } = this.state;
-    api_admin
-      .post(`${API_URL}/admin/grammar`, {
-        title_english: params.title_grammar,
-        type: params.type_grammar ?? "WRITE",
-        lesson_detail_id: this.state.params.lession_detail_id_create,
+  handleRefectForm = () => {
+    this.setState({
+        grammar_item: {
+            title_vietnamese: "",
+            title_english: "",
+            details: [{
+              data: ""
+            }]
+      }
+    })
+  }
+  handleUpdateGrammar = async (accept) => {
+    let { grammar_item } = this.state;
+    if(accept){
+        api_admin
+      .put(`${API_URL}/admin/grammar/` + grammar_item.id, {
+        title_english: grammar_item.title_english,
+        title_vietnamese: grammar_item.title_vietnamese,
+        details: grammar_item.details
       })
-      .then((res) => {
+      .then(() => {
         this.getListGrammar(this.state.params.vocabulary_param);
         this.setState({
-          ...this.state,
-          params: {
-            ...this.state.params,
-            title_grammar: "",
-            type_grammar: "CHOOSE",
-            grammar_id_create: res.data.data.id
-          },
-          grammar_form: false
-        });
-        if (this.state.language_type === "EN") {
-          toast.success("Create grammar success!");
-        } else {
-          toast.success("Tạo ngữ pháp thành công!");
-        }
-        // this.toAnswerList(res.data.data.id)
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Create grammar failed!");
-      });
-  };
-  updategrammar = async () => {
-    let { params } = this.state;
-    api_admin
-      .put(`${API_URL}/admin/grammar/` + params.id_grammar, {
-        title_english: params.title_grammar,
-        type: params.type_grammar,
-        lesson_detail_id: params.lession_detail_id_create,
-        id: params.id_grammar,
-      })
-      .then((res) => {
-        this.getListGrammar(this.state.params.vocabulary_param);
-        this.setState({
-          ...this.state,
-          params: {
-            ...params,
-            title_grammar: "",
-            type_grammar: "CHOOSE",
-            id_grammar: 0,
-          },
           grammar_form: false,
-          status_form: {
-            ...this.state.status_form,
-            update_grammar_form: false
-          }
+              grammar_item: {
+                id: undefined,
+                title_english: "",
+                title_vietnamese: "",
+                details: [{
+                  data: ""
+                }]
+              },
+              status_form: {
+                update_grammar_form: false
+              }
         });
+        this.handleRefectForm();
         if (this.state.language_type === "EN") {
           toast.success("Update grammar success!");
         } else {
           toast.success("Cập nhật ngữ pháp thành công!");
         }
-        console.log(res.data)
-        this.getListAnswerBygrammar(res.data.data.id)
+       this.getListGrammar();
       })
       .catch((err) => {
         console.log(err);
         toast.error("Update grammar failed!");
       });
+    }
+    
   };
-  deletegrammar = (grammar) => {
+  handleDeleteGrammar = (grammar) => {
       api_admin
         .delete(`${API_URL}/admin/grammar/` + grammar.id)
-        .then((res) => {
+        .then(() => {
           if (this.state.language_type === "EN") {
             toast.success("Delete grammar success!");
           } else {
             toast.success("Đã xóa ngữ pháp thành công!");
           }
-          this.getListGrammar(this.state.params.vocabulary_param);
+          this.getListGrammar();
         })
         .catch((err) => {
           console.log(err);
@@ -364,8 +360,6 @@ class ManagerGrammar extends React.Component {
       listgrammars,
       listAnswers,
       grammar_form,
-      answer_form,
-      grammar_detail_data,
       grammar_item
     } = this.state;
         console.log(grammar_item)
@@ -483,7 +477,7 @@ class ManagerGrammar extends React.Component {
                               {language_type === "EN" ? "Edit" : "Chỉnh sửa"}
                             </button>
                             <button
-                              onClick={() => this.deletegrammar(grammar)}
+                              onClick={() => this.handleDeleteGrammar(grammar)}
                             >
                               {language_type === "EN" ? "Delete" : "Xóa"}
                             </button>
@@ -675,7 +669,7 @@ class ManagerGrammar extends React.Component {
                 update_grammar_form: false
               }
             })}>Close</div>
-            <div className="grammar-create-title">Create Form</div>
+            <div className="grammar-create-title">{grammar_item.id ? "Update Form" : "Create Form"}</div>
             <div className="form-container-default">
                 <div className="form-control-default">
                     <label className="form-control-label">
@@ -715,7 +709,7 @@ class ManagerGrammar extends React.Component {
             <div className="grammar-create-btn">
                 <div className="btn-refect" onClick={() => this.handleRefectForm()}>{language_type === "EN" ? "Refect" : "Làm mới"}</div>
                 <div className="btn-create" onClick={() => this.handleCreateGrammar(true)}>{language_type === "EN" ? "Create" : "Tạo mới"}</div>
-                <div className="btn-update disabled" onClick={() => this.handleUpdateGrammar(false)}>{language_type === "EN" ? "Update" : "Cập nhật"}</div>
+                <div className={`btn-update ${grammar_item && grammar_item?.id ? '' : 'disabled'} `} onClick={() => this.handleUpdateGrammar(grammar_item?.id > 0)}>{language_type === "EN" ? "Update" : "Cập nhật"}</div>
             </div>
           </div>
         }
