@@ -7,8 +7,8 @@ class DisplayContent extends Component {
     const rawHTML = this.props.htmlFromEditor;
 
     // Tiến hành làm sạch HTML (loại bỏ các thẻ script, sự kiện onclick, onerror...)
-    const cleanHTML = DOMPurify.sanitize(rawHTML);
-
+    let cleanHTML = DOMPurify.sanitize(rawHTML);
+    cleanHTML = cleanHTML.replace("<table>", "<table border='1' style='width: 100%'>")
     return (
       <div className="content-container">
         {/* <h3>Nội dung an toàn:</h3> */}

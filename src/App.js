@@ -49,6 +49,7 @@ import ListGrammarMissons from "./pages/Client/ListGrammarMissons";
 import LessonGrammar from "./pages/Client/LessonGrammar";
 import ManagerGrammar from "./pages/Admin/ManagerGrammar";
 import '../src/pages/sass/allpage.scss'
+import ExerciseComponent from "./pages/Client/ExerciseComponent";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -197,6 +198,7 @@ const App = () => {
           <Route path="/grammarbox" component={ListGrammars} />
           <Route exact path="/grammar/:id" component={ListGrammarMissons} />
           <Route exact path="/grammar/lesson/:id" component={ListGrammarMissons} />
+          <Route exact path="/grammar/exercise/:id" component={ExerciseComponent} />
           <Route exact path="/grammar/final/:id" component={ListGrammarMissons} />
           
           <Route 

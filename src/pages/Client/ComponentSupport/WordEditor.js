@@ -93,7 +93,7 @@ class WordEditor extends Component {
     
     return (
       <div style={{  width: "100%" }}>
-        <h2 style={{fontSize: "1.1rem", fontWeight: "bold"}}>{this.props.title}:</h2>
+        <h2 style={{fontSize: "1.1rem", fontWeight: "bold"}}>{this.props.title}: <span className="work-x-modal" onClick={() => this.props.handleRemovePage(this.props.index_details)}><i class="bi bi-x-circle"></i></span></h2>
         
         {/* Container cho Quill */}
         <div style={{ marginBottom: '20px' }}>

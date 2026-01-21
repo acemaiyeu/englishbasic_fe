@@ -37,6 +37,7 @@ class ManagerQuestion extends React.Component {
       question_id_create: 0,
       id_answer: 0,
       title_answer: "",
+      id_grammar: ""
     },
     title_vietnamese: "",
     question_form: false,
@@ -47,6 +48,8 @@ class ManagerQuestion extends React.Component {
     lesson_id_create: 0,
     tab_question_list: true,
     tab_answer_list: false,
+    grammar_id: "",
+    listTitleGrammar: []
   };
   toggleTab = (tabName) => {
     this.setState((prevState) => ({
@@ -93,6 +96,25 @@ class ManagerQuestion extends React.Component {
         },
       });
     }
+    if (type === "id_grammar") {
+      this.setState({
+        params: {
+          ...this.state.params,
+          id_grammar: event.target.value,
+        },
+      });
+    }
+    if (type === "id_lesson") {
+      this.setState({
+        params: {
+          ...this.state.params,
+          id_lesson: event.target.value,
+        },
+      });
+    }
+
+    
+    
     
   };
   handleChangeSubject = (event) => {
@@ -177,13 +199,14 @@ class ManagerQuestion extends React.Component {
       });
   };
   createVocabulary = async () => {
-    let { title_english, lesson_id_create, transcription, means } = this.state;
+    let { title_english, lesson_id_create, transcription, means, grammar_id } = this.state;
     api_admin
       .post(`${API_URL}/admin/lesson-detail`, {
         title_english: title_english,
         lesson_id: lesson_id_create,
         transcription: transcription,
         means: means,
+        grammar_id: grammar_id
       })
       .then((res) => {
         console.log(res);
@@ -303,6 +326,25 @@ class ManagerQuestion extends React.Component {
       });
   };
 
+   getTitleGrammars = async () => {
+    await api_admin
+      .get(
+        `${API_URL}/admin/grammar-title?limit=10000`
+      )
+      .then((response) => {
+        this.setState({
+          listTitleGrammar: response.data.data,
+          params: {
+            ...this.state.params,
+            id_grammar: response.data.data[0].id
+          }
+        });
+      })
+      .catch((error) => {
+        console.error("Lỗi khi gọi API:", error);
+        toast.error("Get list grammar title failed!");
+      });
+  }
   createQuestion = async () => {
     let { params } = this.state;
     api_admin
@@ -589,6 +631,7 @@ class ManagerQuestion extends React.Component {
       }
     }
   };
+ 
   render() {
     let {
       language_type,
@@ -606,6 +649,7 @@ class ManagerQuestion extends React.Component {
       listAnswers,
       question_form,
       answer_form,
+      listTitleGrammar
     } = this.state;
     return (
       <div className="data-manager-container">
@@ -778,7 +822,7 @@ class ManagerQuestion extends React.Component {
                     {loadding && (
                       <tr>
                         <td></td>
-                        <td colSpan="3" style={{ textAlign: "center" }}>
+                        <td colSpan="4" style={{ textAlign: "center" }}>
                           <button
                             className="btn btn-primary"
                             type="button"
@@ -1093,6 +1137,49 @@ class ManagerQuestion extends React.Component {
                     {language_type === "EN" ? "READ" : "XEM"}
                   </option>
                   
+                </select>
+                {/* <input type="text" value={transcription} onChange={(e) => this.handleChangeInput(e, "transcription")}/> */}
+              </div>
+              <div className="form">
+                <label> {language_type === "EN" ? "Vocabulary" : "Từ vựng"}: </label>
+                <select
+                  onChange={(e) => this.handleChangeInput(e, "id_lesson_detail")}
+                >
+                  <option value={undefined}>{language_type === "EN" ?"Choose Vocabulary" : "Chọn từ vựng"}</option>
+                  {listVocabulary?.data && listVocabulary?.data?.length > 0 && listVocabulary.data.map((voca) => {
+                    return (
+                        <option
+                    selected={this.state.params.type_question === "CHOOSE"}
+                    value={voca.id}
+                  >
+                    {voca.title_english}
+                  </option>
+                    )
+                  })}
+                </select>
+                {/* <input type="text" value={transcription} onChange={(e) => this.handleChangeInput(e, "transcription")}/> */}
+              </div>
+              <div className="form">
+                <label> {language_type === "EN" ? "Grammar" : "Ngữ pháp"}: </label>
+                <select
+                  onChange={(e) => this.handleChangeInput(e, "id_grammar")}
+                  onClick={() => {
+                    if(listTitleGrammar.length === 0){
+                        this.getTitleGrammars()
+                    }
+                  }}
+                >
+                  <option value={undefined}>{language_type === "EN" ?"Choose Grammar" : "Chọn ngữ pháp"}</option>
+                  {listTitleGrammar && listTitleGrammar.length > 0 && listTitleGrammar.map((grammar) => {
+                    return (
+                        <option
+                    selected={this.state.params.type_question === "CHOOSE"}
+                    value={grammar.id}
+                  >
+                    {language_type === "EN" ? grammar.title_english: grammar.title_vietnamese}
+                  </option>
+                    )
+                  })}
                 </select>
                 {/* <input type="text" value={transcription} onChange={(e) => this.handleChangeInput(e, "transcription")}/> */}
               </div>

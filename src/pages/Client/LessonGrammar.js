@@ -59,7 +59,7 @@ class LessonGrammar extends React.Component{
         })
     }
         prevPage = () => {
-        let { index, grammar_item, language_type} = this.state;
+        let { index, language_type} = this.state;
         if(index === 0){
             if(language_type === "EN"){
                 toast.warn("This is the first page")

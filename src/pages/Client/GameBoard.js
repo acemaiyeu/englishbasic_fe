@@ -152,7 +152,7 @@ class GameBoard  extends React.Component{
                         <div className="game-board-question">{question_loadding}
                         </div>
                         <div className="game-board-thumbnail">
-                            <img loading="lazy" src="https://media.baamboozle.com/uploads/images/295349/272f3986-26ad-42b2-af92-540c5c99ef95.webp" alt=""></img>
+                            <img loading="lazy" src="https://media.baamboozle.com/uploads/images/295349/272f3986-26ad-42b2-af92-540c5c99ef95.webp" alt="game-board-thumbnail"></img>
                         </div>
                         <div className="game-board-answer">
                             <div className="game-board-answer-title">{answer_loadding}</div>

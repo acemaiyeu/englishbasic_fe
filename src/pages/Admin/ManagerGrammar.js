@@ -351,6 +351,26 @@ class ManagerGrammar extends React.Component {
         toast.error("Get list grammars failed!");
       });
   };
+handleRemovePage = (index_d) => {
+  const { grammar_item, language_type } = this.state;
+
+  // 1. Kiểm tra nếu chỉ còn 1 phần tử thì không cho xóa
+  if (grammar_item.details.length <= 1) {
+    const message = language_type === "EN" 
+      ? "Can't remove the last item" 
+      : "Không thể xóa dữ liệu cuối cùng";
+    toast.warn(message);
+    return;
+  }
+
+  // 2. Cập nhật state một cách an toàn
+  this.setState(prevState => ({
+    grammar_item: {
+      ...prevState.grammar_item,
+      details: prevState.grammar_item.details.filter((_, index) => index !== index_d)
+    }
+  }));
+}
   render() {
     let {
       language_type,
@@ -362,7 +382,6 @@ class ManagerGrammar extends React.Component {
       grammar_form,
       grammar_item
     } = this.state;
-        console.log(grammar_item)
     return (
       <div className="data-manager-container">
         <div className="data-manager-title">
@@ -700,8 +719,8 @@ class ManagerGrammar extends React.Component {
                       Data {detail_index}: 
                     </label> */}
                     <br></br>
-                    <WordEditor getDataWord={this.getDataWord} content={detail.data} title={`Data page ${detail_index + 1}`} index_details={detail_index}/>
-                    {detail_index + 1 === grammar_item.details.length && <div className="grammar_detail_add" onClick={() => this.handleAddDetailItem()}>{language_type === "EN" ? "Add data page" : "Thêm trang dữ liệu"} </div>}
+                    <WordEditor getDataWord={this.getDataWord} content={detail.data} title={`Data page ${detail_index + 1}`} index_details={detail_index} handleRemovePage={this.handleRemovePage}/>
+                    {detail_index + 1 === grammar_item.details.length && <div className="grammar_detail_add" onClick={() => this.handleAddDetailItem()}>{language_type === "EN" ? "Add new page" : "Thêm trang dữ liệu"} </div>}
                 </div>
                   )
                 })}
