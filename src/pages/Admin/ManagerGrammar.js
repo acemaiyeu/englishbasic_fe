@@ -385,7 +385,7 @@ handleRemovePage = (index_d) => {
     return (
       <div className="data-manager-container">
         <div className="data-manager-title">
-          {language_type === "EN" ? "MANAGER grammar" : "Quản lý ngữ pháp"}
+          {language_type === "EN" ? "MANAGER GRAMMAR" : "Quản lý ngữ pháp"}
         </div>
         <div className="data-manager-body">
           <div className="data-manager-title">

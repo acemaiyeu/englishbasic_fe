@@ -174,6 +174,7 @@ const App = () => {
           <Route path="/subjects" exact component={ListSubjects} />
           <Route path="/subjects/:subject_id" exact component={ListSubjectsMissons} />
           <Route path="/subjects/vocabulary/:subject_id" exact component={VocabularyComponent} />
+          <Route path="/subjects/vocabulary/testing/:subject_id" exact component={ExerciseComponent} />
           <Route path="/subjects/reading/:subject_id" exact component={ReadingComponent} />
           <Route path="/subjects/listening/:subject_id" exact component={ListeningComponent} />
           <Route path="/subjects/url" component={VocabularyListLesson} />

@@ -5,6 +5,7 @@ import api_admin from "./api_admin.js";
 import { API_URL, auth } from "../const/const.js";
 import { toast } from "react-toastify";
 import ExcelUploader from "../../functions/ExcelUploader.js";
+import WordEditor from "../Client/ComponentSupport/WordEditor.js";
 
 class ManagerQuestion extends React.Component {
   state = {
@@ -56,6 +57,20 @@ class ManagerQuestion extends React.Component {
       [tabName]: !prevState[tabName],
     }));
   };
+   getDataWord = (data, index_detail) => {
+    // alert(this.state.grammar_detail_data !== data)
+    if(this.state.params.title_question !== data){
+      this.setState(
+        {
+        ...this.state,
+        params: {
+          ...this.state.params,
+          title_question: data
+        }
+      }
+      )
+    }
+  }
   handleChangeInput = (event, type) => {
     if (type === "title_english") {
       this.setState({
@@ -351,7 +366,8 @@ class ManagerQuestion extends React.Component {
       .post(`${API_URL}/admin/question`, {
         title_english: params.title_question,
         type: params.type_question ?? "WRITE",
-        lesson_detail_id: this.state.params.lession_detail_id_create,
+        lesson_detail_id: params.lession_detail_id_create,
+        grammar_id: params.id_grammar
       })
       .then((res) => {
         this.getListQuestionByLesson(this.state.params.vocabulary_param);
@@ -361,7 +377,7 @@ class ManagerQuestion extends React.Component {
             ...this.state.params,
             title_question: "",
             type_question: "CHOOSE",
-            question_id_create: res.data.data.id
+            question_id_create: res.data.data.id,
           },
           question_form: false
         });
@@ -370,7 +386,6 @@ class ManagerQuestion extends React.Component {
         } else {
           toast.success("Tạo câu hỏi thành công!");
         }
-        // this.toAnswerList(res.data.data.id)
       })
       .catch((err) => {
         console.log(err);
@@ -852,7 +867,7 @@ class ManagerQuestion extends React.Component {
                       listQuestions?.data?.length > 0 &&
                       listQuestions.data.map((question, index) => (
                         <tr key={index}>
-                          <th scope="row">{index + 1}</th>
+                          <th scope="row" onClick={() => this.editQuestion(question)}>{index + 1}</th>
                           <td>
                             {language_type === "EN"
                               ? question.title_english
@@ -1107,11 +1122,12 @@ class ManagerQuestion extends React.Component {
               />
               <div className="form">
                 <label> {language_type === "EN" ? "Title" : "Tiêu đề"}: </label>
-                <input
+                {/* <input
                   type="text"
                   value={this.state.params.title_question}
                   onChange={(e) => this.handleChangeInput(e, "title_question")}
-                />
+                /> */}
+                <WordEditor getDataWord={this.getDataWord} content={this.state.params.title_question} title={`CREATE OR UPDATE`} index_details={1} />
               </div>
               <div className="form">
                 <label> {language_type === "EN" ? "Type" : "Loại"}: </label>

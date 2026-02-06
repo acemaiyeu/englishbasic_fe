@@ -40,7 +40,7 @@ class ListSubjectsMissons extends React.Component {
                             {language_type === "EN" ? "Vocabulary" : "Từ vựng"}
                         </div>
                     </div>
-                      <div className="mission-item" onClick={() => this.forWardPage(`vocabulary/${subject_id}`,true)}>
+                      <div className="mission-item" onClick={() => this.forWardPage(`vocabulary/testing/${subject_id}`,true)}>
                         <div className="misson-item-modal">Chưa hoàn thành</div>
                         <div className="mission-title">
                             {language_type === "EN" ? "Vocabulary Testing" : "Kiểm tra Từ vựng"}

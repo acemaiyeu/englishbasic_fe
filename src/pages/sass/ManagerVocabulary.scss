@@ -124,6 +124,9 @@
         }
         table{
                 max-width: 100%;
+                td{
+                    max-width: 30%;
+                }
                 td:last-child{
                     display: flex;
                     gap: 10px;

@@ -8,6 +8,7 @@ import {API_URL, getDarkMode } from '../const/const'
 import Prev from "./Prev";
 import TestResult from "./TestResult";
 import HtmlRenderer from "./HtmlRenderer";
+import DisplayContent from "./ComponentSupport/DisplayContent";
 
 
 class ExerciseComponent extends React.Component {
@@ -29,7 +30,7 @@ class ExerciseComponent extends React.Component {
             dark_mode: false,
     }
     componentDidMount(){
-        this.getListLessionDetail(this.props.match.params.id)
+        this.getListLessionDetail(this.props.match.params.subject_id)
         this.setState({
             language_type: this.props.language_type,
             dark_mode: getDarkMode()
@@ -223,7 +224,22 @@ class ExerciseComponent extends React.Component {
                     <div className="box-content">
                             <span className="label label-success sentences">{language_type === "EN" ? "Sentences: " : "Câu: "} {index + 1
                                 }/{listLessonDetail.questions.length}</span>
-                            <div className={`less-question ${dark_mode ? "dark-mode" : ""}`}> <HtmlRenderer htmlContent={ language_type === "EN" ? (listLessonDetail?.questions[index]?.title_english)  : (listLessonDetail?.questions[index]?.title_vietnamese)} /></div>
+                            <div className={`less-question ${dark_mode ? "dark-mode" : ""}`}> 
+                                {/* <HtmlRenderer htmlContent={ language_type === "EN" ? (listLessonDetail?.questions[index]?.title_english)  : (listLessonDetail?.questions[index]?.title_vietnamese)} /> */}
+                                <DisplayContent htmlFromEditor={language_type === "EN" ? (listLessonDetail?.questions[index]?.title_english)  : (listLessonDetail?.questions[index]?.title_vietnamese)}/>
+                                </div>
+                                {listLessonDetail?.questions[index]?.audio_url &&
+                                    <iframe 
+                                        src={"https://drive.google.com/file/d/" + (listLessonDetail?.questions[index]?.replace('https://drive.google.com/file/d/',"")).replace("/view?usp=sharing","") + "/preview"}
+                                        // "https://drive.google.com/file/d/14wlEn6Ym9iOeKpMv7OWGfl3mJeRGLvKs/preview"
+                                        width="100%" 
+                                        height="100"
+                                        allow="autoplay"
+                                        frameborder="0"
+                                        controls
+                                    ></iframe>
+                                }   
+
                             <div className="answers">
                                 {listLessonDetail.questions[index].type === "CHOOSE" ||  listLessonDetail.questions[index].type === "READ" ? 
                                 <div className="answer-item"> 
